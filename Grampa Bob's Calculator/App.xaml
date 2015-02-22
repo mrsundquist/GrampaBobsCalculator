@@ -1,0 +1,7 @@
+﻿<Application
+    x:Class="Grampa_Bob_s_Calculator.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Grampa_Bob_s_Calculator">
+
+</Application>
