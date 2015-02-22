@@ -2,6 +2,14 @@
     x:Class="Grampa_Bob_s_Calculator.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Grampa_Bob_s_Calculator">
+    xmlns:local="using:Grampa_Bob_s_Calculator" RequestedTheme="Dark">
+    <Application.Resources>
+        <x:String x:Key="AboutInfo">TextBlock</x:String>
+        <Color x:Key="Blue1">#B36482C8</Color>
+        <Color x:Key="Red1">#B3D46B3D</Color>
+        <Color x:Key="Red2">#FF762A09</Color>
+        <Color x:Key="Green1">#FF1D7C39</Color>
+        <Color x:Key="Green2">#FF155327</Color>
+    </Application.Resources>
 
 </Application>
