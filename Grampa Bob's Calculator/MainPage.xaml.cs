@@ -160,7 +160,7 @@ namespace Grampa_Bob_s_Calculator
 
         private double calculateInitialCost()
         {
-            return (vehiclePrice.Value * (1 + (taxRate.Value * .01))) + vehicleRepairCost.Value;
+            return ((vehiclePrice.Value + vehicleRepairCost.Value) * (1 + (taxRate.Value * .01)));
         }
 
         private void updateMileage(object sender, RangeBaseValueChangedEventArgs e)
@@ -200,16 +200,16 @@ namespace Grampa_Bob_s_Calculator
                 double initialMileage = vehicleInitialMileage.Value;
                 double finalMileage = vehicleFinalMileage.Value;
 
-                double ammortization = interest * initialCost /
-                    (1 - (Math.Exp(-1 * interest * lifespan)));
-                double ammortizationRate = ammortization / milesPerYear;
+                double price = initialCost *
+                    Math.Exp(interest * ((finalMileage - initialMileage) / milesPerYear));
+                double priceRate = price / (finalMileage-initialMileage);
 
                 double fuelRate = fuelCost / ((cityMilesPerGallon * percentCityMiles)
                     + (highwayMilesPerGallon * (1 - percentCityMiles)));
 
                 double maintenanceRate = (2775000 + initialMileage + finalMileage) / 50000000;
 
-                double centsPerMile = (ammortizationRate + fuelRate + maintenanceRate) * 100;
+                double centsPerMile = (priceRate + fuelRate + maintenanceRate) * 100;
 
                 
                 centsPerMileDisplay.Text = centsPerMile.ToString("F");
