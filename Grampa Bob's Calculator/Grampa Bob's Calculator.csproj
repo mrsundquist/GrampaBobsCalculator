@@ -137,7 +137,6 @@
   <ItemGroup>
     <Content Include="Assets\appbar.information.png" />
     <Content Include="Assets\BadgeLogo.scale-100.png" />
-    <Content Include="Assets\Equation.PNG" />
     <Content Include="Assets\EquationBlack.png" />
     <Content Include="Assets\GrampaBob.jpg" />
     <Content Include="Assets\Icon.png" />

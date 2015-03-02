@@ -199,15 +199,22 @@ namespace Grampa_Bob_s_Calculator
                 double percentCityMiles = pctCityMiles.Value / 100;
                 double initialMileage = vehicleInitialMileage.Value;
                 double finalMileage = vehicleFinalMileage.Value;
+                double totalMileage = finalMileage - initialMileage;
+                double totalYears = calculateLifeSpan();
+                int totalYearsInt = (int)totalYears;
 
                 double price = initialCost *
-                    Math.Exp(interest * ((finalMileage - initialMileage) / milesPerYear));
-                double priceRate = price / (finalMileage-initialMileage);
+                    Math.Exp(interest * totalYears);
+                double priceRate = price / totalMileage;
 
-                double fuelRate = fuelCost / ((cityMilesPerGallon * percentCityMiles)
+                // calculates definite integral for interest with limits 0 to years for 1.025^x
+                double fuelRateNumerator = fuelCost * 40.4979 * (Math.Pow(1.025, totalYears) - 1);
+                double fuelRateDenominator = totalYears *
+                    ((cityMilesPerGallon * percentCityMiles)
                     + (highwayMilesPerGallon * (1 - percentCityMiles)));
+                double fuelRate = fuelRateNumerator / fuelRateDenominator;
 
-                double maintenanceRate = (2775000 + initialMileage + finalMileage) / 50000000;
+                double maintenanceRate = (initialMileage + finalMileage) / 4444000;
 
                 double centsPerMile = (priceRate + fuelRate + maintenanceRate) * 100;
 
