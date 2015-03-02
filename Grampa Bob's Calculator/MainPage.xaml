@@ -58,7 +58,7 @@
                             <TextBlock x:Name="TextBlock01" TextWrapping="Wrap" Text="How many miles do you drive a year?" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" Margin="40,0,0,0"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <TextBlock x:Name="TextBlock6" TextWrapping="Wrap" Text="0k" Margin="40,0,5,0" Style="{StaticResource CaptionTextBlockStyle}" Width="16" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,25"/>
-                                <Slider x:Name="numMiles" Orientation="Horizontal" Margin="0" SmallChange="5000" LargeChange="5000" TickFrequency="5000" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="446" Maximum="100000" StepFrequency="1000" ValueChanged="updateAnnualMiles">
+                                <Slider x:Name="numMiles" Orientation="Horizontal" Margin="0" SmallChange="5000" LargeChange="5000" TickFrequency="5000" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="446" Maximum="100000" StepFrequency="1000" ValueChanged="updateDisplay">
                                     <Slider.Background>
                                         <SolidColorBrush Color="{StaticResource Blue1}"/>
                                     </Slider.Background>
@@ -71,7 +71,7 @@
                             <TextBlock x:Name="TextBlock_2" TextWrapping="Wrap" Style="{StaticResource SubheaderTextBlockStyle}" Margin="40,0,0,0" Width="475" HorizontalAlignment="Left" VerticalAlignment="Top" Text="What percent are city miles (vs highway)?"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <TextBlock x:Name="TextBlock8" TextWrapping="Wrap" Text="0%" Margin="40,0,5,0" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,25" Width="16"/>
-                                <Slider x:Name="pctCityMiles" Orientation="Horizontal" Margin="0" SmallChange="5" LargeChange="5" TickFrequency="25" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" Width="446" ValueChanged="updateCityPercentage">
+                                <Slider x:Name="pctCityMiles" Orientation="Horizontal" Margin="0" SmallChange="5" LargeChange="5" TickFrequency="25" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" Width="446" ValueChanged="updateDisplay">
                                     <Slider.Background>
                                         <SolidColorBrush Color="{StaticResource Blue1}"/>
                                     </Slider.Background>
@@ -86,7 +86,7 @@
                             <TextBlock x:Name="TextBlock11" TextWrapping="Wrap" Text="How much does a gallon of gas cost?" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" Margin="40,0,0,0"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <TextBlock x:Name="TextBlock1" TextWrapping="Wrap" Text="$0.00" Margin="40,0,5,0" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,25" Width="28"/>
-                                <Slider x:Name="gasCost" Orientation="Horizontal" Margin="0" SmallChange="0.25" LargeChange="0.25" TickFrequency="1" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="430" Maximum="10" StepFrequency="0.01" ValueChanged="updateGasPrice">
+                                <Slider x:Name="gasCost" Orientation="Horizontal" Margin="0" SmallChange="0.25" LargeChange="0.25" TickFrequency="1" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="430" Maximum="10" StepFrequency="0.01" ValueChanged="updateDisplay">
                                     <Slider.Background>
                                         <SolidColorBrush Color="{StaticResource Blue1}"/>
                                     </Slider.Background>
@@ -101,7 +101,7 @@
                             <TextBlock x:Name="TextBlock2" TextWrapping="Wrap" Text="What is your interest rate?" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" Margin="40,0,0,0"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <TextBlock x:Name="TextBlock3" TextWrapping="Wrap" Text="0%" Margin="40,0,5,0" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,25" Width="16"/>
-                                <Slider x:Name="interestRate" Orientation="Horizontal" Margin="0" SmallChange="1" LargeChange="1" TickFrequency="1" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="452" Maximum="10" StepFrequency="0.01" Canvas.ZIndex="-2" ValueChanged="updateInterestRate">
+                                <Slider x:Name="interestRate" Orientation="Horizontal" Margin="0" SmallChange="1" LargeChange="1" TickFrequency="1" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="452" Maximum="10" StepFrequency="0.01" Canvas.ZIndex="-2" ValueChanged="updateDisplay">
                                     <Slider.Background>
                                         <SolidColorBrush Color="{StaticResource Blue1}"/>
                                     </Slider.Background>
@@ -114,7 +114,7 @@
                             <TextBlock x:Name="TextBlock13" TextWrapping="Wrap" Text="What is your sales tax rate?" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" Margin="40,0,0,0"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <TextBlock x:Name="TextBlock5" TextWrapping="Wrap" Text="0%" Margin="40,0,5,0" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,25" Width="16"/>
-                                <Slider x:Name="taxRate" Orientation="Horizontal" Margin="0" SmallChange="1" LargeChange="1" TickFrequency="1" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="452" Maximum="20" StepFrequency="0.01" Canvas.ZIndex="-2" ValueChanged="updateTaxRate">
+                                <Slider x:Name="taxRate" Orientation="Horizontal" Margin="0" SmallChange="1" LargeChange="1" TickFrequency="1" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="452" Maximum="20" StepFrequency="0.01" Canvas.ZIndex="-2" ValueChanged="updateDisplay">
                                     <Slider.Background>
                                         <SolidColorBrush Color="{StaticResource Blue1}"/>
                                     </Slider.Background>
@@ -191,16 +191,16 @@
                             <TextBlock x:Name="TextBlock17" TextWrapping="Wrap" Style="{StaticResource SubheaderTextBlockStyle}" Margin="40,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Source:" Height="50" Width="80"/>
                         </StackPanel>
                         <StackPanel x:Name="DescStack2" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0,0,40,0">
-                            <TextBox x:Name="VehicleMake" TextWrapping="Wrap" Height="30" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,15" TextChanged="updateVehicleDisplay"/>
-                            <TextBox x:Name="VehicleModel" TextWrapping="Wrap" Height="30" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,15" TextChanged="updateVehicleDisplay"/>
-                            <TextBox x:Name="VehicleYear" TextWrapping="Wrap" Height="30" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,15" TextChanged="updateVehicleDisplay"/>
-                            <TextBox x:Name="VehicleSource" TextWrapping="Wrap" Height="30" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,15" TextChanged="updateVehicleDisplay"/>
+                            <TextBox x:Name="VehicleMake" TextWrapping="Wrap" Height="30" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,15" TextChanged="updateDisplay"/>
+                            <TextBox x:Name="VehicleModel" TextWrapping="Wrap" Height="30" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,15" TextChanged="updateDisplay"/>
+                            <TextBox x:Name="VehicleYear" TextWrapping="Wrap" Height="30" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,15" TextChanged="updateDisplay"/>
+                            <TextBox x:Name="VehicleSource" TextWrapping="Wrap" Height="30" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,15" TextChanged="updateDisplay"/>
                         </StackPanel>
                         <StackPanel x:Name="PriceStack" VerticalAlignment="Top" Height="200" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0,0,40,0" HorizontalAlignment="Left">
                             <TextBlock x:Name="TextBlock19" TextWrapping="Wrap" Text="Price" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" Margin="40,0,0,0"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <TextBlock x:Name="TextBlock20" TextWrapping="Wrap" Text="$0.00" Margin="40,0,5,0" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,25" Width="28"/>
-                                <Slider x:Name="vehiclePrice" Orientation="Horizontal" Margin="0" SmallChange="50" LargeChange="50" TickFrequency="1000" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="420" Maximum="35000" StepFrequency="5" ValueChanged="updateInitialCost">
+                                <Slider x:Name="vehiclePrice" Orientation="Horizontal" Margin="0" SmallChange="50" LargeChange="50" TickFrequency="1000" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="420" Maximum="35000" StepFrequency="5" ValueChanged="updateDisplay">
                                     <Slider.Background>
                                         <SolidColorBrush Color="#B3D46B3D"/>
                                     </Slider.Background>
@@ -213,7 +213,7 @@
                             <TextBlock x:Name="TextBlock29" TextWrapping="Wrap" Text="Cost to Repair" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" Margin="40,0,0,0"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <TextBlock x:Name="TextBlock18" TextWrapping="Wrap" Text="$0.00" Margin="40,0,5,0" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,25" Width="28"/>
-                                <Slider x:Name="vehicleRepairCost" Orientation="Horizontal" Margin="0" SmallChange="50" LargeChange="50" TickFrequency="1000" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="420" Maximum="10000" StepFrequency="5" ValueChanged="updateInitialCost" Background="#B3D46B3D">
+                                <Slider x:Name="vehicleRepairCost" Orientation="Horizontal" Margin="0" SmallChange="50" LargeChange="50" TickFrequency="1000" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="420" Maximum="10000" StepFrequency="5" ValueChanged="updateDisplay" Background="#B3D46B3D">
                                     <Slider.Foreground>
                                         <SolidColorBrush Color="{StaticResource Red2}"/>
                                     </Slider.Foreground>
@@ -225,7 +225,7 @@
                             <TextBlock x:Name="TextBlock22" TextWrapping="Wrap" Text="Initial Mileage" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" Margin="40,0,0,0"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <TextBlock x:Name="TextBlock23" TextWrapping="Wrap" Text="0k" Margin="40,0,5,0" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,25" Width="35"/>
-                                <Slider x:Name="vehicleInitialMileage" Orientation="Horizontal" Margin="0" SmallChange="500" LargeChange="500" TickFrequency="10000" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="430" Maximum="300000" StepFrequency="500" Background="#B3D46B3D" ValueChanged="updateMileage">
+                                <Slider x:Name="vehicleInitialMileage" Orientation="Horizontal" Margin="0" SmallChange="500" LargeChange="500" TickFrequency="10000" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="430" Maximum="300000" StepFrequency="500" Background="#B3D46B3D" ValueChanged="updateDisplay">
                                     <Slider.Foreground>
                                         <SolidColorBrush Color="{StaticResource Red2}"/>
                                     </Slider.Foreground>
@@ -235,7 +235,7 @@
                             <TextBlock x:Name="TextBlock25" TextWrapping="Wrap" Text="Estimated Final Mileage" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" Margin="40,0,0,0"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <TextBlock x:Name="MinimumFinalMileage" TextWrapping="Wrap" Text="0k" Margin="40,0,5,0" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,25" Width="35" Height="44"/>
-                                <Slider x:Name="vehicleFinalMileage" Orientation="Horizontal" Margin="0" SmallChange="500" LargeChange="500" TickFrequency="10000" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="430" Maximum="300000" StepFrequency="500" Background="#B3D46B3D" ValueChanged="updateMileage">
+                                <Slider x:Name="vehicleFinalMileage" Orientation="Horizontal" Margin="0" SmallChange="500" LargeChange="500" TickFrequency="10000" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="430" Maximum="300000" StepFrequency="500" Background="#B3D46B3D" ValueChanged="updateDisplay">
                                     <Slider.Foreground>
                                         <SolidColorBrush Color="{StaticResource Red2}"/>
                                     </Slider.Foreground>
@@ -247,7 +247,7 @@
                             <TextBlock x:Name="TextBlock26" TextWrapping="Wrap" Text="City MPG" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" Margin="40,0,0,0"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <TextBlock x:Name="TextBlock30" TextWrapping="Wrap" Text="1" Margin="40,0,5,0" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,25" Width="5"/>
-                                <Slider x:Name="cityMPG" Orientation="Horizontal" Margin="0" SmallChange="1" LargeChange="10" TickFrequency="10" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="472" Maximum="75" StepFrequency="1" Background="#B3D46B3D" Minimum="1" Value="0" ValueChanged="updateCentsPerMile">
+                                <Slider x:Name="cityMPG" Orientation="Horizontal" Margin="0" SmallChange="1" LargeChange="10" TickFrequency="10" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="472" Maximum="75" StepFrequency="1" Background="#B3D46B3D" Minimum="1" Value="0" ValueChanged="updateDisplay">
                                     <Slider.Foreground>
                                         <SolidColorBrush Color="{StaticResource Red2}"/>
                                     </Slider.Foreground>
@@ -257,7 +257,7 @@
                             <TextBlock x:Name="TextBlock34" TextWrapping="Wrap" Text="Highway MPG" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" Margin="40,0,0,0"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <TextBlock x:Name="TextBlock32" TextWrapping="Wrap" Text="1" Margin="40,0,5,0" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,25" Width="5"/>
-                                <Slider x:Name="highwayMPG" Orientation="Horizontal" Margin="0" SmallChange="1" LargeChange="10" TickFrequency="10" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="472" Maximum="75" StepFrequency="1" Background="#B3D46B3D" Minimum="1" Value="0" ValueChanged="updateCentsPerMile">
+                                <Slider x:Name="highwayMPG" Orientation="Horizontal" Margin="0" SmallChange="1" LargeChange="10" TickFrequency="10" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="472" Maximum="75" StepFrequency="1" Background="#B3D46B3D" Minimum="1" Value="0" ValueChanged="updateDisplay">
                                     <Slider.Foreground>
                                         <SolidColorBrush Color="{StaticResource Red2}"/>
                                     </Slider.Foreground>
