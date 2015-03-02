@@ -207,12 +207,9 @@ namespace Grampa_Bob_s_Calculator
                     Math.Exp(interest * totalYears);
                 double priceRate = price / totalMileage;
 
-                // calculates definite integral for interest with limits 0 to years for 1.025^x
-                double fuelRateNumerator = fuelCost * 40.4979 * (Math.Pow(1.025, totalYears) - 1);
-                double fuelRateDenominator = totalYears *
+                double fuelRate = fuelCost /
                     ((cityMilesPerGallon * percentCityMiles)
                     + (highwayMilesPerGallon * (1 - percentCityMiles)));
-                double fuelRate = fuelRateNumerator / fuelRateDenominator;
 
                 double maintenanceRate = (initialMileage + finalMileage) / 4444000;
 
