@@ -54,8 +54,8 @@
                 </Border>
                 <ScrollViewer x:Name="UserInfoScroll" VerticalScrollMode="Disabled" ZoomMode="Disabled" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden" Width="1106" Margin="0" Padding="0">
                     <StackPanel x:Name="UserData" Orientation="Horizontal" HorizontalAlignment="Left">
-                        <StackPanel x:Name="MilesStack" VerticalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0,0,40,0">
-                            <TextBlock x:Name="TextBlock01" TextWrapping="Wrap" Text="How many miles do you drive a year?" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" Margin="40,0,0,0"/>
+                        <StackPanel x:Name="MilesStack" VerticalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0,0,40,0" Width="540">
+                            <TextBlock x:Name="TextBlock01" TextWrapping="Wrap" Text="How many miles do you drive a year?" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="40,0,0,0"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <TextBlock x:Name="TextBlock6" TextWrapping="Wrap" Text="0k" Margin="40,0,5,0" Style="{StaticResource CaptionTextBlockStyle}" Width="16" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,25"/>
                                 <Slider x:Name="numMiles" Orientation="Horizontal" Margin="0" SmallChange="5000" LargeChange="5000" TickFrequency="5000" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="446" Maximum="100000" StepFrequency="1000" ValueChanged="updateDisplay">
@@ -97,8 +97,11 @@
                                 <TextBlock x:Name="TextBlock10" TextWrapping="Wrap" Text="$10.00" Margin="5,0,0,0" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0,0,0,25" Width="32"/>
                             </StackPanel>
                         </StackPanel>
-                        <StackPanel x:Name="InterestTaxStack" VerticalAlignment="Top" Height="200" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0,0,40,0" HorizontalAlignment="Left">
-                            <TextBlock x:Name="TextBlock2" TextWrapping="Wrap" Text="What is your interest rate?" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" Margin="40,0,0,0"/>
+                        <StackPanel x:Name="InterestTaxStack" VerticalAlignment="Top" Height="200" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0,0,40,0" HorizontalAlignment="Left" Width="616">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                <TextBlock x:Name="TextBlock2" TextWrapping="Wrap" Text="What is your interest rate?" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,0,0,0"/>
+                                <Image x:Name="Help" Source="Assets/question.png" HorizontalAlignment="Left" Height="50" Width="76" VerticalAlignment="Top" NineGrid="0" ToolTipService.ToolTip="If you are financing a vehicle purchase,&#xA;what interest rate is being charged?&#xA;Alternatively, if you are paying cash,&#xA;what is the interest rate you would earn&#xA;if you invested that cash somewhere else&#xA;instead?" Margin="0,-4,0,0"/>
+                            </StackPanel>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <TextBlock x:Name="TextBlock3" TextWrapping="Wrap" Text="0%" Margin="40,0,5,0" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,25" Width="16"/>
                                 <Slider x:Name="interestRate" Orientation="Horizontal" Margin="0" SmallChange="1" LargeChange="1" TickFrequency="1" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="452" Maximum="10" StepFrequency="0.01" Canvas.ZIndex="-2" ValueChanged="updateDisplay">
@@ -111,7 +114,10 @@
                                 </Slider>
                                 <TextBlock x:Name="TextBlock4" TextWrapping="Wrap" Text="10%" Margin="5,0,0,0" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0,0,0,25" Width="22"/>
                             </StackPanel>
-                            <TextBlock x:Name="TextBlock13" TextWrapping="Wrap" Text="What is your sales tax rate?" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" Margin="40,0,0,0"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                <TextBlock x:Name="TextBlock13" TextWrapping="Wrap" Text="What is your sales tax rate?" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,0,0,0"/>
+                                <Image x:Name="Help1" Source="Assets/question.png" HorizontalAlignment="Left" Height="50" Width="76" Stretch="UniformToFill" VerticalAlignment="Top" NineGrid="0" ToolTipService.ToolTip="What is the sales tax for a vehicle&#xA;purchase?" Margin="0,-4,0,0"/>
+                            </StackPanel>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <TextBlock x:Name="TextBlock5" TextWrapping="Wrap" Text="0%" Margin="40,0,5,0" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,25" Width="16"/>
                                 <Slider x:Name="taxRate" Orientation="Horizontal" Margin="0" SmallChange="1" LargeChange="1" TickFrequency="1" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="452" Maximum="20" StepFrequency="0.01" Canvas.ZIndex="-2" ValueChanged="updateDisplay">
@@ -200,17 +206,17 @@
                             <TextBlock x:Name="TextBlock19" TextWrapping="Wrap" Text="Price" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" Margin="40,0,0,0"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <TextBlock x:Name="TextBlock20" TextWrapping="Wrap" Text="$0.00" Margin="40,0,5,0" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,25" Width="28"/>
-                                <Slider x:Name="vehiclePrice" Orientation="Horizontal" Margin="0" SmallChange="50" LargeChange="50" TickFrequency="1000" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="420" Maximum="35000" StepFrequency="5" ValueChanged="updateDisplay">
-                                    <Slider.Background>
-                                        <SolidColorBrush Color="#B3D46B3D"/>
-                                    </Slider.Background>
+                                <Slider x:Name="vehiclePrice" Orientation="Horizontal" Margin="0" SmallChange="50" LargeChange="50" TickFrequency="1000" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="420" Maximum="35000" StepFrequency="5" ValueChanged="updateDisplay" Background="#B3D46B3D">
                                     <Slider.Foreground>
                                         <SolidColorBrush Color="{StaticResource Red2}"/>
                                     </Slider.Foreground>
                                 </Slider>
                                 <TextBlock x:Name="TextBlock21" TextWrapping="Wrap" Text="$35,000" Margin="5,0,0,0" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0,0,0,25" Width="42"/>
                             </StackPanel>
-                            <TextBlock x:Name="TextBlock29" TextWrapping="Wrap" Text="Cost to Repair" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" Margin="40,0,0,0"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                <TextBlock x:Name="TextBlock29" TextWrapping="Wrap" Text="Cost to Repair" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,0,0,0"/>
+                                <Image x:Name="Help2" Source="Assets/question.png" HorizontalAlignment="Left" Height="50" Width="76" Stretch="UniformToFill" VerticalAlignment="Top" NineGrid="0" ToolTipService.ToolTip="If you are buying a used car, what is&#x0a;the estimated cost to fix it up to a&#x0a;good condition?" Margin="0,-4,0,0"/>
+                            </StackPanel>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <TextBlock x:Name="TextBlock18" TextWrapping="Wrap" Text="$0.00" Margin="40,0,5,0" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,25" Width="28"/>
                                 <Slider x:Name="vehicleRepairCost" Orientation="Horizontal" Margin="0" SmallChange="50" LargeChange="50" TickFrequency="1000" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="420" Maximum="10000" StepFrequency="5" ValueChanged="updateDisplay" Background="#B3D46B3D">
@@ -232,7 +238,10 @@
                                 </Slider>
                                 <TextBlock x:Name="TextBlock24" TextWrapping="Wrap" Text="300k" Margin="5,0,0,0" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0,0,0,25" Width="25"/>
                             </StackPanel>
-                            <TextBlock x:Name="TextBlock25" TextWrapping="Wrap" Text="Estimated Final Mileage" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" Margin="40,0,0,0"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                <TextBlock x:Name="TextBlock25" TextWrapping="Wrap" Text="Estimated Final Mileage" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,0,0,0"/>
+                                <Image x:Name="Help3" Source="Assets/question.png" HorizontalAlignment="Left" Height="50" Width="76" Stretch="UniformToFill" VerticalAlignment="Top" NineGrid="0" ToolTipService.ToolTip="How many miles will this car have on it&#x0a;when you get rid of it?" Margin="0,-4,0,0"/>
+                            </StackPanel>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <TextBlock x:Name="MinimumFinalMileage" TextWrapping="Wrap" Text="0k" Margin="40,0,5,0" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,25" Width="35" Height="44"/>
                                 <Slider x:Name="vehicleFinalMileage" Orientation="Horizontal" Margin="0" SmallChange="500" LargeChange="500" TickFrequency="10000" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="430" Maximum="300000" StepFrequency="500" Background="#B3D46B3D" ValueChanged="updateDisplay">
