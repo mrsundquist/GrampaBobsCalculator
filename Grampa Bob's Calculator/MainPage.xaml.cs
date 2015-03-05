@@ -66,6 +66,33 @@ namespace Grampa_Bob_s_Calculator
         /// session. The state will be null the first time a page is visited.</param>
         private void navigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
+            // Restore values stored in session state.
+            if (e.PageState != null)
+            {
+                if (e.PageState.ContainsKey("numMiles")) numMiles.Value = Convert.ToInt32(e.PageState["numMiles"].ToString());
+                if (e.PageState.ContainsKey("pctCityMiles")) pctCityMiles.Value = Convert.ToInt32(e.PageState["pctCityMiles"].ToString());
+                if (e.PageState.ContainsKey("gasCost")) gasCost.Value = Convert.ToDouble(e.PageState["gasCost"].ToString());
+                if (e.PageState.ContainsKey("interestRate")) interestRate.Value = Convert.ToDouble(e.PageState["interestRate"].ToString());
+                if (e.PageState.ContainsKey("taxRate")) taxRate.Value = Convert.ToDouble(e.PageState["taxRate"].ToString());
+                if (e.PageState.ContainsKey("annualMiles")) AnnualMilesDisplay.Text = e.PageState["annualMiles"].ToString();
+                if (e.PageState.ContainsKey("cityPctg")) CityPercentageDisplay.Text = e.PageState["cityPctg"].ToString();
+                if (e.PageState.ContainsKey("gasCostDisplay")) GasCostDisplay.Text = e.PageState["gasCostDisplay"].ToString();
+                if (e.PageState.ContainsKey("interestRateDisplay")) InterestRateDisplay.Text = e.PageState["interestRateDisplay"].ToString();
+                if (e.PageState.ContainsKey("taxRateDisplay")) TaxRateDisplay.Text = e.PageState["taxRateDisplay"].ToString();
+            }
+
+            // Restore values stored in app data.
+            Windows.Storage.ApplicationDataContainer roamingSettings = Windows.Storage.ApplicationData.Current.RoamingSettings;
+            if (roamingSettings.Values.ContainsKey("numMiles")) numMiles.Value = Convert.ToInt32(roamingSettings.Values["numMiles"].ToString());
+            if (roamingSettings.Values.ContainsKey("pctCityMiles")) pctCityMiles.Value = Convert.ToInt32(roamingSettings.Values["pctCityMiles"].ToString());
+            if (roamingSettings.Values.ContainsKey("gasCost")) gasCost.Value = Convert.ToDouble(roamingSettings.Values["gasCost"].ToString());
+            if (roamingSettings.Values.ContainsKey("interestRate")) interestRate.Value = Convert.ToDouble(roamingSettings.Values["interestRate"].ToString());
+            if (roamingSettings.Values.ContainsKey("taxRate")) taxRate.Value = Convert.ToDouble(roamingSettings.Values["taxRate"].ToString());
+            if (roamingSettings.Values.ContainsKey("annualMiles")) AnnualMilesDisplay.Text = roamingSettings.Values["annualMiles"].ToString();
+            if (roamingSettings.Values.ContainsKey("cityPctg")) CityPercentageDisplay.Text = roamingSettings.Values["cityPctg"].ToString();
+            if (roamingSettings.Values.ContainsKey("gasCostDisplay")) GasCostDisplay.Text = roamingSettings.Values["gasCostDisplay"].ToString();
+            if (roamingSettings.Values.ContainsKey("interestRateDisplay")) InterestRateDisplay.Text = roamingSettings.Values["interestRateDisplay"].ToString();
+            if (roamingSettings.Values.ContainsKey("taxRateDisplay")) TaxRateDisplay.Text = roamingSettings.Values["TaxRateDisplay"].ToString();
         }
 
         /// <summary>
@@ -78,6 +105,18 @@ namespace Grampa_Bob_s_Calculator
         /// serializable state.</param>
         private void navigationHelper_SaveState(object sender, SaveStateEventArgs e)
         {
+            // this is saved only for this session
+            // put page specifics here - e.g. numMiles on slider AND in display
+            e.PageState["numMiles"] = numMiles.Value;
+            e.PageState["pctCityMiles"] = pctCityMiles.Value;
+            e.PageState["gasCost"] = gasCost.Value;
+            e.PageState["interestRate"] = interestRate.Value;
+            e.PageState["taxRate"] = taxRate.Value;
+            e.PageState["annualMiles"] = AnnualMilesDisplay.Text;
+            e.PageState["cityPctg"] = CityPercentageDisplay.Text;
+            e.PageState["gasCostDisplay"] = GasCostDisplay.Text;
+            e.PageState["interestRateDisplay"] = InterestRateDisplay.Text;
+            e.PageState["taxRateDisplay"] = TaxRateDisplay.Text;
         }
 
         #region NavigationHelper registration
@@ -142,7 +181,7 @@ namespace Grampa_Bob_s_Calculator
                 GasCostDisplay.Text = "$" + Math.Round(fuelCost, 2).ToString("F");
 
                 //update interest rate
-                InterestRateDisplay.Text = Math.Round(interest, 2).ToString("F") + "%";
+                InterestRateDisplay.Text = Math.Round(interest * 100, 2).ToString("F") + "%";
 
                 //update tax rate
                 TaxRateDisplay.Text = Math.Round((tax * 100), 2).ToString("F") + "%";
@@ -174,6 +213,21 @@ namespace Grampa_Bob_s_Calculator
 
                 centsPerMileDisplay.Text = centsPerMile.ToString("F");
                 centsPerMileDisplay.Text += "¢ per mile";
+
+                //save app data
+                Windows.Storage.ApplicationDataContainer roamingSettings =
+                  Windows.Storage.ApplicationData.Current.RoamingSettings;
+                roamingSettings.Values["numMiles"] = numMiles.Value;
+                roamingSettings.Values["pctCityMiles"] = pctCityMiles.Value;
+                roamingSettings.Values["gasCost"] = gasCost.Value;
+                roamingSettings.Values["interestRate"] = interestRate.Value;
+                roamingSettings.Values["taxRate"] = taxRate.Value;
+                roamingSettings.Values["annualMiles"] = AnnualMilesDisplay.Text;
+                roamingSettings.Values["cityPctg"] = CityPercentageDisplay.Text;
+                roamingSettings.Values["gasCostDisplay"] = GasCostDisplay.Text;
+                roamingSettings.Values["interestRateDisplay"] = InterestRateDisplay.Text;
+                roamingSettings.Values["taxRateDisplay"] = TaxRateDisplay.Text;
+
             } catch (Exception ex) { }
         }
     }
