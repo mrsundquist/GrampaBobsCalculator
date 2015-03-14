@@ -82,17 +82,17 @@ namespace Grampa_Bob_s_Calculator
             }
 
             // Restore values stored in app data.
-            Windows.Storage.ApplicationDataContainer roamingSettings = Windows.Storage.ApplicationData.Current.RoamingSettings;
-            if (roamingSettings.Values.ContainsKey("numMiles")) numMiles.Value = Convert.ToInt32(roamingSettings.Values["numMiles"].ToString());
-            if (roamingSettings.Values.ContainsKey("pctCityMiles")) pctCityMiles.Value = Convert.ToInt32(roamingSettings.Values["pctCityMiles"].ToString());
-            if (roamingSettings.Values.ContainsKey("gasCost")) gasCost.Value = Convert.ToDouble(roamingSettings.Values["gasCost"].ToString());
-            if (roamingSettings.Values.ContainsKey("interestRate")) interestRate.Value = Convert.ToDouble(roamingSettings.Values["interestRate"].ToString());
-            if (roamingSettings.Values.ContainsKey("taxRate")) taxRate.Value = Convert.ToDouble(roamingSettings.Values["taxRate"].ToString());
-            if (roamingSettings.Values.ContainsKey("annualMiles")) AnnualMilesDisplay.Text = roamingSettings.Values["annualMiles"].ToString();
-            if (roamingSettings.Values.ContainsKey("cityPctg")) CityPercentageDisplay.Text = roamingSettings.Values["cityPctg"].ToString();
-            if (roamingSettings.Values.ContainsKey("gasCostDisplay")) GasCostDisplay.Text = roamingSettings.Values["gasCostDisplay"].ToString();
-            if (roamingSettings.Values.ContainsKey("interestRateDisplay")) InterestRateDisplay.Text = roamingSettings.Values["interestRateDisplay"].ToString();
-            if (roamingSettings.Values.ContainsKey("taxRateDisplay")) TaxRateDisplay.Text = roamingSettings.Values["TaxRateDisplay"].ToString();
+            Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            if (localSettings.Values.ContainsKey("numMiles")) numMiles.Value = Convert.ToInt32(localSettings.Values["numMiles"].ToString());
+            if (localSettings.Values.ContainsKey("pctCityMiles")) pctCityMiles.Value = Convert.ToInt32(localSettings.Values["pctCityMiles"].ToString());
+            if (localSettings.Values.ContainsKey("gasCost")) gasCost.Value = Convert.ToDouble(localSettings.Values["gasCost"].ToString());
+            if (localSettings.Values.ContainsKey("interestRate")) interestRate.Value = Convert.ToDouble(localSettings.Values["interestRate"].ToString());
+            if (localSettings.Values.ContainsKey("taxRate")) taxRate.Value = Convert.ToDouble(localSettings.Values["taxRate"].ToString());
+            if (localSettings.Values.ContainsKey("annualMiles")) AnnualMilesDisplay.Text = localSettings.Values["annualMiles"].ToString();
+            if (localSettings.Values.ContainsKey("cityPctg")) CityPercentageDisplay.Text = localSettings.Values["cityPctg"].ToString();
+            if (localSettings.Values.ContainsKey("gasCostDisplay")) GasCostDisplay.Text = localSettings.Values["gasCostDisplay"].ToString();
+            if (localSettings.Values.ContainsKey("interestRateDisplay")) InterestRateDisplay.Text = localSettings.Values["interestRateDisplay"].ToString();
+            if (localSettings.Values.ContainsKey("taxRateDisplay")) TaxRateDisplay.Text = localSettings.Values["TaxRateDisplay"].ToString();
         }
 
         /// <summary>
@@ -117,6 +117,22 @@ namespace Grampa_Bob_s_Calculator
             e.PageState["gasCostDisplay"] = GasCostDisplay.Text;
             e.PageState["interestRateDisplay"] = InterestRateDisplay.Text;
             e.PageState["taxRateDisplay"] = TaxRateDisplay.Text;
+        }
+
+        private void saveAppData(object sender, RoutedEventArgs e)
+        {
+            Windows.Storage.ApplicationDataContainer localSettings =
+              Windows.Storage.ApplicationData.Current.LocalSettings;
+            localSettings.Values["numMiles"] = numMiles.Value;
+            localSettings.Values["pctCityMiles"] = pctCityMiles.Value;
+            localSettings.Values["gasCost"] = gasCost.Value;
+            localSettings.Values["interestRate"] = interestRate.Value;
+            localSettings.Values["taxRate"] = taxRate.Value;
+            localSettings.Values["annualMiles"] = AnnualMilesDisplay.Text;
+            localSettings.Values["cityPctg"] = CityPercentageDisplay.Text;
+            localSettings.Values["gasCostDisplay"] = GasCostDisplay.Text;
+            localSettings.Values["interestRateDisplay"] = InterestRateDisplay.Text;
+            localSettings.Values["taxRateDisplay"] = TaxRateDisplay.Text;
         }
 
         #region NavigationHelper registration
@@ -150,85 +166,84 @@ namespace Grampa_Bob_s_Calculator
             }
         }
 
-        private void updateDisplay(object sender, RangeBaseValueChangedEventArgs e) { updateDisplay(); }
-        private void updateDisplay(object sender, TextChangedEventArgs e) { updateDisplay(); }
-        private void updateDisplay()
+        private void updatePersonalDataDisplay(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            AnnualMilesDisplay.Text = string.Format("{0:n0}", numMiles.Value).ToString();
+            CityPercentageDisplay.Text = (pctCityMiles.Value).ToString() + "%";
+            GasCostDisplay.Text = "$" + Math.Round(gasCost.Value, 2).ToString("F");
+            InterestRateDisplay.Text = Math.Round(interestRate.Value, 2).ToString("F") + "%";
+            TaxRateDisplay.Text = Math.Round(taxRate.Value, 2).ToString("F") + "%";
+            updateVehicleDataDisplay(sender, e);
+            updateCentsPerMileDisplay();
+        }
+        
+        private void updateVehicleTextData(object sender, TextChangedEventArgs e)
+        {
+            VehicleDisplay.Text = VehicleYear.Text + " " + VehicleMake.Text + " " + VehicleModel.Text;
+            if (VehicleSource.Text != "") VehicleDisplay.Text += " (" + VehicleSource.Text + ")";
+        }
+
+        private void updateVehicleDataDisplay(object sender, RangeBaseValueChangedEventArgs e)
         {
             try
             {
-                double interest = interestRate.Value / 100;
-                double tax = taxRate.Value / 100;
-                double purchaseCost = vehiclePrice.Value;
-                double repairCost = vehicleRepairCost.Value;
-                double initialCost = (purchaseCost + repairCost) * (1 + tax);
-                double milesPerYear = numMiles.Value;
-                double fuelCost = gasCost.Value;
-                double cityMilesPerGallon = cityMPG.Value;
-                double highwayMilesPerGallon = highwayMPG.Value;
-                double percentCityMiles = pctCityMiles.Value / 100;
+                double milesPerYear = numMiles.Value; // personal info
+                double tax = taxRate.Value / 100; // personal info
+
+                double initialCost = (vehiclePrice.Value + vehicleRepairCost.Value) * (1 + tax);
                 double initialMileage = vehicleInitialMileage.Value;
                 double finalMileage = (vehicleFinalMileage.Value < initialMileage) ? (initialMileage) : (vehicleFinalMileage.Value);
                 double totalMileage = finalMileage - initialMileage;
                 double totalYears = (totalMileage > 0) ? (totalMileage / milesPerYear) : (0);
 
-                //update annual miles
-                AnnualMilesDisplay.Text = string.Format("{0:n0}", milesPerYear).ToString();
-
-                //update city percentage
-                CityPercentageDisplay.Text = (percentCityMiles * 100).ToString() + "%";
-
-                //update gas price
-                GasCostDisplay.Text = "$" + Math.Round(fuelCost, 2).ToString("F");
-
-                //update interest rate
-                InterestRateDisplay.Text = Math.Round(interest * 100, 2).ToString("F") + "%";
-
-                //update tax rate
-                TaxRateDisplay.Text = Math.Round((tax * 100), 2).ToString("F") + "%";
-
-                //update vehicle info display
-                VehicleDisplay.Text = VehicleYear.Text + " " + VehicleMake.Text + " " + VehicleModel.Text;
-                if (VehicleSource.Text != "") VehicleDisplay.Text += " (" + VehicleSource.Text + ")";
-
-                //update initial cost
                 InitialCostDisplay.Text = "$" + string.Format("{0:n0}", initialCost).ToString() + ".00";
-
-                //update mileage
                 MinimumFinalMileage.Text = (initialMileage / 1000).ToString() + "k";
                 vehicleFinalMileage.Minimum = initialMileage;
                 LifeSpanDisplay.Text = totalYears.ToString("F") + " years";
 
-                //calculate cents per mile
-                double price = initialCost * Math.Exp(interest * totalYears);
-                double priceRate = price / totalMileage;
+                updateCentsPerMileDisplay();
+            }
+            catch (Exception ex) { }
+        }
 
-                double fuelRate = fuelCost / ((cityMilesPerGallon * percentCityMiles)
-                    + (highwayMilesPerGallon * (1 - percentCityMiles)));
+        private void updateCentsPerMileDisplay()
+        {
+            double centsPerMile = calculateCentsPerMile();
+            centsPerMileDisplay.Text = centsPerMile.ToString("F");
+            centsPerMileDisplay.Text += "¢ per mile";
+        }
+        
+        private double calculateCentsPerMile()
+        {
+            double milesPerYear = numMiles.Value;
+            double percentCityMiles = pctCityMiles.Value / 100;
+            double fuelCost = gasCost.Value;
+            double interest = interestRate.Value / 100;
+            double tax = taxRate.Value / 100;
 
-                double maintenanceRate = (initialMileage + finalMileage) / 4444000;
+            double purchaseCost = vehiclePrice.Value;
+            double repairCost = vehicleRepairCost.Value;
+            double initialCost = (purchaseCost + repairCost) * (1 + tax);
+            double initialMileage = vehicleInitialMileage.Value;
+            double finalMileage = (vehicleFinalMileage.Value < initialMileage) ? (initialMileage) : (vehicleFinalMileage.Value);
+            double totalMileage = finalMileage - initialMileage;
+            double totalYears = (totalMileage > 0) ? (totalMileage / milesPerYear) : (0);
+            double cityMilesPerGallon = cityMPG.Value;
+            double highwayMilesPerGallon = highwayMPG.Value;
 
-                double centsPerMile = (priceRate + fuelRate + maintenanceRate) * 100;
-                if (Double.IsNaN(centsPerMile) || Double.IsInfinity(centsPerMile))
-                    centsPerMile = 0;
+            double price = initialCost * Math.Exp(interest * totalYears);
+            double priceRate = price / totalMileage;
 
-                centsPerMileDisplay.Text = centsPerMile.ToString("F");
-                centsPerMileDisplay.Text += "¢ per mile";
+            double fuelRate = fuelCost / ((cityMilesPerGallon * percentCityMiles)
+                + (highwayMilesPerGallon * (1 - percentCityMiles)));
 
-                //save app data
-                Windows.Storage.ApplicationDataContainer roamingSettings =
-                  Windows.Storage.ApplicationData.Current.RoamingSettings;
-                roamingSettings.Values["numMiles"] = numMiles.Value;
-                roamingSettings.Values["pctCityMiles"] = pctCityMiles.Value;
-                roamingSettings.Values["gasCost"] = gasCost.Value;
-                roamingSettings.Values["interestRate"] = interestRate.Value;
-                roamingSettings.Values["taxRate"] = taxRate.Value;
-                roamingSettings.Values["annualMiles"] = AnnualMilesDisplay.Text;
-                roamingSettings.Values["cityPctg"] = CityPercentageDisplay.Text;
-                roamingSettings.Values["gasCostDisplay"] = GasCostDisplay.Text;
-                roamingSettings.Values["interestRateDisplay"] = InterestRateDisplay.Text;
-                roamingSettings.Values["taxRateDisplay"] = TaxRateDisplay.Text;
+            double maintenanceRate = (initialMileage + finalMileage) / 4444000;
 
-            } catch (Exception ex) { }
+            double centsPerMile = (priceRate + fuelRate + maintenanceRate) * 100;
+            if (Double.IsNaN(centsPerMile) || Double.IsInfinity(centsPerMile))
+                centsPerMile = 0;
+
+            return centsPerMile;
         }
     }
 }
