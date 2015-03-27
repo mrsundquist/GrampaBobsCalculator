@@ -181,7 +181,7 @@
                     <Border.Background>
                         <SolidColorBrush Color="{StaticResource Red2}"/>
                     </Border.Background>
-                    <TextBlock x:Name="Label1" TextWrapping="Wrap" Margin="0,0,-2,-2" Style="{StaticResource HeaderTextBlockStyle}" Width="260" Padding="40,40,0,0" Height="200" HorizontalAlignment="Left" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectionHighlightColor="#B36482C8" ToolTipService.ToolTip=" ">
+                    <TextBlock x:Name="Label1" TextWrapping="Wrap" Margin="0,0,-2,-2" Style="{StaticResource HeaderTextBlockStyle}" Width="260" Padding="40,40,0,0" Height="200" HorizontalAlignment="Left" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectionHighlightColor="#B36482C8">
                     	<Run Text="Vehicle"/>
                     	<Run/>
                     	<LineBreak/>
@@ -274,6 +274,10 @@
                                 <TextBlock x:Name="TextBlock33" TextWrapping="Wrap" Text="75" Margin="5,0,0,0" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0,0,0,25" Width="13"/>
                             </StackPanel>
                         </StackPanel>
+                        <StackPanel x:Name="MemoStack" VerticalAlignment="Top" Height="200" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0,0,40,0" HorizontalAlignment="Left">
+                            <TextBlock x:Name="TextBlock35" TextWrapping="Wrap" Text="Notes" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" Margin="40,0,0,0"/>
+                            <TextBox x:Name="Memo" TextWrapping="Wrap" Width="500" HorizontalAlignment="Left" Margin="40,5,0,15" TextChanged="updateVehicleTextData" AcceptsReturn="True" PlaceholderText="Insert any notes about your vehicle here." MaxHeight="130"/>
+                        </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
             </StackPanel>
@@ -312,7 +316,7 @@
                     <Border.Background>
                         <SolidColorBrush Color="{StaticResource Green2}"/>
                     </Border.Background>
-                    <TextBlock x:Name="Label1_Copy" TextWrapping="Wrap" Margin="0" Style="{StaticResource HeaderTextBlockStyle}" Width="260" Padding="40,30,0,0" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectionHighlightColor="#B36482C8" ToolTipService.ToolTip=" " Text="Result"/>
+                    <TextBlock x:Name="Label1_Copy" TextWrapping="Wrap" Margin="0" Style="{StaticResource HeaderTextBlockStyle}" Width="260" Padding="40,30,0,0" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectionHighlightColor="#B36482C8" Text="Result"/>
                 </Border>
                 <TextBox x:Name="centsPerMileDisplay" TextWrapping="Wrap" Text="0.00¢ per mile" Background="Transparent" BorderBrush="Transparent" Foreground="White" IsReadOnly="True" Width="500" Height="100" FontSize="56" FontFamily="Segoe UI" FontWeight="Light"/>
             </StackPanel>
