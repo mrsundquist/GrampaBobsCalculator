@@ -224,6 +224,7 @@ namespace Grampa_Bob_s_Calculator
             double purchaseCost = vehiclePrice.Value;
             double repairCost = vehicleRepairCost.Value;
             double initialCost = (purchaseCost + repairCost) * (1 + tax);
+            double initialCostNoTax = (purchaseCost + repairCost);
             double initialMileage = vehicleInitialMileage.Value;
             double finalMileage = (vehicleFinalMileage.Value < initialMileage) ? (initialMileage) : (vehicleFinalMileage.Value);
             double totalMileage = finalMileage - initialMileage;
@@ -239,7 +240,15 @@ namespace Grampa_Bob_s_Calculator
 
             double maintenanceRate = (initialMileage + finalMileage) / 4444000;
 
-            double centsPerMile = (priceRate + fuelRate + maintenanceRate) * 100;
+            double depreciatedMileageValue = 0.25 *
+                ((Math.PI / 2) - Math.Atan(((2.5 * finalMileage) / 100000) - 2.1)) - .36;
+            double depreciatedTimeValue = 0.9332 * Math.Exp(-0.177 * totalYears);
+            double depreciatedRate = depreciatedMileageValue + depreciatedTimeValue;
+            if (depreciatedRate > 1) depreciatedRate = 1;
+            if (depreciatedRate < 0) depreciatedRate = 0;
+            double resellValueRate = (initialCostNoTax * (depreciatedRate)) / totalMileage;
+
+            double centsPerMile = (priceRate + fuelRate + maintenanceRate - resellValueRate) * 100;
             if (Double.IsNaN(centsPerMile) || Double.IsInfinity(centsPerMile))
                 centsPerMile = 0;
 
