@@ -22,6 +22,7 @@
                     <BitmapIcon UriSource="Assets/appbar.information.png"/>
                 </AppBarButton.Icon>
             </AppBarButton>
+            <AppBarButton x:Name="AddVehicle" Icon="Add" Label="Add Vehicle" Tapped="AddVehicle_Click"/>
         </CommandBar>
     </Page.TopAppBar>
 
@@ -181,7 +182,7 @@
                     <Border.Background>
                         <SolidColorBrush Color="{StaticResource Red2}"/>
                     </Border.Background>
-                    <TextBlock x:Name="Label1" TextWrapping="Wrap" Margin="0,0,-2,-2" Style="{StaticResource HeaderTextBlockStyle}" Width="260" Padding="40,40,0,0" Height="200" HorizontalAlignment="Left" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectionHighlightColor="#B36482C8">
+                    <TextBlock x:Name="Label1" TextWrapping="Wrap" Margin="0,0,-2,-2" Style="{StaticResource HeaderTextBlockStyle}" Width="260" Padding="40,40,0,0" Height="200" HorizontalAlignment="Left" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectionHighlightColor="#B36482C8" LineStackingStrategy="BlockLineHeight" LineHeight="40">
                     	<Run Text="Vehicle"/>
                     	<Run/>
                     	<LineBreak/>
@@ -190,28 +191,39 @@
                 </Border>
                 <ScrollViewer x:Name="VehicleInfoScroll1" VerticalScrollMode="Disabled" ZoomMode="Disabled" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden" Width="1106" Margin="0" Padding="0">
                     <StackPanel x:Name="VehicleData" Orientation="Horizontal" HorizontalAlignment="Left">
-                        <StackPanel x:Name="DescStack1" VerticalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0,0,10,0">
+                        <StackPanel x:Name="DescStack1" Margin="0,0,10,0">
+                            <TextBlock x:Name="TextBlock16" Text="Year:" Padding="0,0,0,20" Width="80" Margin="40,0,0,0" Height="50">
+                                <TextBlock.Style>
+                                    <Style BasedOn="{StaticResource BaseTextBlockStyle}" TargetType="TextBlock">
+                                        <Setter Property="FontSize" Value="26.667"/>
+                                        <Setter Property="FontWeight" Value="Light"/>
+                                        <Setter Property="LineHeight" Value="30"/>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
                             <TextBlock x:Name="TextBlock14" TextWrapping="Wrap" Text="Make:" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Center" Width="80" Margin="40,0,0,0" Height="50"/>
                             <TextBlock x:Name="TextBlock15" TextWrapping="Wrap" Style="{StaticResource SubheaderTextBlockStyle}" Margin="40,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Model:" Height="50" Width="80"/>
-                            <TextBlock x:Name="TextBlock16" TextWrapping="Wrap" Text="Year:" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Center" Width="80" Margin="40,0,0,0" Height="50"/>
                             <TextBlock x:Name="TextBlock17" TextWrapping="Wrap" Style="{StaticResource SubheaderTextBlockStyle}" Margin="40,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Source:" Height="50" Width="80"/>
                         </StackPanel>
                         <StackPanel x:Name="DescStack2" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0,0,40,0">
+                            <TextBox x:Name="VehicleYear" Height="30" Width="300" Margin="0,5,0,15" TextChanged="updateVehicleTextData" TextWrapping="Wrap"/>
                             <TextBox x:Name="VehicleMake" TextWrapping="Wrap" Height="30" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,15" TextChanged="updateVehicleTextData"/>
                             <TextBox x:Name="VehicleModel" TextWrapping="Wrap" Height="30" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,15" TextChanged="updateVehicleTextData"/>
-                            <TextBox x:Name="VehicleYear" TextWrapping="Wrap" Height="30" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,15" TextChanged="updateVehicleTextData"/>
                             <TextBox x:Name="VehicleSource" TextWrapping="Wrap" Height="30" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,15" TextChanged="updateVehicleTextData"/>
                         </StackPanel>
                         <StackPanel x:Name="PriceStack" VerticalAlignment="Top" Height="200" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0,0,40,0" HorizontalAlignment="Left">
                             <TextBlock x:Name="TextBlock19" TextWrapping="Wrap" Text="Price" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" Margin="40,0,0,0"/>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
+                            <StackPanel Orientation="Horizontal">
                                 <TextBlock x:Name="TextBlock20" TextWrapping="Wrap" Text="$0.00" Margin="40,0,5,0" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,25" Width="28"/>
-                                <Slider x:Name="vehiclePrice" Orientation="Horizontal" Margin="0" SmallChange="50" LargeChange="50" TickFrequency="1000" TickPlacement="Inline" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="420" Maximum="35000" StepFrequency="5" ValueChanged="updateVehicleDataDisplay" Background="#B3D46B3D">
+                                <Slider x:Name="vehiclePrice" Margin="0" SmallChange="50" LargeChange="50" TickFrequency="1000" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Width="420" Maximum="35000" StepFrequency="5" ValueChanged="updateVehicleDataDisplay">
+                                    <Slider.Background>
+                                        <SolidColorBrush Color="{StaticResource Red1}"/>
+                                    </Slider.Background>
                                     <Slider.Foreground>
-                                        <SolidColorBrush Color="{StaticResource Red2}"/>
+                                        <SolidColorBrush Color="#FF762A09"/>
                                     </Slider.Foreground>
                                 </Slider>
-                                <TextBlock x:Name="TextBlock21" TextWrapping="Wrap" Text="$35,000" Margin="5,0,0,0" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0,0,0,25" Width="42"/>
+                                <TextBlock x:Name="TextBlock21" TextWrapping="Wrap" Text="$35,000" Margin="5,0,0,0" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="0,0,0,25" Width="42"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <TextBlock x:Name="TextBlock29" TextWrapping="Wrap" Text="Cost to Repair" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,0,0,0"/>

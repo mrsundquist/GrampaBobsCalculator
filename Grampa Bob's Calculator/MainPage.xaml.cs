@@ -212,7 +212,7 @@ namespace Grampa_Bob_s_Calculator
             centsPerMileDisplay.Text = centsPerMile.ToString("F");
             centsPerMileDisplay.Text += "¢ per mile";
         }
-        
+        // old calculateCentsPerMile
         private double calculateCentsPerMile()
         {
             double milesPerYear = numMiles.Value;
@@ -254,5 +254,12 @@ namespace Grampa_Bob_s_Calculator
 
             return centsPerMile;
         }
+
+        private void AddVehicle_Click(object sender, TappedRoutedEventArgs e)
+        {
+            VehicleDisplay newDisplay = new VehicleDisplay(ContentStackPanel);
+            //ContentStackPanel.Children.Add(newDisplay.display);
+        }
+         
     }
 }
