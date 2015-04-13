@@ -10,6 +10,32 @@ using Windows.UI.Xaml.Controls;
 
 namespace Grampa_Bob_s_Calculator
 {
+    class DisplayNameBox
+    {
+        private Border nameBox = null;
+        private TextBlock rowName;
+
+        public DisplayNameBox(Windows.UI.Xaml.Controls.StackPanel p, SolidColorBrush color2, string t)
+        {
+            nameBox = new Border();
+            p.Children.Add(nameBox);
+            nameBox.Background = color2;
+            nameBox.Width = 260;
+            nameBox.Height = 200;
+
+            rowName = new TextBlock();
+            nameBox.Child = rowName;
+            rowName.Text = t;
+            rowName.Padding = new Windows.UI.Xaml.Thickness(40, 40, 0,0);
+            rowName.FontFamily = new FontFamily("Segoe UI");
+            rowName.FontSize = 56;
+            rowName.FontWeight = Windows.UI.Text.FontWeights.Light;
+            rowName.LineStackingStrategy = Windows.UI.Xaml.LineStackingStrategy.BlockLineHeight;
+            rowName.LineHeight = 40;
+        }
+    }
+
+    
     class DisplayTextBlockStack
     {
         private StackPanel stackP = null;
@@ -57,10 +83,10 @@ namespace Grampa_Bob_s_Calculator
             p.Children.Add(this.stackP);
             this.stackP.Margin = new Windows.UI.Xaml.Thickness(0, 0, 40, 0);
             this.stackP.Width = 300;
-            DisplayTextBox text1 = new DisplayTextBox(this.stackP);
-            DisplayTextBox text2 = new DisplayTextBox(this.stackP);
-            DisplayTextBox text3 = new DisplayTextBox(this.stackP);
-            DisplayTextBox text4 = new DisplayTextBox(this.stackP);
+            DisplayTextBox text1 = new DisplayTextBox(this.stackP, "year");
+            DisplayTextBox text2 = new DisplayTextBox(this.stackP, "make");
+            DisplayTextBox text3 = new DisplayTextBox(this.stackP, "model");
+            DisplayTextBox text4 = new DisplayTextBox(this.stackP, "source");
         }
     }
 
@@ -68,13 +94,14 @@ namespace Grampa_Bob_s_Calculator
     {
         private TextBox textB = null;
 
-        public DisplayTextBox(Windows.UI.Xaml.Controls.StackPanel p)
+        public DisplayTextBox(Windows.UI.Xaml.Controls.StackPanel p, string s)
         {
             this.textB = new TextBox();
             p.Children.Add(this.textB);
             this.textB.Height = 30;
             this.textB.Margin = new Windows.UI.Xaml.Thickness(0, 5, 0, 15);
             this.textB.Padding = new Windows.UI.Xaml.Thickness(10, 3, 10, 5);
+            this.textB.Name = s;
         }
     }
 
@@ -84,16 +111,17 @@ namespace Grampa_Bob_s_Calculator
 
         public DisplaySliderStack(Windows.UI.Xaml.Controls.StackPanel p,
             string t1, string t2, int min1, int max1, string minText1, string maxText1,
-            int min2, int max2, string minText2, string maxText2)
+            int min2, int max2, string minText2, string maxText2,
+            SolidColorBrush color1, SolidColorBrush color2)
         {
             this.stackP = new StackPanel();
             p.Children.Add(this.stackP);
             this.stackP.Margin = new Windows.UI.Xaml.Thickness(0, 0, 40, 0);
             this.stackP.Width = 540;
             DisplayTextBlock text1 = new DisplayTextBlock(this.stackP, t1);
-            DisplaySlider slide1 = new DisplaySlider(this.stackP, min1, max1, minText1, maxText1);
+            DisplaySlider slide1 = new DisplaySlider(this.stackP, min1, max1, minText1, maxText1, color1, color2);
             DisplayTextBlock text2 = new DisplayTextBlock(this.stackP, t2);
-            DisplaySlider slide2 = new DisplaySlider(this.stackP, min2, max2, minText2, maxText2);
+            DisplaySlider slide2 = new DisplaySlider(this.stackP, min2, max2, minText2, maxText2, color1, color2);
         }
     }
 
@@ -107,7 +135,8 @@ namespace Grampa_Bob_s_Calculator
         private string maxValText = null;
 
 
-        public DisplaySlider(Windows.UI.Xaml.Controls.StackPanel p, int min, int max, string minText, string maxText)
+        public DisplaySlider(Windows.UI.Xaml.Controls.StackPanel p, int min, int max,
+            string minText, string maxText, SolidColorBrush color1, SolidColorBrush color2)
         {
             this.sliderStack = new StackPanel();
             p.Children.Add(this.sliderStack);
@@ -121,15 +150,14 @@ namespace Grampa_Bob_s_Calculator
             loText.VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Center;
             loText.Margin = new Windows.UI.Xaml.Thickness(0, 0, 5, 0);
             loText.Padding = new Windows.UI.Xaml.Thickness(0, 0, 0, 10);
-            loText.TextAlignment = Windows.UI.Xaml.TextAlignment.Right;
             loText.FontFamily = new FontFamily("Segoe UI");
             loText.FontSize = 12;
             loText.LineHeight = 20;
 
             this.slide = new Slider();
             sliderStack.Children.Add(slide);
-            slide.Background = new SolidColorBrush(Color.FromArgb(179, 212, 107, 61));
-            slide.Foreground = new SolidColorBrush(Color.FromArgb(225, 118, 42, 9));
+            slide.Background = color1;
+            slide.Foreground = color2;
             slide.Maximum = max;
             slide.Minimum = min;
             slide.LargeChange = Math.Pow(10, (Math.Floor(Math.Log10((int)(max - min)))-1));
@@ -146,7 +174,6 @@ namespace Grampa_Bob_s_Calculator
             hiText.VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Center;
             hiText.Margin = new Windows.UI.Xaml.Thickness(5, 0, 0, 0);
             hiText.Padding = new Windows.UI.Xaml.Thickness(0, 0, 0, 10);
-            hiText.TextAlignment = Windows.UI.Xaml.TextAlignment.Left;
             hiText.FontFamily = new FontFamily("Segoe UI");
             hiText.FontSize = 12;
             hiText.LineHeight = 20;

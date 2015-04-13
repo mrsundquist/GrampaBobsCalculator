@@ -3,11 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Controls;
 
 namespace Grampa_Bob_s_Calculator
 {
     class Vehicle
     {
+        public Vehicle(StackPanel p)
+        {
+            container = p;
+            display = new VehicleDisplay(p);
+
+            
+        }
+        
+        private StackPanel container = null;
+        private VehicleDisplay display = null;
+        
         private string year = "";
         private string make = "";
         private string model = "";

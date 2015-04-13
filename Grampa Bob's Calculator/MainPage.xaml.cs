@@ -23,7 +23,17 @@ namespace Grampa_Bob_s_Calculator
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        public MainPage()
+        {
+            this.InitializeComponent();
+            this.navigationHelper = new NavigationHelper(this);
+            this.navigationHelper.LoadState += navigationHelper_LoadState;
+            this.navigationHelper.SaveState += navigationHelper_SaveState;
+        }
+        
+        List<Vehicle> vehicles = new List<Vehicle>();
 
+#region Navigation Helper and Dictionary
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
 
@@ -45,13 +55,8 @@ namespace Grampa_Bob_s_Calculator
         }
 
 
-        public MainPage()
-        {
-            this.InitializeComponent();
-            this.navigationHelper = new NavigationHelper(this);
-            this.navigationHelper.LoadState += navigationHelper_LoadState;
-            this.navigationHelper.SaveState += navigationHelper_SaveState;
-        }
+
+
 
         /// <summary>
         /// Populates the page with content passed during navigation. Any saved state is also
@@ -157,6 +162,7 @@ namespace Grampa_Bob_s_Calculator
         }
 
         #endregion
+#endregion
 
         private void aboutPageClick(object sender, RoutedEventArgs e)
         {
@@ -203,7 +209,10 @@ namespace Grampa_Bob_s_Calculator
 
                 updateCentsPerMileDisplay();
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(sender);
+            }
         }
 
         private void updateCentsPerMileDisplay()
@@ -257,9 +266,14 @@ namespace Grampa_Bob_s_Calculator
 
         private void AddVehicle_Click(object sender, TappedRoutedEventArgs e)
         {
-            VehicleDisplay newDisplay = new VehicleDisplay(ContentStackPanel);
-            //ContentStackPanel.Children.Add(newDisplay.display);
+            try
+            {
+                vehicles.Add(new Vehicle(ContentStackPanel));
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(vehicles);
+            }
         }
-         
     }
 }

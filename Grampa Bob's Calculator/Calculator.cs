@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 // Controller Class
 
@@ -30,6 +31,11 @@ namespace Grampa_Bob_s_Calculator
             double totalYears = (totalMileage > 0) ? (totalMileage / milesPerYear) : (0);
             double cityMilesPerGallon = vehicle.getCityMPG();
             double highwayMilesPerGallon = vehicle.getHighwayMPG();
+
+            Debug.Assert(((cityMilesPerGallon * percentCityMiles)
+                + (highwayMilesPerGallon * percentHighwayMiles)) != 0, "Divide by zero");
+            Debug.Assert(totalMileage != 0, "Divide by zero");
+            
 
             double price = initialCostWithTax * Math.Exp(interest * totalYears);
             double priceRate = price / totalMileage;
