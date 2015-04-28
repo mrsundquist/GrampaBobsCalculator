@@ -12,9 +12,7 @@ namespace Grampa_Bob_s_Calculator
         public Vehicle(StackPanel p)
         {
             container = p;
-            display = new VehicleDisplay(p);
-
-            
+            display = new VehicleDisplay(p, this);
         }
         
         private StackPanel container = null;
@@ -35,9 +33,9 @@ namespace Grampa_Bob_s_Calculator
         public string getVehicleDescription()
         {
             if (source != null && source != "")
-                return year + make + model + "(" + source + ")";
+                return year + " " + make + " " + model + " (" + source + ")";
             else
-                return year + make + model;
+                return year + " " + make + " " + model;
         }
         public int getPrice() { return price; }
         public int getRepairCost() { return repairCost; }

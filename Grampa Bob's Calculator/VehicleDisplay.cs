@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
 using Windows.UI.Xaml.Controls;
@@ -13,11 +14,13 @@ namespace Grampa_Bob_s_Calculator
     class VehicleDisplay
     {
         public StackPanel display = null;
-        public TextBox yearDisplay;
+        public Vehicle theVehicle = null;
         
         
-        public VehicleDisplay(Windows.UI.Xaml.Controls.StackPanel p)
+        public VehicleDisplay(Windows.UI.Xaml.Controls.StackPanel p, Vehicle theVehicle)
         {
+            this.theVehicle = theVehicle;
+
             //parent -> display
             this.display = new StackPanel();
             p.Children.Add(this.display);
@@ -29,7 +32,8 @@ namespace Grampa_Bob_s_Calculator
             this.display.Orientation = Orientation.Horizontal;
 
             //display -> borderName
-            DisplayNameBox borderName = new DisplayNameBox(display, color2, "Vehicle\n Name");
+            DisplayNameBox borderName = new DisplayNameBox(display, color2);
+            updateName("New Vehicle");
             
             //display -> scroller
             ScrollViewer scroller = new ScrollViewer();
@@ -40,8 +44,7 @@ namespace Grampa_Bob_s_Calculator
             scroller.Height = 200;
             scroller.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
             scroller.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
-
-
+            
             //display -> scroller -> dataStack
             StackPanel dataStack = new StackPanel();
             scroller.Content = dataStack;
@@ -54,11 +57,53 @@ namespace Grampa_Bob_s_Calculator
 
             //display -> scroller -> dataStack -> descStack2
             DisplayTextBoxStack descStack2 = new DisplayTextBoxStack(dataStack);
+            UIElementCollection textBoxes = descStack2.stackP.Children;
+            ((TextBox)textBoxes[0]).TextChanged += new TextChangedEventHandler(updateYear);
+            ((TextBox)textBoxes[1]).TextChanged += new TextChangedEventHandler(updateMake);
+            ((TextBox)textBoxes[2]).TextChanged += new TextChangedEventHandler(updateModel);
+            ((TextBox)textBoxes[3]).TextChanged += new TextChangedEventHandler(updateSource);
         
             //display -> scroller -> dataStack -> priceStack
             DisplaySliderStack priceStack = new DisplaySliderStack(dataStack,
                 "Price", "Cost to Repair", 0, 35000, "$0", "$35,000", 0, 10000,
                 "$0", "$10,000", color1, color2);
         }
+
+        private void updateYear(object sender, TextChangedEventArgs e)
+        {
+            theVehicle.updateYear(((TextBox)sender).Text);
+            updateName(theVehicle.getVehicleDescription());
+        }
+
+        private void updateMake(object sender, TextChangedEventArgs e)
+        {
+            theVehicle.updateMake(((TextBox)sender).Text);
+            updateName(theVehicle.getVehicleDescription());
+        }
+        
+        private void updateModel(object sender, TextChangedEventArgs e)
+        {
+            theVehicle.updateModel(((TextBox)sender).Text);
+            updateName(theVehicle.getVehicleDescription());
+        }
+
+        private void updateSource(object sender, TextChangedEventArgs e)
+        {
+            theVehicle.updateSource(((TextBox)sender).Text);
+            updateName(theVehicle.getVehicleDescription());
+        }
+        
+        public void updateName(string t)
+        {
+            UIElementCollection borderAndScroller = this.display.Children;
+            Border nameBox = (Border)borderAndScroller[0]; // the border
+            TextBlock rowName = (TextBlock)nameBox.Child;
+
+            rowName.FontSize = 56;
+            rowName.LineHeight = 40;
+
+            rowName.Text = t;
+        }
+
     }
 }

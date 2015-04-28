@@ -209,10 +209,7 @@ namespace Grampa_Bob_s_Calculator
 
                 updateCentsPerMileDisplay();
             }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(sender);
-            }
+            catch (Exception ex) { }
         }
 
         private void updateCentsPerMileDisplay()
@@ -266,14 +263,7 @@ namespace Grampa_Bob_s_Calculator
 
         private void AddVehicle_Click(object sender, TappedRoutedEventArgs e)
         {
-            try
-            {
                 vehicles.Add(new Vehicle(ContentStackPanel));
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                System.Diagnostics.Debug.WriteLine(vehicles);
-            }
         }
     }
 }
