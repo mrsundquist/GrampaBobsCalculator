@@ -99,8 +99,18 @@ namespace Grampa_Bob_s_Calculator
             Border nameBox = (Border)borderAndScroller[0]; // the border
             TextBlock rowName = (TextBlock)nameBox.Child;
 
-            rowName.FontSize = 56;
-            rowName.LineHeight = 40;
+            List<int> partLengths = new List<int>
+                { theVehicle.getYear().Length, theVehicle.getMake().Length,
+                    theVehicle.getModel().Length, theVehicle.getSource().Length, 1 };
+            int maxLength = partLengths.Max();
+
+            double fontSize = 230 * (Math.Pow(maxLength,-0.8)); // adjust font size based on length of name
+            if (fontSize > 56) fontSize = 56;
+            if (fontSize < 12) fontSize = 12;
+
+
+            rowName.FontSize = Math.Floor(fontSize);
+            
 
             rowName.Text = t;
         }

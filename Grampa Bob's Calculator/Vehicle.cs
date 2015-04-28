@@ -37,6 +37,10 @@ namespace Grampa_Bob_s_Calculator
             else
                 return year + " " + make + " " + model;
         }
+        public string getYear() { return year; }
+        public string getMake() { return make; }
+        public string getModel() { return model; }
+        public string getSource() { return source; }
         public int getPrice() { return price; }
         public int getRepairCost() { return repairCost; }
         public int getInitialCostNoTax() { return price + repairCost; }

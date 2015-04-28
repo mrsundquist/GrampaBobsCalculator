@@ -27,6 +27,7 @@ namespace Grampa_Bob_s_Calculator
             nameBox.Child = rowName;
             rowName.TextWrapping = Windows.UI.Xaml.TextWrapping.WrapWholeWords;
             rowName.Padding = new Windows.UI.Xaml.Thickness(40, 40, 0,0);
+            rowName.LineHeight = 40;
             rowName.FontFamily = new FontFamily("Segoe UI");
             rowName.FontWeight = Windows.UI.Text.FontWeights.Light;
             rowName.LineStackingStrategy = Windows.UI.Xaml.LineStackingStrategy.BlockLineHeight;
