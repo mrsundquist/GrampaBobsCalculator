@@ -65,8 +65,30 @@ namespace Grampa_Bob_s_Calculator
         
             //display -> scroller -> dataStack -> priceStack
             DisplaySliderStack priceStack = new DisplaySliderStack(dataStack,
-                "Price", "Cost to Repair", 0, 35000, "$0", "$35,000", 0, 10000,
-                "$0", "$10,000", color1, color2);
+                "Price", "Cost to Repair", Vehicle.getMinPrice(), Vehicle.getMaxPrice(),
+                "$" + Vehicle.getMinPrice().ToString(), "$" + Vehicle.getMaxPrice().ToString(),
+                Vehicle.getMinRepairCost(), Vehicle.getMaxRepairCost(),
+                "$" + Vehicle.getMinRepairCost().ToString(), "$" + Vehicle.getMaxRepairCost().ToString(),
+                color1, color2);
+            UIElementCollection priceStackChildren = ((StackPanel)(priceStack.stackP).Children[1]).Children;
+            ((Slider)priceStackChildren[1]).ValueChanged += updatePrice; // price
+            priceStackChildren = ((StackPanel)(priceStack.stackP).Children[3]).Children;
+            ((Slider)priceStackChildren[1]).ValueChanged += updateRepairCost; // repair
+
+            //display -> scroller -> dataStack -> mileageStack
+            DisplaySliderStack mileageStack = new DisplaySliderStack(dataStack,
+                "Initial Mileage", "Estimated Final Mileage",
+                Vehicle.getMinInitialMileage(), Vehicle.getMaxInitialMileage(),
+                ((int)(Vehicle.getMinInitialMileage() / 1000)).ToString() + "k",
+                ((int)(Vehicle.getMaxInitialMileage() / 1000)).ToString() + "k",
+                theVehicle.getMinFinalMileage(), Vehicle.getMaxFinalMileage(),
+                ((int)(theVehicle.getMinFinalMileage() / 1000)).ToString() + "k",
+                ((int)(Vehicle.getMaxFinalMileage() / 1000)).ToString() + "k",
+                color1, color2);
+            UIElementCollection mileageStackChildren = ((StackPanel)(mileageStack.stackP).Children[1]).Children;
+            ((Slider)mileageStackChildren[1]).ValueChanged += updateInitialMileage; // initial mileage
+            mileageStackChildren = ((StackPanel)(mileageStack.stackP).Children[3]).Children;
+            ((Slider)priceStackChildren[1]).ValueChanged += updateFinalMileage;
         }
 
         private void updateYear(object sender, TextChangedEventArgs e)
@@ -106,14 +128,49 @@ namespace Grampa_Bob_s_Calculator
 
             double fontSize = 230 * (Math.Pow(maxLength,-0.8)); // adjust font size based on length of name
             if (fontSize > 56) fontSize = 56;
-            if (fontSize < 12) fontSize = 12;
+            if (fontSize < 30) fontSize = 30;
 
-
-            rowName.FontSize = Math.Floor(fontSize);
+            rowName.FontSize = fontSize;
             
-
             rowName.Text = t;
         }
 
+        void updatePrice(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+        {
+            theVehicle.updatePrice((int)((Slider)sender).Value);
+        }
+
+        void updateRepairCost(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+        {
+            theVehicle.updateRepairCost((int)((Slider)sender).Value);
+        }
+
+        void updateInitialMileage(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+        {
+            theVehicle.updateInitialMileage((int)((Slider)sender).Value);
+            updateFinalMileageMin(theVehicle.getInitialMileage());
+        }
+
+        void updateFinalMileage(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+        {
+            theVehicle.updateFinalMileage((int)((Slider)sender).Value);
+        }
+
+        public void updateFinalMileageMin(int m)
+        {
+            // change text
+            UIElementCollection borderAndScroller = this.display.Children;
+            ScrollViewer scroller = (ScrollViewer)borderAndScroller[1]; // the scroller
+            StackPanel dataStack = (StackPanel)scroller.Content; // scroller stacks
+            StackPanel mileageStack = (StackPanel)dataStack.Children[3]; //mileage stack
+            StackPanel finalMileageSliderStack = (StackPanel)mileageStack.Children[3]; // mileage slider stuff
+            TextBlock finalMileageMin = (TextBlock)finalMileageSliderStack.Children[0]; //test of fin mge min
+            finalMileageMin.Text = ((int)(m / 1000)).ToString() + "k";
+            
+            //change the slider properties
+            Slider mileageSlider = (Slider)finalMileageSliderStack.Children[1]; // slider
+            mileageSlider.Minimum = theVehicle.getInitialMileage();
+        }
     }
 }
+

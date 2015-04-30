@@ -37,7 +37,7 @@ namespace Grampa_Bob_s_Calculator
     
     class DisplayTextBlockStack
     {
-        private StackPanel stackP = null;
+        public StackPanel stackP = null;
 
         public DisplayTextBlockStack(Windows.UI.Xaml.Controls.StackPanel p, string t1, string t2, string t3, string t4)
         {
@@ -106,7 +106,7 @@ namespace Grampa_Bob_s_Calculator
 
     class DisplaySliderStack
     {
-        private StackPanel stackP = null;
+        public StackPanel stackP = null;
 
         public DisplaySliderStack(Windows.UI.Xaml.Controls.StackPanel p,
             string t1, string t2, int min1, int max1, string minText1, string maxText1,
@@ -126,8 +126,8 @@ namespace Grampa_Bob_s_Calculator
 
     class DisplaySlider
     {
-        private StackPanel sliderStack = null;
-        private Slider slide = null;
+        public StackPanel sliderStack = null;
+        public Slider slide = null;
         private int minVal = 0;
         private int maxVal = 0;
         private string minValText = null;
