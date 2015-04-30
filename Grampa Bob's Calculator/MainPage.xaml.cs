@@ -263,7 +263,7 @@ namespace Grampa_Bob_s_Calculator
 
         private void AddVehicle_Click(object sender, TappedRoutedEventArgs e)
         {
-                vehicles.Add(new Vehicle(ContentStackPanel));
+                vehicles.Add(new Vehicle(ContentStackPanel, vehicles.Count()));
         }
     }
 }

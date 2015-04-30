@@ -15,17 +15,34 @@ namespace Grampa_Bob_s_Calculator
     {
         public StackPanel display = null;
         public Vehicle theVehicle = null;
-        
-        
-        public VehicleDisplay(Windows.UI.Xaml.Controls.StackPanel p, Vehicle theVehicle)
+
+
+        public VehicleDisplay(Windows.UI.Xaml.Controls.StackPanel p, Vehicle theVehicle, int numVehicles)
         {
             this.theVehicle = theVehicle;
+
+            //set colors
+            SolidColorBrush color1;
+            SolidColorBrush color2;
+            if (numVehicles % 3 == 0) // red
+            {
+                color1 = new SolidColorBrush(Color.FromArgb(179, 212, 107, 61));
+                color2 = new SolidColorBrush(Color.FromArgb(255, 118, 42, 9));
+            }
+            else if (numVehicles % 3 == 1) // green
+            {
+                color1 = new SolidColorBrush(Color.FromArgb(179, 31, 166, 71));
+                color2 = new SolidColorBrush(Color.FromArgb(255, 21, 83, 39));
+            }
+            else // blue
+            {
+                color1 = new SolidColorBrush(Color.FromArgb(179, 100, 130, 200));
+                color2 = new SolidColorBrush(Color.FromArgb(255, 45, 63, 104));
+            }
 
             //parent -> display
             this.display = new StackPanel();
             p.Children.Add(this.display);
-            SolidColorBrush color1 = new SolidColorBrush(Color.FromArgb(179, 212, 107, 61));
-            SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(255, 118, 42, 9));
             this.display.Background = color1;
             this.display.Height = 200;
             this.display.Width = p.Width; // set width to parent's width
@@ -34,7 +51,7 @@ namespace Grampa_Bob_s_Calculator
             //display -> borderName
             DisplayNameBox borderName = new DisplayNameBox(display, color2);
             updateName("New Vehicle");
-            
+
             //display -> scroller
             ScrollViewer scroller = new ScrollViewer();
             this.display.Children.Add(scroller);
@@ -44,7 +61,7 @@ namespace Grampa_Bob_s_Calculator
             scroller.Height = 200;
             scroller.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
             scroller.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
-            
+
             //display -> scroller -> dataStack
             StackPanel dataStack = new StackPanel();
             scroller.Content = dataStack;
@@ -62,7 +79,7 @@ namespace Grampa_Bob_s_Calculator
             ((TextBox)textBoxes[1]).TextChanged += new TextChangedEventHandler(updateMake);
             ((TextBox)textBoxes[2]).TextChanged += new TextChangedEventHandler(updateModel);
             ((TextBox)textBoxes[3]).TextChanged += new TextChangedEventHandler(updateSource);
-        
+
             //display -> scroller -> dataStack -> priceStack
             DisplaySliderStack priceStack = new DisplaySliderStack(dataStack,
                 "Price", "Cost to Repair", Vehicle.getMinPrice(), Vehicle.getMaxPrice(),
@@ -88,9 +105,29 @@ namespace Grampa_Bob_s_Calculator
             UIElementCollection mileageStackChildren = ((StackPanel)(mileageStack.stackP).Children[1]).Children;
             ((Slider)mileageStackChildren[1]).ValueChanged += updateInitialMileage; // initial mileage
             mileageStackChildren = ((StackPanel)(mileageStack.stackP).Children[3]).Children;
-            ((Slider)priceStackChildren[1]).ValueChanged += updateFinalMileage;
-        }
+            ((Slider)mileageStackChildren[1]).ValueChanged += updateFinalMileage;
 
+            //display -> scroller -> dataStack -> mpgStack
+            DisplaySliderStack mpgStack = new DisplaySliderStack(dataStack,
+                "City MPG", "Highway MPG",
+                Vehicle.getMinCityMPG(), Vehicle.getMaxCityMPG(),
+                ((int)(Vehicle.getMinCityMPG())).ToString(),
+                ((int)(Vehicle.getMaxCityMPG())).ToString(),
+                Vehicle.getMinHighwayMPG(), Vehicle.getMaxHighwayMPG(),
+                ((int)(Vehicle.getMinHighwayMPG())).ToString(),
+                ((int)(Vehicle.getMaxHighwayMPG())).ToString(),
+                color1, color2);
+            UIElementCollection mpgStackChildren = ((StackPanel)(mpgStack.stackP).Children[1]).Children;
+            ((Slider)mpgStackChildren[1]).ValueChanged += updateCityMPG;
+            mpgStackChildren = ((StackPanel)(mileageStack.stackP).Children[3]).Children;
+            ((Slider)mpgStackChildren[1]).ValueChanged += updateHighwayMPG;
+
+            //display -> scroller -> dataStack -> memoStack
+            DisplayMemoStack memoStack = new DisplayMemoStack(dataStack, "Notes:", "Insert any notes about your vehicle here.");
+            UIElementCollection memoStackChildren = memoStack.stackP.Children;
+            ((TextBox)memoStackChildren[1]).TextChanged += updateMemo;
+        }
+        
         private void updateYear(object sender, TextChangedEventArgs e)
         {
             theVehicle.updateYear(((TextBox)sender).Text);
@@ -170,6 +207,21 @@ namespace Grampa_Bob_s_Calculator
             //change the slider properties
             Slider mileageSlider = (Slider)finalMileageSliderStack.Children[1]; // slider
             mileageSlider.Minimum = theVehicle.getInitialMileage();
+        }
+
+        void updateCityMPG(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+        {
+            theVehicle.updateCityMPG((int)((Slider)sender).Value);
+        }
+
+        void updateHighwayMPG(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+        {
+            theVehicle.updateHighwayMPG((int)((Slider)sender).Value);
+        }
+
+        private void updateMemo(object sender, TextChangedEventArgs e)
+        {
+            theVehicle.updateNotes(((TextBox)sender).Text);
         }
     }
 }

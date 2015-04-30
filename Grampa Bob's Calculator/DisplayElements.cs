@@ -160,8 +160,10 @@ namespace Grampa_Bob_s_Calculator
             slide.Maximum = max;
             slide.Minimum = min;
             slide.LargeChange = Math.Pow(10, (Math.Floor(Math.Log10((int)(max - min)))-1));
+            if (slide.LargeChange == 0) slide.LargeChange = 1;
             slide.SmallChange = slide.LargeChange;
             slide.StepFrequency = (int)((slide.LargeChange)/10);
+            if (slide.StepFrequency == 0) slide.StepFrequency = 1;
             slide.TickFrequency = (int)((max - min) / 25);
             slide.Width = 406;
             slide.VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Center;
@@ -176,6 +178,39 @@ namespace Grampa_Bob_s_Calculator
             hiText.FontFamily = new FontFamily("Segoe UI");
             hiText.FontSize = 12;
             hiText.LineHeight = 20;
+        }
+    }
+
+    class DisplayMemoStack
+    {
+        public StackPanel stackP = null;
+
+        public DisplayMemoStack(Windows.UI.Xaml.Controls.StackPanel p, string t1, string t2)
+        {
+            this.stackP = new StackPanel();
+            p.Children.Add(this.stackP);
+            this.stackP.Margin = new Windows.UI.Xaml.Thickness(0, 0, 40, 0);
+            this.stackP.Width = 540;
+            DisplayTextBlock text1 = new DisplayTextBlock(this.stackP, t1);
+            DisplayMemoBox memo = new DisplayMemoBox(this.stackP, t2);
+        }
+    }
+
+    class DisplayMemoBox
+    {
+        private TextBox textB = null;
+
+        public DisplayMemoBox(Windows.UI.Xaml.Controls.StackPanel p, string s)
+        {
+            this.textB = new TextBox();
+            p.Children.Add(this.textB);
+            this.textB.AcceptsReturn = true;
+            this.textB.PlaceholderText = s;
+            this.textB.Width = 500;
+            this.textB.Margin = new Windows.UI.Xaml.Thickness(40, 5, 0, 15);
+            this.textB.MaxHeight = 130;
+            this.textB.Padding = new Windows.UI.Xaml.Thickness(10, 3, 10, 5);
+            this.textB.TextWrapping = Windows.UI.Xaml.TextWrapping.Wrap;
         }
     }
 }

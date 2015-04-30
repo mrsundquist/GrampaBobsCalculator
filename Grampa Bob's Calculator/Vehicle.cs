@@ -9,10 +9,10 @@ namespace Grampa_Bob_s_Calculator
 {
     class Vehicle
     {
-        public Vehicle(StackPanel p)
+        public Vehicle(StackPanel p, int numVehicles)
         {
             container = p;
-            display = new VehicleDisplay(p, this);
+            display = new VehicleDisplay(p, this, numVehicles);
         }
         
         private StackPanel container = null;
@@ -122,8 +122,8 @@ namespace Grampa_Bob_s_Calculator
         public static int getMinRepairCost() { return 0; }
         public static int getMinInitialMileage() { return 0; }
         public int getMinFinalMileage() { return initialMileage; }
-        public static int getMinCityMPG() { return 0; }
-        public static int getMinHighwayMPG() { return 0; }
+        public static int getMinCityMPG() { return 1; }
+        public static int getMinHighwayMPG() { return 1; }
         #endregion
     }
 }

@@ -45,7 +45,7 @@
                         <SolidColorBrush Color="{StaticResource Blue2}"/>
                     </Border.BorderBrush>
                     <Border.Background>
-                        <SolidColorBrush Color="#FF2D3F68"/>
+                        <SolidColorBrush Color="{StaticResource Blue2}"/>
                     </Border.Background>
                     <TextBlock x:Name="Label01" TextWrapping="Wrap" Margin="0,0,-2,-2" Style="{StaticResource HeaderTextBlockStyle}" Width="260" Padding="40,40,0,0" Height="200" HorizontalAlignment="Left" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectionHighlightColor="#B36482C8">
                     	<Run Text="Personal"/>
@@ -288,7 +288,7 @@
                         </StackPanel>
                         <StackPanel x:Name="MemoStack" VerticalAlignment="Top" Height="200" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0,0,40,0" HorizontalAlignment="Left">
                             <TextBlock x:Name="TextBlock35" TextWrapping="Wrap" Text="Notes" Style="{StaticResource SubheaderTextBlockStyle}" Padding="0,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" Margin="40,0,0,0"/>
-                            <TextBox x:Name="Memo" TextWrapping="Wrap" Width="500" HorizontalAlignment="Left" Margin="40,5,0,15" TextChanged="updateVehicleTextData" AcceptsReturn="True" PlaceholderText="Insert any notes about your vehicle here." MaxHeight="130"/>
+                            <TextBox x:Name="Memo" TextWrapping="Wrap" Width="500" Margin="40,5,0,15" TextChanged="updateVehicleTextData" AcceptsReturn="True" PlaceholderText="Insert any notes about your vehicle here." MaxHeight="130"/>
                         </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
@@ -319,7 +319,7 @@
             </StackPanel>
             <StackPanel x:Name="CalculatorBar" Height="100" Orientation="Horizontal">
                 <StackPanel.Background>
-                    <SolidColorBrush Color="{StaticResource Green1}"/>
+                    <SolidColorBrush Color="#B21FA647"/>
                 </StackPanel.Background>
                 <Border BorderThickness="1" Width="260" Height="100">
                     <Border.BorderBrush>
