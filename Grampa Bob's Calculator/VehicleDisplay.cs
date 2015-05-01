@@ -140,6 +140,11 @@ namespace Grampa_Bob_s_Calculator
             StackPanel memoStack = (StackPanel)memoScroll.memoScroll.Content;
             //DisplayMemoTextBlock cpmLabel = new DisplayMemoTextBlock(memoStack, "CPM:");
             DisplayMemoTextBox cpm = new DisplayMemoTextBox(memoStack, (0.ToString("F") + "¢ per mile"), color1);
+            cpm.memoText.FontSize += 13; // make cents per mile display bigger
+            cpm.memoText.FontWeight = Windows.UI.Text.FontWeights.Thin;
+            cpm.memoText.Margin = new Windows.UI.Xaml.Thickness(0, 0, 0, 0);
+            DisplayMemoTextBlock totalCostLabel = new DisplayMemoTextBlock(memoStack, "Total Cost:");
+            DisplayMemoTextBox totalCost = new DisplayMemoTextBox(memoStack, "$" + (0.ToString("F")), color1);
 
         }
         
@@ -190,27 +195,27 @@ namespace Grampa_Bob_s_Calculator
         void updatePrice(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
             theVehicle.updatePrice((int)((Slider)sender).Value);
-            updateCPM();
+            updateMemoBar();
         }
 
         void updateRepairCost(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
             theVehicle.updateRepairCost((int)((Slider)sender).Value);
-            updateCPM();
+            updateMemoBar();
         }
 
         void updateInitialMileage(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
             theVehicle.updateInitialMileage((int)e.NewValue);
             updateFinalMileageMin((int)e.NewValue);
-            updateCPM();
+            updateMemoBar();
         }
 
         void updateFinalMileage(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
             theVehicle.updateFinalMileage((int)e.NewValue);
             //theVehicle.updateFinalMileage((int)((Slider)sender).Value);
-            updateCPM();
+            updateMemoBar();
         }
 
         public void updateFinalMileageMin(int m)
@@ -227,20 +232,18 @@ namespace Grampa_Bob_s_Calculator
             //change the slider properties
             Slider mileageSlider = (Slider)finalMileageSliderStack.Children[1]; // slider
             mileageSlider.Minimum = theVehicle.getInitialMileage();
-
-            updateCPM();
         }
 
         void updateCityMPG(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
             theVehicle.updateCityMPG((int)((Slider)sender).Value);
-            updateCPM();
+            updateMemoBar();
         }
 
         void updateHighwayMPG(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
             theVehicle.updateHighwayMPG((int)((Slider)sender).Value);
-            updateCPM();
+            updateMemoBar();
         }
 
         private void updateNotes(object sender, TextChangedEventArgs e)
@@ -248,16 +251,21 @@ namespace Grampa_Bob_s_Calculator
             theVehicle.updateNotes(((TextBox)sender).Text);
         }
 
-        private void updateCPM()
+        private void updateMemoBar()
         {
+            //NOTE: NEED TO INSERT ACTUAL USER IN HERE
 
 
             ScrollViewer memoScroll = (ScrollViewer)this.memoBar.Children[0];
             StackPanel memoStack = (StackPanel)memoScroll.Content;
+            
             TextBox cpmText = (TextBox)memoStack.Children[0];
             
             User tempUser = new User();
-            cpmText.Text = (Calculator.calculate(tempUser, this.theVehicle)).ToString("F") + "¢ per mile";
+            cpmText.Text = (Calculator.centsPerMile(tempUser, this.theVehicle)).ToString("F") + "¢ per mile";
+
+            TextBox totalCostText = (TextBox)memoStack.Children[2];
+            totalCostText.Text = (Calculator.totalCost(tempUser, this.theVehicle)).ToString();
         }
 
     }

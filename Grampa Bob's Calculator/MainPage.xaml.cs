@@ -263,7 +263,8 @@ namespace Grampa_Bob_s_Calculator
 
         private void AddVehicle_Click(object sender, TappedRoutedEventArgs e)
         {
-                vehicles.Add(new Vehicle(ContentStackPanel, vehicles.Count()));
+            vehicles.Add(new Vehicle(ContentStackPanel, vehicles.Count()));
+            if (vehicles.Count() == 10) NewVehicle.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
     }
 }
