@@ -181,26 +181,26 @@ namespace Grampa_Bob_s_Calculator
         }
     }
 
-    class DisplayMemoStack
+    class DisplayNotesStack
     {
         public StackPanel stackP = null;
 
-        public DisplayMemoStack(Windows.UI.Xaml.Controls.StackPanel p, string t1, string t2)
+        public DisplayNotesStack(Windows.UI.Xaml.Controls.StackPanel p, string t1, string t2)
         {
             this.stackP = new StackPanel();
             p.Children.Add(this.stackP);
             this.stackP.Margin = new Windows.UI.Xaml.Thickness(0, 0, 40, 0);
             this.stackP.Width = 540;
             DisplayTextBlock text1 = new DisplayTextBlock(this.stackP, t1);
-            DisplayMemoBox memo = new DisplayMemoBox(this.stackP, t2);
+            DisplayNotesBox memo = new DisplayNotesBox(this.stackP, t2);
         }
     }
 
-    class DisplayMemoBox
+    class DisplayNotesBox
     {
         private TextBox textB = null;
 
-        public DisplayMemoBox(Windows.UI.Xaml.Controls.StackPanel p, string s)
+        public DisplayNotesBox(Windows.UI.Xaml.Controls.StackPanel p, string s)
         {
             this.textB = new TextBox();
             p.Children.Add(this.textB);
@@ -211,6 +211,59 @@ namespace Grampa_Bob_s_Calculator
             this.textB.MaxHeight = 130;
             this.textB.Padding = new Windows.UI.Xaml.Thickness(10, 3, 10, 5);
             this.textB.TextWrapping = Windows.UI.Xaml.TextWrapping.Wrap;
+        }
+    }
+
+    class DisplayMemoScroll
+    {
+        public ScrollViewer memoScroll = null;
+
+        public DisplayMemoScroll(StackPanel p)
+        {
+            //memoBar -> memoScroll
+            this.memoScroll = new ScrollViewer();
+            p.Children.Add(memoScroll);
+            memoScroll.VerticalScrollMode = ScrollMode.Disabled;
+            memoScroll.ZoomMode = ZoomMode.Disabled;
+            memoScroll.Width = p.Width - 260;
+            memoScroll.Margin = new Windows.UI.Xaml.Thickness(260, 0, 0, 0);
+            memoScroll.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            memoScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
+
+            //memoBar -> memoScroll -> memoStack
+            StackPanel memoStack = new StackPanel();
+            memoScroll.Content = memoStack;
+            memoStack.Orientation = Orientation.Horizontal;
+        }
+    }
+
+    class DisplayMemoTextBlock
+    {
+        public TextBlock memoText = null;
+
+        public DisplayMemoTextBlock(StackPanel p, string s)
+        {
+            this.memoText = new TextBlock();
+            p.Children.Add(memoText);
+            this.memoText.Text = s;
+            this.memoText.Margin = new Windows.UI.Xaml.Thickness(5, 5, 0, 0);
+        }
+    }
+
+    class DisplayMemoTextBox
+    {
+        public TextBox memoText = null;
+
+        public DisplayMemoTextBox(StackPanel p, string s, SolidColorBrush color)
+        {
+            this.memoText = new TextBox();
+            p.Children.Add(memoText);
+            this.memoText.Text = s;
+            this.memoText.Foreground = color;
+            this.memoText.Background = new SolidColorBrush(Color.FromArgb(0, 255, 255, 255));
+            this.memoText.IsReadOnly = true;
+            this.memoText.Width = 250;
+            this.memoText.Margin = new Windows.UI.Xaml.Thickness(5, 5, 0, 0);
         }
     }
 }

@@ -14,6 +14,7 @@ namespace Grampa_Bob_s_Calculator
     class VehicleDisplay
     {
         public StackPanel display = null;
+        public StackPanel memoBar = null;
         public Vehicle theVehicle = null;
 
 
@@ -48,11 +49,11 @@ namespace Grampa_Bob_s_Calculator
             this.display.Width = p.Width; // set width to parent's width
             this.display.Orientation = Orientation.Horizontal;
 
-            //display -> borderName
+            //parent -> display -> borderName
             DisplayNameBox borderName = new DisplayNameBox(display, color2);
             updateName("New Vehicle");
 
-            //display -> scroller
+            //parent -> display -> scroller
             ScrollViewer scroller = new ScrollViewer();
             this.display.Children.Add(scroller);
             scroller.VerticalScrollMode = ScrollMode.Disabled;
@@ -62,17 +63,17 @@ namespace Grampa_Bob_s_Calculator
             scroller.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
             scroller.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
 
-            //display -> scroller -> dataStack
+            //parent -> display -> scroller -> dataStack
             StackPanel dataStack = new StackPanel();
             scroller.Content = dataStack;
             dataStack.Height = 200;
             dataStack.Orientation = Orientation.Horizontal;
             dataStack.HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Left;
 
-            //display -> scroller -> dataStack -> descStack1
+            //parent -> display -> scroller -> dataStack -> descStack1
             DisplayTextBlockStack descStack1 = new DisplayTextBlockStack(dataStack, "Year:", "Make:", "Model:", "Source:");
 
-            //display -> scroller -> dataStack -> descStack2
+            //parent -> display -> scroller -> dataStack -> descStack2
             DisplayTextBoxStack descStack2 = new DisplayTextBoxStack(dataStack);
             UIElementCollection textBoxes = descStack2.stackP.Children;
             ((TextBox)textBoxes[0]).TextChanged += new TextChangedEventHandler(updateYear);
@@ -80,7 +81,7 @@ namespace Grampa_Bob_s_Calculator
             ((TextBox)textBoxes[2]).TextChanged += new TextChangedEventHandler(updateModel);
             ((TextBox)textBoxes[3]).TextChanged += new TextChangedEventHandler(updateSource);
 
-            //display -> scroller -> dataStack -> priceStack
+            //parent -> display -> scroller -> dataStack -> priceStack
             DisplaySliderStack priceStack = new DisplaySliderStack(dataStack,
                 "Price", "Cost to Repair", Vehicle.getMinPrice(), Vehicle.getMaxPrice(),
                 "$" + Vehicle.getMinPrice().ToString(), "$" + Vehicle.getMaxPrice().ToString(),
@@ -92,7 +93,7 @@ namespace Grampa_Bob_s_Calculator
             priceStackChildren = ((StackPanel)(priceStack.stackP).Children[3]).Children;
             ((Slider)priceStackChildren[1]).ValueChanged += updateRepairCost; // repair
 
-            //display -> scroller -> dataStack -> mileageStack
+            //parent -> display -> scroller -> dataStack -> mileageStack
             DisplaySliderStack mileageStack = new DisplaySliderStack(dataStack,
                 "Initial Mileage", "Estimated Final Mileage",
                 Vehicle.getMinInitialMileage(), Vehicle.getMaxInitialMileage(),
@@ -107,7 +108,7 @@ namespace Grampa_Bob_s_Calculator
             mileageStackChildren = ((StackPanel)(mileageStack.stackP).Children[3]).Children;
             ((Slider)mileageStackChildren[1]).ValueChanged += updateFinalMileage;
 
-            //display -> scroller -> dataStack -> mpgStack
+            //parent -> display -> scroller -> dataStack -> mpgStack
             DisplaySliderStack mpgStack = new DisplaySliderStack(dataStack,
                 "City MPG", "Highway MPG",
                 Vehicle.getMinCityMPG(), Vehicle.getMaxCityMPG(),
@@ -119,13 +120,27 @@ namespace Grampa_Bob_s_Calculator
                 color1, color2);
             UIElementCollection mpgStackChildren = ((StackPanel)(mpgStack.stackP).Children[1]).Children;
             ((Slider)mpgStackChildren[1]).ValueChanged += updateCityMPG;
-            mpgStackChildren = ((StackPanel)(mileageStack.stackP).Children[3]).Children;
+            mpgStackChildren = ((StackPanel)(mpgStack.stackP).Children[3]).Children;
             ((Slider)mpgStackChildren[1]).ValueChanged += updateHighwayMPG;
 
-            //display -> scroller -> dataStack -> memoStack
-            DisplayMemoStack memoStack = new DisplayMemoStack(dataStack, "Notes:", "Insert any notes about your vehicle here.");
-            UIElementCollection memoStackChildren = memoStack.stackP.Children;
-            ((TextBox)memoStackChildren[1]).TextChanged += updateMemo;
+            //parent -> display -> scroller -> dataStack -> notesStack
+            DisplayNotesStack notesStack = new DisplayNotesStack(dataStack, "Notes:", "Insert any notes about your vehicle here.");
+            UIElementCollection notesStackChildren = notesStack.stackP.Children;
+            ((TextBox)notesStackChildren[1]).TextChanged += updateNotes;
+
+            //parent -> memoBar
+            this.memoBar = new StackPanel();
+            p.Children.Add(this.memoBar);
+            this.memoBar.Width = p.Width; // set width to parent's width
+            this.memoBar.Height = 64;
+            this.memoBar.Orientation = Orientation.Horizontal;
+
+            //parent -> memoBar -> memoScroll -> memoStack -> elements
+            DisplayMemoScroll memoScroll = new DisplayMemoScroll(this.memoBar);
+            StackPanel memoStack = (StackPanel)memoScroll.memoScroll.Content;
+            //DisplayMemoTextBlock cpmLabel = new DisplayMemoTextBlock(memoStack, "CPM:");
+            DisplayMemoTextBox cpm = new DisplayMemoTextBox(memoStack, (0.ToString("F") + "¢ per mile"), color1);
+
         }
         
         private void updateYear(object sender, TextChangedEventArgs e)
@@ -175,22 +190,27 @@ namespace Grampa_Bob_s_Calculator
         void updatePrice(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
             theVehicle.updatePrice((int)((Slider)sender).Value);
+            updateCPM();
         }
 
         void updateRepairCost(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
             theVehicle.updateRepairCost((int)((Slider)sender).Value);
+            updateCPM();
         }
 
         void updateInitialMileage(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
-            theVehicle.updateInitialMileage((int)((Slider)sender).Value);
-            updateFinalMileageMin(theVehicle.getInitialMileage());
+            theVehicle.updateInitialMileage((int)e.NewValue);
+            updateFinalMileageMin((int)e.NewValue);
+            updateCPM();
         }
 
         void updateFinalMileage(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
-            theVehicle.updateFinalMileage((int)((Slider)sender).Value);
+            theVehicle.updateFinalMileage((int)e.NewValue);
+            //theVehicle.updateFinalMileage((int)((Slider)sender).Value);
+            updateCPM();
         }
 
         public void updateFinalMileageMin(int m)
@@ -207,22 +227,39 @@ namespace Grampa_Bob_s_Calculator
             //change the slider properties
             Slider mileageSlider = (Slider)finalMileageSliderStack.Children[1]; // slider
             mileageSlider.Minimum = theVehicle.getInitialMileage();
+
+            updateCPM();
         }
 
         void updateCityMPG(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
             theVehicle.updateCityMPG((int)((Slider)sender).Value);
+            updateCPM();
         }
 
         void updateHighwayMPG(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
             theVehicle.updateHighwayMPG((int)((Slider)sender).Value);
+            updateCPM();
         }
 
-        private void updateMemo(object sender, TextChangedEventArgs e)
+        private void updateNotes(object sender, TextChangedEventArgs e)
         {
             theVehicle.updateNotes(((TextBox)sender).Text);
         }
+
+        private void updateCPM()
+        {
+
+
+            ScrollViewer memoScroll = (ScrollViewer)this.memoBar.Children[0];
+            StackPanel memoStack = (StackPanel)memoScroll.Content;
+            TextBox cpmText = (TextBox)memoStack.Children[0];
+            
+            User tempUser = new User();
+            cpmText.Text = (Calculator.calculate(tempUser, this.theVehicle)).ToString("F") + "¢ per mile";
+        }
+
     }
 }
 

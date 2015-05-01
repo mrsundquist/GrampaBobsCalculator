@@ -8,11 +8,11 @@ namespace Grampa_Bob_s_Calculator
 {
     class User
     {
-        private double milesPerYear = 0;
-        private double percentCityMiles = 0;
-        private double priceOfFuel = 0;
-        private double interestRate = 0;
-        private double salesTaxRate = 0;
+        private double milesPerYear = 20000; // 0
+        private double percentCityMiles = .5; //0
+        private double priceOfFuel = 2.50; // 0
+        private double interestRate = 0.10; // 0
+        private double salesTaxRate = 0.10; // 0
 
         public double getMilesPerYear() { return milesPerYear; }
         public double getPercentCityMiles() { return percentCityMiles; }

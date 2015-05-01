@@ -11,10 +11,10 @@ namespace Grampa_Bob_s_Calculator
 {
     class Calculator
     {
-        User user;
-        List<Vehicle> vehicles;
+        //User user;
+        //List<Vehicle> vehicles;
 
-        public double calculate(Vehicle vehicle)
+        public static double calculate(User user, Vehicle vehicle)
         {
             double milesPerYear = user.getMilesPerYear();
             double percentCityMiles = user.getPercentCityMiles();

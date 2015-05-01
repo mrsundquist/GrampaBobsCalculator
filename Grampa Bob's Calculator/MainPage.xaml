@@ -295,21 +295,21 @@
             </StackPanel>
             <StackPanel x:Name="VehicleInfoBar" Orientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Visible" Width="{Binding ActualWidth, ElementName=pageRoot, Mode=OneWay}">
                 <ScrollViewer x:Name="VehicleInfoScroll" VerticalScrollMode="Disabled" ZoomMode="Disabled" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden" Width="1106" Margin="250,0,0,0" Padding="0">
-                    <StackPanel x:Name="VehicleInfoDisplay" Orientation="Horizontal" HorizontalAlignment="Left">
-                        <TextBlock TextWrapping="Wrap" Text="Vehicle:" Margin="20,0,0,0" VerticalAlignment="Center"/>
+                    <StackPanel x:Name="VehicleInfoDisplay" Orientation="Horizontal" Height="64">
+                        <TextBlock TextWrapping="Wrap" Text="Vehicle:" Margin="20,5,0,0"/>
                         <TextBox x:Name="VehicleDisplay" TextWrapping="Wrap" Margin="20,0,0,0" Background="Transparent" Width="500" BorderBrush="Transparent" Padding="10,0,10,5" VerticalContentAlignment="Top" VerticalAlignment="Top" HorizontalAlignment="Left" IsReadOnly="True">
                             <TextBox.Foreground>
                                 <SolidColorBrush Color="{StaticResource Red1}"/>
                             </TextBox.Foreground>
                         </TextBox>
                         <TextBlock TextWrapping="Wrap" Text="Initial Cost:" Margin="20,0,0,0" VerticalAlignment="Center"/>
-                        <TextBox x:Name="InitialCostDisplay" TextWrapping="Wrap" Margin="20,0,0,0" Background="Transparent" Width="100" BorderBrush="Transparent" Padding="10,0,10,5" VerticalContentAlignment="Top" VerticalAlignment="Top" HorizontalAlignment="Left" Text="$0.00" IsReadOnly="True">
+                        <TextBox x:Name="InitialCostDisplay" TextWrapping="Wrap" Margin="20,0,0,0" Background="Transparent" Width="100" BorderBrush="Transparent" Padding="10,0,10,5" Text="$0.00" IsReadOnly="True">
                             <TextBox.Foreground>
                                 <SolidColorBrush Color="{StaticResource Red1}"/>
                             </TextBox.Foreground>
                         </TextBox>
                         <TextBlock TextWrapping="Wrap" Text="Life Span:" Margin="20,0,0,0" VerticalAlignment="Center"/>
-                        <TextBox x:Name="LifeSpanDisplay" TextWrapping="Wrap" Margin="20,0,0,0" Background="Transparent" Width="150" BorderBrush="Transparent" Padding="10,0,10,5" VerticalContentAlignment="Top" VerticalAlignment="Top" HorizontalAlignment="Left" Text="0.00 years" IsReadOnly="True">
+                        <TextBox x:Name="LifeSpanDisplay" TextWrapping="Wrap" Margin="20,0,0,0" Background="Transparent" Width="100" BorderBrush="Transparent" Padding="10,0,10,5" VerticalContentAlignment="Top" VerticalAlignment="Top" HorizontalAlignment="Left" Text="0.00 years" IsReadOnly="True" Height="28">
                             <TextBox.Foreground>
                                 <SolidColorBrush Color="{StaticResource Red1}"/>
                             </TextBox.Foreground>

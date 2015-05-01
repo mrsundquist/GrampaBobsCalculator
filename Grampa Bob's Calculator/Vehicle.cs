@@ -26,8 +26,8 @@ namespace Grampa_Bob_s_Calculator
         private int repairCost = 0;
         private int initialMileage = 0;
         private int finalMileage = 0;
-        private int cityMPG = 0;
-        private int highwayMPG = 0;
+        private int cityMPG = 1;
+        private int highwayMPG = 1;
         private string notes = "";
 
         public string getVehicleDescription()
