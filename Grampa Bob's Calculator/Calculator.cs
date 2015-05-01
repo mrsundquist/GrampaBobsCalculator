@@ -35,45 +35,61 @@ namespace Grampa_Bob_s_Calculator
             double totalYears = (totalMileage > 0) ? (totalMileage / milesPerYear) : (0);
             return totalYears;
         }
-        
-        public static double centsPerMile(User user, Vehicle vehicle)
+
+        public static double averageMPG(User user, Vehicle vehicle)
         {
-            //double milesPerYear = user.getMilesPerYear();
             double percentCityMiles = user.getPercentCityMiles();
             double percentHighwayMiles = user.getPercentHighwayMiles();
-            double fuelCost = user.getPriceOfFuel();
-            //double interest = user.getInterestRate();
-            //double tax = user.getSalesTaxRate();
-
-            double initialCostNoTax = vehicle.getInitialCostNoTax();
-            //double initialCostWithTax = initialCostNoTax * (1 + tax);
-            double initialMileage = vehicle.getInitialMileage();
-            double finalMileage = vehicle.getFinalMileage();
-            double totalMileage = vehicle.getTotalMiles();
-            double years = totalYears(user, vehicle);
             double cityMilesPerGallon = vehicle.getCityMPG();
             double highwayMilesPerGallon = vehicle.getHighwayMPG();
-
-            /*Debug.Assert(((cityMilesPerGallon * percentCityMiles)
-                + (highwayMilesPerGallon * percentHighwayMiles)) != 0, "Divide by zero");
-            Debug.Assert(totalMileage != 0, "Divide by zero");
-            */
-
-            double price = totalCost(user, vehicle);
-            double priceRate = price / totalMileage;
-
-            double fuelRate = fuelCost / ((cityMilesPerGallon * percentCityMiles)
+            double mpg = ((cityMilesPerGallon * percentCityMiles)
                 + (highwayMilesPerGallon * percentHighwayMiles));
+            return mpg;
+        }
 
-            double maintenanceRate = (initialMileage + finalMileage) / 4444000;
+        public static double lifetimeMaintenance(Vehicle vehicle)
+        {
+            double totalMileage = vehicle.getTotalMiles();
+            double lifetimeMaintenance = totalMileage * maintenancePerMile(vehicle);
+            return lifetimeMaintenance;
+        }
 
-            double depreciatedMileageValue = 0.25 *
-                ((Math.PI / 2) - Math.Atan(((2.5 * finalMileage) / 100000) - 2.1)) - .36;
+        private static double maintenancePerMile(Vehicle vehicle)
+        {
+            double initialMileage = vehicle.getInitialMileage();
+            double finalMileage = vehicle.getFinalMileage();
+            double lifetimeMaintenance = ((initialMileage + finalMileage) / 4444000);
+            return lifetimeMaintenance;
+        }
+
+        public static double resellValue(User user, Vehicle vehicle)
+        {
+            double finalMileage = vehicle.getFinalMileage();
+            double years = totalYears(user, vehicle);
+            double initialCostNoTax = vehicle.getInitialCostNoTax();
+            double depreciatedMileageValue = 
+                0.25 * ((Math.PI / 2) - Math.Atan(((2.5 * finalMileage) / 100000) - 2.1)) - .36;
             double depreciatedTimeValue = 0.9332 * Math.Exp(-0.177 * years);
             double depreciatedRate = depreciatedMileageValue + depreciatedTimeValue;
             if (depreciatedRate > 1) depreciatedRate = 1;
             if (depreciatedRate < 0) depreciatedRate = 0;
-            double resellValueRate = (initialCostNoTax * (depreciatedRate)) / totalMileage;
+            double resellValue = initialCostNoTax * (depreciatedRate);
+            return resellValue;
+        }
+        
+        public static double centsPerMile(User user, Vehicle vehicle)
+        {
+            double totalMileage = vehicle.getTotalMiles();
+            double price = totalCost(user, vehicle);
+            double priceRate = price / totalMileage;
+
+            double fuelCost = user.getPriceOfFuel();
+            double mpg = averageMPG(user, vehicle);
+            double fuelRate = fuelCost / mpg;
+
+            double maintenanceRate = maintenancePerMile(vehicle);
+            
+            double resellValueRate = (resellValue(user, vehicle)) / totalMileage;
 
             double centsPerMile = (priceRate + fuelRate + maintenanceRate - resellValueRate) * 100;
             if (Double.IsNaN(centsPerMile) || Double.IsInfinity(centsPerMile))

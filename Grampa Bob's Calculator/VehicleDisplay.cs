@@ -142,10 +142,19 @@ namespace Grampa_Bob_s_Calculator
             DisplayMemoTextBox cpm = new DisplayMemoTextBox(memoStack, (0.ToString("F") + "¢ per mile"), color1);
             cpm.memoText.FontSize += 13; // make cents per mile display bigger
             cpm.memoText.FontWeight = Windows.UI.Text.FontWeights.Thin;
+            cpm.memoText.CharacterSpacing = 75;
             cpm.memoText.Margin = new Windows.UI.Xaml.Thickness(0, 0, 0, 0);
+            cpm.memoText.Width = 225;
             DisplayMemoTextBlock totalCostLabel = new DisplayMemoTextBlock(memoStack, "Total Cost:");
-            DisplayMemoTextBox totalCost = new DisplayMemoTextBox(memoStack, "$" + (0.ToString("F")), color1);
-
+            DisplayMemoTextBox totalCost = new DisplayMemoTextBox(memoStack, "$" + (0.ToString()), color1);
+            DisplayMemoTextBlock lifeSpanLabel = new DisplayMemoTextBlock(memoStack, "Life Span:");
+            DisplayMemoTextBox lifeSpan = new DisplayMemoTextBox(memoStack, (0.ToString("F") + " years"), color1);
+            DisplayMemoTextBlock avgMPGLabel = new DisplayMemoTextBlock(memoStack, "Average MPG:");
+            DisplayMemoTextBox aveMPG = new DisplayMemoTextBox(memoStack, (1.ToString("F")), color1);
+            DisplayMemoTextBlock maintenanceLabel = new DisplayMemoTextBlock(memoStack, "Maintenance:");
+            DisplayMemoTextBox maintenance = new DisplayMemoTextBox(memoStack, "$" + (0.ToString()), color1);
+            DisplayMemoTextBlock resellLabel = new DisplayMemoTextBlock(memoStack, "Resell:");
+            DisplayMemoTextBox resell = new DisplayMemoTextBox(memoStack, "$" + (0.ToString()), color1);
         }
         
         private void updateYear(object sender, TextChangedEventArgs e)
@@ -253,7 +262,7 @@ namespace Grampa_Bob_s_Calculator
 
         private void updateMemoBar()
         {
-            //NOTE: NEED TO INSERT ACTUAL USER IN HERE
+            //IMPORTANT NOTE: NEED TO INSERT ACTUAL USER IN HERE
 
 
             ScrollViewer memoScroll = (ScrollViewer)this.memoBar.Children[0];
@@ -265,7 +274,25 @@ namespace Grampa_Bob_s_Calculator
             cpmText.Text = (Calculator.centsPerMile(tempUser, this.theVehicle)).ToString("F") + "¢ per mile";
 
             TextBox totalCostText = (TextBox)memoStack.Children[2];
-            totalCostText.Text = (Calculator.totalCost(tempUser, this.theVehicle)).ToString();
+            totalCostText.Text = dollarFormat(Calculator.totalCost(tempUser, this.theVehicle));
+
+            TextBox lifeSpanText = (TextBox)memoStack.Children[4];
+            lifeSpanText.Text = (Calculator.totalYears(tempUser, this.theVehicle)).ToString("F") + " years";
+
+            TextBox avgMPGText = (TextBox)memoStack.Children[6];
+            avgMPGText.Text = (Calculator.averageMPG(tempUser, this.theVehicle)).ToString("F");
+
+            TextBox maintenanceText = (TextBox)memoStack.Children[8];
+            maintenanceText.Text = dollarFormat(Calculator.lifetimeMaintenance(this.theVehicle));
+
+            TextBox resellText = (TextBox)memoStack.Children[10];
+            resellText.Text = dollarFormat(Calculator.resellValue(tempUser, this.theVehicle));
+
+        }
+
+        static private string dollarFormat(double i)
+        {
+            return "$" + String.Format("{0:#,0}", i);
         }
 
     }

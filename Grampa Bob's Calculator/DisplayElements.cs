@@ -246,7 +246,7 @@ namespace Grampa_Bob_s_Calculator
             this.memoText = new TextBlock();
             p.Children.Add(memoText);
             this.memoText.Text = s;
-            this.memoText.Margin = new Windows.UI.Xaml.Thickness(0, 10, 0, 0);
+            this.memoText.Margin = new Windows.UI.Xaml.Thickness(0, 16, 0, 0);
             this.memoText.FontSize += 5;
         }
     }
@@ -264,8 +264,8 @@ namespace Grampa_Bob_s_Calculator
             this.memoText.Background = new SolidColorBrush(Color.FromArgb(0, 255, 255, 255));
             this.memoText.BorderBrush = new SolidColorBrush(Color.FromArgb(0, 255, 255, 255));
             this.memoText.IsReadOnly = true;
-            this.memoText.Width = 200;
-            this.memoText.Margin = new Windows.UI.Xaml.Thickness(0, 4, 0, 0);
+            this.memoText.Width = 90;
+            this.memoText.Margin = new Windows.UI.Xaml.Thickness(0, 10, 10, 0);
         }
     }
 }
