@@ -126,6 +126,23 @@ namespace Grampa_Bob_s_Calculator
         }
     }
 
+    class DisplaySoloSliderStack
+    {
+        public StackPanel stackP = null;
+
+        public DisplaySoloSliderStack(Windows.UI.Xaml.Controls.StackPanel p,
+            string t1, int min1, int max1, string minText1, string maxText1,
+            SolidColorBrush color1, SolidColorBrush color2)
+        {
+            this.stackP = new StackPanel();
+            p.Children.Add(this.stackP);
+            this.stackP.Margin = new Windows.UI.Xaml.Thickness(0, 0, 40, 0);
+            this.stackP.Width = 540;
+            DisplayTextBlock text1 = new DisplayTextBlock(this.stackP, t1);
+            DisplaySlider slide1 = new DisplaySlider(this.stackP, min1, max1, minText1, maxText1, color1, color2);
+        }
+    }
+
     class DisplaySlider
     {
         public StackPanel sliderStack = null;
@@ -164,9 +181,9 @@ namespace Grampa_Bob_s_Calculator
             slide.LargeChange = Math.Pow(10, (Math.Floor(Math.Log10((int)(max - min)))-1));
             if (slide.LargeChange == 0) slide.LargeChange = 1;
             slide.SmallChange = slide.LargeChange;
-            slide.StepFrequency = (int)((slide.LargeChange)/10);
-            if (slide.StepFrequency == 0) slide.StepFrequency = 1;
-            slide.TickFrequency = (int)((max - min) / 25);
+            slide.StepFrequency = ((slide.LargeChange)/10);
+            //if (slide.StepFrequency == 0) slide.StepFrequency = 1;
+            slide.TickFrequency = ((max - min) / 10);
             slide.Width = 406;
             slide.VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Center;
 

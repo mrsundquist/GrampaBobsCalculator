@@ -18,18 +18,18 @@ namespace Grampa_Bob_s_Calculator
             display = new UserDisplay(p, this);
         }
         
-        private double milesPerYear = 20000; // 0
-        private double percentCityMiles = .5; //0
-        private double priceOfFuel = 2.50; // 0
-        private double interestRate = 0.10; // 0
-        private double salesTaxRate = 0.10; // 0
+        private double milesPerYear = 0;
+        private double percentCityMiles = 0;
+        private double priceOfFuel = 0;
+        private double interestRate = 0;
+        private double salesTaxRate = 0;
 
         public double getMilesPerYear() { return milesPerYear; }
         public double getPercentCityMiles() { return percentCityMiles; }
         public double getPercentHighwayMiles() { return 1 - percentCityMiles; }
         public double getPriceOfFuel() { return priceOfFuel; }
-        public double getInterestRate() { return interestRate; }
-        public double getSalesTaxRate() { return salesTaxRate; }
+        public double getInterestRate() { return interestRate / 100; }
+        public double getSalesTaxRate() { return salesTaxRate / 100; }
 
         public void updateMilesPerYear(double d)
         {

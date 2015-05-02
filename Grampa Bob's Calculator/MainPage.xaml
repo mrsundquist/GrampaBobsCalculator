@@ -41,7 +41,7 @@
                     </TransitionCollection>
                 </StackPanel.ChildrenTransitions>
                 <TextBlock x:Name="pageTitle" Text="{StaticResource AppName}" Style="{StaticResource HeaderTextBlockStyle}" 
-            		IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="40,60,0,60"/>
+            		IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="40,60,0,60" FontFamily="Poor Richard" FontSize="100"/>
                 <StackPanel x:Name="UserInfoStackPanel" Orientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Visible" Height="200" Width="{Binding ActualWidth, ElementName=pageRoot, Mode=OneWay}" Background="#B36482C8">
                     <Border BorderThickness="1" Width="260" Height="200">
                         <Border.BorderBrush>

@@ -225,7 +225,6 @@ namespace Grampa_Bob_s_Calculator
         void updateFinalMileage(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
             theVehicle.updateFinalMileage((int)e.NewValue);
-            //theVehicle.updateFinalMileage((int)((Slider)sender).Value);
             updateMemoBar();
         }
 
@@ -243,6 +242,7 @@ namespace Grampa_Bob_s_Calculator
             //change the slider properties
             Slider mileageSlider = (Slider)finalMileageSliderStack.Children[1]; // slider
             mileageSlider.Minimum = theVehicle.getInitialMileage();
+            mileageSlider.TickFrequency = ((mileageSlider.Maximum - mileageSlider.Minimum) / 10);
         }
 
         void updateCityMPG(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)

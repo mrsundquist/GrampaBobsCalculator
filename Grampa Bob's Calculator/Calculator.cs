@@ -80,7 +80,7 @@ namespace Grampa_Bob_s_Calculator
         public static double centsPerMile(User user, Vehicle vehicle)
         {
             double totalMileage = vehicle.getTotalMiles();
-            double price = totalCost(user, vehicle);
+            double price = totalFinalCost(user, vehicle);
             double priceRate = price / totalMileage;
 
             double fuelCost = user.getPriceOfFuel();
