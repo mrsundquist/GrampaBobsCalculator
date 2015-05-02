@@ -8,16 +8,20 @@ using Windows.UI.Xaml.Controls;
 namespace Grampa_Bob_s_Calculator
 {
     class Vehicle
-    {
-        public Vehicle(StackPanel p, int numVehicles)
+    {        
+        private StackPanel container = null;
+        private VehicleDisplay display = null;
+        public User theUser = null;
+        public static  List<VehicleDisplay> vehicleDisplays = new List<VehicleDisplay>();
+       
+        public Vehicle(StackPanel p, int numVehicles, User user)
         {
             container = p;
             display = new VehicleDisplay(p, this, numVehicles);
+            vehicleDisplays.Add(display);
+            this.theUser = user;
         }
-        
-        private StackPanel container = null;
-        private VehicleDisplay display = null;
-        
+
         private string year = "";
         private string make = "";
         private string model = "";

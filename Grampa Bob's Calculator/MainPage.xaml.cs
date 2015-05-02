@@ -30,7 +30,8 @@ namespace Grampa_Bob_s_Calculator
             this.navigationHelper.LoadState += navigationHelper_LoadState;
             this.navigationHelper.SaveState += navigationHelper_SaveState;
         }
-        
+
+        User user;
         List<Vehicle> vehicles = new List<Vehicle>();
 
 #region Navigation Helper and Dictionary
@@ -263,8 +264,15 @@ namespace Grampa_Bob_s_Calculator
 
         private void AddVehicle_Click(object sender, TappedRoutedEventArgs e)
         {
-            vehicles.Add(new Vehicle(ContentStackPanel, vehicles.Count()));
+            vehicles.Add(new Vehicle(ContentStackPanel, vehicles.Count(), user));
             if (vehicles.Count() == 10) NewVehicle.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+        }
+
+        private void AddUser_Click(object sender, TappedRoutedEventArgs e)
+        {
+            user = new User(ContentStackPanel);
+            NewUser.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            NewVehicle.Visibility = Windows.UI.Xaml.Visibility.Visible;
         }
     }
 }

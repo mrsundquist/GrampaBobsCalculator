@@ -48,7 +48,7 @@
                             <SolidColorBrush Color="{StaticResource Blue2}"/>
                         </Border.BorderBrush>
                         <Border.Background>
-                            <SolidColorBrush Color="{StaticResource Blue2}"/>
+                            <SolidColorBrush Color="#B2D46B3D"/>
                         </Border.Background>
                         <TextBlock x:Name="Label01" TextWrapping="Wrap" Margin="0,0,-2,-2" Style="{StaticResource HeaderTextBlockStyle}" Width="260" Padding="40,40,0,0" Height="200" HorizontalAlignment="Left" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectionHighlightColor="#B36482C8">
             				<Run Text="Personal"/>
@@ -311,8 +311,9 @@
                 </StackPanel>
 
             </StackPanel>
+            <Button x:Name="NewUser" Content="Add User" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Tapped="AddUser_Click" BorderBrush="Transparent" Height="100" FontSize="56" FontWeight="Thin" CharacterSpacing="200" FontStyle="Italic" Opacity="0.6" Foreground="White" Background="#B32F2F2F"/>
 
-            <Button x:Name="NewVehicle" Content="Add Vehicle" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Tapped="AddVehicle_Click" BorderBrush="Transparent" Height="100" FontSize="56" FontWeight="Thin" CharacterSpacing="200" FontStyle="Italic" Opacity="0.6">
+            <Button x:Name="NewVehicle" Content="Add Vehicle" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Tapped="AddVehicle_Click" BorderBrush="Transparent" Height="100" FontSize="56" FontWeight="Thin" CharacterSpacing="200" FontStyle="Italic" Opacity="0.6" Visibility="Collapsed">
                 <Button.Foreground>
                     <SolidColorBrush Color="White"/>
                 </Button.Foreground>

@@ -13,7 +13,7 @@ namespace Grampa_Bob_s_Calculator
     class DisplayNameBox
     {
         private Border nameBox = null;
-        private TextBlock rowName;
+        public TextBlock rowName;
 
         public DisplayNameBox(Windows.UI.Xaml.Controls.StackPanel p, SolidColorBrush color2)
         {
@@ -26,14 +26,16 @@ namespace Grampa_Bob_s_Calculator
             rowName = new TextBlock();
             nameBox.Child = rowName;
             rowName.TextWrapping = Windows.UI.Xaml.TextWrapping.WrapWholeWords;
-            rowName.Padding = new Windows.UI.Xaml.Thickness(40, 40, 0,0);
-            rowName.LineHeight = 40;
+            //rowName.Padding = new Windows.UI.Xaml.Thickness(30, 0, 0,0);
+            rowName.VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Center;
+            rowName.TextAlignment = Windows.UI.Xaml.TextAlignment.Center;
+            rowName.FontSize = 56;
+            rowName.LineHeight = 37;
             rowName.FontFamily = new FontFamily("Segoe UI");
             rowName.FontWeight = Windows.UI.Text.FontWeights.Light;
             rowName.LineStackingStrategy = Windows.UI.Xaml.LineStackingStrategy.BlockLineHeight;
         }
     }
-
     
     class DisplayTextBlockStack
     {

@@ -16,15 +16,14 @@ namespace Grampa_Bob_s_Calculator
         public StackPanel display = null;
         public StackPanel memoBar = null;
         public Vehicle theVehicle = null;
-
+        public static Random rnd = new Random();
 
         public VehicleDisplay(Windows.UI.Xaml.Controls.StackPanel p, Vehicle theVehicle, int numVehicles)
         {
             this.theVehicle = theVehicle;
 
             //set colors
-            SolidColorBrush color1;
-            SolidColorBrush color2;
+            SolidColorBrush color1, color2;
             if (numVehicles % 3 == 0) // red
             {
                 color1 = new SolidColorBrush(Color.FromArgb(179, 212, 107, 61));
@@ -40,6 +39,8 @@ namespace Grampa_Bob_s_Calculator
                 color1 = new SolidColorBrush(Color.FromArgb(179, 100, 130, 200));
                 color2 = new SolidColorBrush(Color.FromArgb(255, 45, 63, 104));
             }
+
+
 
             //parent -> display
             this.display = new StackPanel();
@@ -192,11 +193,12 @@ namespace Grampa_Bob_s_Calculator
                     theVehicle.getModel().Length, theVehicle.getSource().Length, 1 };
             int maxLength = partLengths.Max();
 
-            double fontSize = 230 * (Math.Pow(maxLength,-0.8)); // adjust font size based on length of name
+            double fontSize = 230 * (Math.Pow(maxLength,-0.6)); // adjust font size based on length of name
             if (fontSize > 56) fontSize = 56;
-            if (fontSize < 30) fontSize = 30;
+            if (fontSize < 36) fontSize = 36;
 
             rowName.FontSize = fontSize;
+            rowName.LineHeight = (int)(fontSize * 2 / 3);
             
             rowName.Text = t;
         }
@@ -260,34 +262,29 @@ namespace Grampa_Bob_s_Calculator
             theVehicle.updateNotes(((TextBox)sender).Text);
         }
 
-        private void updateMemoBar()
+        public void updateMemoBar()
         {
-            //IMPORTANT NOTE: NEED TO INSERT ACTUAL USER IN HERE
-
-
             ScrollViewer memoScroll = (ScrollViewer)this.memoBar.Children[0];
             StackPanel memoStack = (StackPanel)memoScroll.Content;
             
             TextBox cpmText = (TextBox)memoStack.Children[0];
-            
-            User tempUser = new User();
-            cpmText.Text = (Calculator.centsPerMile(tempUser, this.theVehicle)).ToString("F") + "¢ per mile";
+
+            cpmText.Text = (Calculator.centsPerMile(this.theVehicle.theUser, this.theVehicle)).ToString("F") + "¢ per mile";
 
             TextBox totalCostText = (TextBox)memoStack.Children[2];
-            totalCostText.Text = dollarFormat(Calculator.totalCost(tempUser, this.theVehicle));
+            totalCostText.Text = dollarFormat(Calculator.totalCost(this.theVehicle.theUser, this.theVehicle));
 
             TextBox lifeSpanText = (TextBox)memoStack.Children[4];
-            lifeSpanText.Text = (Calculator.totalYears(tempUser, this.theVehicle)).ToString("F") + " years";
+            lifeSpanText.Text = (Calculator.totalYears(this.theVehicle.theUser, this.theVehicle)).ToString("F") + " years";
 
             TextBox avgMPGText = (TextBox)memoStack.Children[6];
-            avgMPGText.Text = (Calculator.averageMPG(tempUser, this.theVehicle)).ToString("F");
+            avgMPGText.Text = (Calculator.averageMPG(this.theVehicle.theUser, this.theVehicle)).ToString("F");
 
             TextBox maintenanceText = (TextBox)memoStack.Children[8];
             maintenanceText.Text = dollarFormat(Calculator.lifetimeMaintenance(this.theVehicle));
 
             TextBox resellText = (TextBox)memoStack.Children[10];
-            resellText.Text = dollarFormat(Calculator.resellValue(tempUser, this.theVehicle));
-
+            resellText.Text = dollarFormat(Calculator.resellValue(this.theVehicle.theUser, this.theVehicle));
         }
 
         static private string dollarFormat(double i)

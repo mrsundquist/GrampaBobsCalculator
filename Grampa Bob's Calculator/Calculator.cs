@@ -32,7 +32,7 @@ namespace Grampa_Bob_s_Calculator
         {
             double totalMileage = vehicle.getTotalMiles();
             double milesPerYear = user.getMilesPerYear();
-            double totalYears = (totalMileage > 0) ? (totalMileage / milesPerYear) : (0);
+            double totalYears = (totalMileage > 0 && milesPerYear > 0) ? (totalMileage / milesPerYear) : (0);
             return totalYears;
         }
 

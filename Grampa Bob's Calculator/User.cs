@@ -3,11 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Controls;
 
 namespace Grampa_Bob_s_Calculator
 {
     class User
-    {
+    {       
+        private StackPanel container = null;
+        private UserDisplay display = null;
+        
+        public User(StackPanel p)
+        {
+            container = p;
+            display = new UserDisplay(p, this);
+        }
+        
         private double milesPerYear = 20000; // 0
         private double percentCityMiles = .5; //0
         private double priceOfFuel = 2.50; // 0
