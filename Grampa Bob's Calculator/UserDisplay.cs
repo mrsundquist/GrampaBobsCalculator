@@ -100,7 +100,7 @@ namespace Grampa_Bob_s_Calculator
             DisplayNotesStack notesStack = new DisplayNotesStack(dataStack, "Notes:", "Insert any notes about your vehicle here.");
             UIElementCollection notesStackChildren = notesStack.stackP.Children;
             ((TextBox)notesStackChildren[1]).TextChanged += updateNotes;
-             * 
+             */ 
 
             //parent -> memoBar
             this.memoBar = new StackPanel();
@@ -108,7 +108,7 @@ namespace Grampa_Bob_s_Calculator
             this.memoBar.Width = p.Width; // set width to parent's width
             this.memoBar.Height = 64;
             this.memoBar.Orientation = Orientation.Horizontal;
-
+            /*
             //parent -> memoBar -> memoScroll -> memoStack -> elements
             DisplayMemoScroll memoScroll = new DisplayMemoScroll(this.memoBar);
             StackPanel memoStack = (StackPanel)memoScroll.memoScroll.Content;
@@ -129,13 +129,9 @@ namespace Grampa_Bob_s_Calculator
             DisplayMemoTextBox maintenance = new DisplayMemoTextBox(memoStack, "$" + (0.ToString()), color1);
             DisplayMemoTextBlock resellLabel = new DisplayMemoTextBlock(memoStack, "Resell:");
             DisplayMemoTextBox resell = new DisplayMemoTextBox(memoStack, "$" + (0.ToString()), color1);
-        
+        */
         
 
-             * 
-             * 
-             * /*
-             * */
 
         }
 

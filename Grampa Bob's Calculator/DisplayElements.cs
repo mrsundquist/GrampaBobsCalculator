@@ -145,13 +145,8 @@ namespace Grampa_Bob_s_Calculator
 
     class DisplaySlider
     {
-        public StackPanel sliderStack = null;
-        public Slider slide = null;
-        private int minVal = 0;
-        private int maxVal = 0;
-        private string minValText = null;
-        private string maxValText = null;
-
+        public StackPanel sliderStack;
+        public Slider slide;
 
         public DisplaySlider(Windows.UI.Xaml.Controls.StackPanel p, int min, int max,
             string minText, string maxText, SolidColorBrush color1, SolidColorBrush color2)

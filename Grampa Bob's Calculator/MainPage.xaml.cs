@@ -75,6 +75,7 @@ namespace Grampa_Bob_s_Calculator
             // Restore values stored in session state.
             if (e.PageState != null)
             {
+                /*
                 if (e.PageState.ContainsKey("numMiles")) numMiles.Value = Convert.ToInt32(e.PageState["numMiles"].ToString());
                 if (e.PageState.ContainsKey("pctCityMiles")) pctCityMiles.Value = Convert.ToInt32(e.PageState["pctCityMiles"].ToString());
                 if (e.PageState.ContainsKey("gasCost")) gasCost.Value = Convert.ToDouble(e.PageState["gasCost"].ToString());
@@ -85,10 +86,12 @@ namespace Grampa_Bob_s_Calculator
                 if (e.PageState.ContainsKey("gasCostDisplay")) GasCostDisplay.Text = e.PageState["gasCostDisplay"].ToString();
                 if (e.PageState.ContainsKey("interestRateDisplay")) InterestRateDisplay.Text = e.PageState["interestRateDisplay"].ToString();
                 if (e.PageState.ContainsKey("taxRateDisplay")) TaxRateDisplay.Text = e.PageState["taxRateDisplay"].ToString();
+                 * */
             }
 
             // Restore values stored in app data.
             Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            /*
             if (localSettings.Values.ContainsKey("numMiles")) numMiles.Value = Convert.ToInt32(localSettings.Values["numMiles"].ToString());
             if (localSettings.Values.ContainsKey("pctCityMiles")) pctCityMiles.Value = Convert.ToInt32(localSettings.Values["pctCityMiles"].ToString());
             if (localSettings.Values.ContainsKey("gasCost")) gasCost.Value = Convert.ToDouble(localSettings.Values["gasCost"].ToString());
@@ -99,6 +102,7 @@ namespace Grampa_Bob_s_Calculator
             if (localSettings.Values.ContainsKey("gasCostDisplay")) GasCostDisplay.Text = localSettings.Values["gasCostDisplay"].ToString();
             if (localSettings.Values.ContainsKey("interestRateDisplay")) InterestRateDisplay.Text = localSettings.Values["interestRateDisplay"].ToString();
             if (localSettings.Values.ContainsKey("taxRateDisplay")) TaxRateDisplay.Text = localSettings.Values["TaxRateDisplay"].ToString();
+             */
         }
 
         /// <summary>
@@ -113,6 +117,8 @@ namespace Grampa_Bob_s_Calculator
         {
             // this is saved only for this session
             // put page specifics here - e.g. numMiles on slider AND in display
+
+            /*
             e.PageState["numMiles"] = numMiles.Value;
             e.PageState["pctCityMiles"] = pctCityMiles.Value;
             e.PageState["gasCost"] = gasCost.Value;
@@ -123,10 +129,13 @@ namespace Grampa_Bob_s_Calculator
             e.PageState["gasCostDisplay"] = GasCostDisplay.Text;
             e.PageState["interestRateDisplay"] = InterestRateDisplay.Text;
             e.PageState["taxRateDisplay"] = TaxRateDisplay.Text;
+             */
         }
 
         private void saveAppData(object sender, RoutedEventArgs e)
         {
+
+            /*
             Windows.Storage.ApplicationDataContainer localSettings =
               Windows.Storage.ApplicationData.Current.LocalSettings;
             localSettings.Values["numMiles"] = numMiles.Value;
@@ -139,6 +148,8 @@ namespace Grampa_Bob_s_Calculator
             localSettings.Values["gasCostDisplay"] = GasCostDisplay.Text;
             localSettings.Values["interestRateDisplay"] = InterestRateDisplay.Text;
             localSettings.Values["taxRateDisplay"] = TaxRateDisplay.Text;
+             * 
+             */
         }
 
         #region NavigationHelper registration
@@ -173,105 +184,17 @@ namespace Grampa_Bob_s_Calculator
             }
         }
 
-        private void updatePersonalDataDisplay(object sender, RangeBaseValueChangedEventArgs e)
-        {
-            AnnualMilesDisplay.Text = string.Format("{0:n0}", numMiles.Value).ToString();
-            CityPercentageDisplay.Text = (pctCityMiles.Value).ToString() + "%";
-            GasCostDisplay.Text = "$" + Math.Round(gasCost.Value, 2).ToString("F");
-            InterestRateDisplay.Text = Math.Round(interestRate.Value, 2).ToString("F") + "%";
-            TaxRateDisplay.Text = Math.Round(taxRate.Value, 2).ToString("F") + "%";
-            updateVehicleDataDisplay(sender, e);
-            updateCentsPerMileDisplay();
-        }
-        
-        private void updateVehicleTextData(object sender, TextChangedEventArgs e)
-        {
-            VehicleDisplay.Text = VehicleYear.Text + " " + VehicleMake.Text + " " + VehicleModel.Text;
-            if (VehicleSource.Text != "") VehicleDisplay.Text += " (" + VehicleSource.Text + ")";
-        }
-
-        private void updateVehicleDataDisplay(object sender, RangeBaseValueChangedEventArgs e)
-        {
-            try
-            {
-                double milesPerYear = numMiles.Value; // personal info
-                double tax = taxRate.Value / 100; // personal info
-
-                double initialCost = (vehiclePrice.Value + vehicleRepairCost.Value) * (1 + tax);
-                double initialMileage = vehicleInitialMileage.Value;
-                double finalMileage = (vehicleFinalMileage.Value < initialMileage) ? (initialMileage) : (vehicleFinalMileage.Value);
-                double totalMileage = finalMileage - initialMileage;
-                double totalYears = (totalMileage > 0) ? (totalMileage / milesPerYear) : (0);
-
-                InitialCostDisplay.Text = "$" + string.Format("{0:n0}", initialCost).ToString() + ".00";
-                MinimumFinalMileage.Text = (initialMileage / 1000).ToString() + "k";
-                vehicleFinalMileage.Minimum = initialMileage;
-                LifeSpanDisplay.Text = totalYears.ToString("F") + " years";
-
-                updateCentsPerMileDisplay();
-            }
-            catch (Exception ex) { }
-        }
-
-        private void updateCentsPerMileDisplay()
-        {
-            double centsPerMile = calculateCentsPerMile();
-            centsPerMileDisplay.Text = centsPerMile.ToString("F");
-            centsPerMileDisplay.Text += "¢ per mile";
-        }
-        // old calculateCentsPerMile
-        private double calculateCentsPerMile()
-        {
-            double milesPerYear = numMiles.Value;
-            double percentCityMiles = pctCityMiles.Value / 100;
-            double fuelCost = gasCost.Value;
-            double interest = interestRate.Value / 100;
-            double tax = taxRate.Value / 100;
-
-            double purchaseCost = vehiclePrice.Value;
-            double repairCost = vehicleRepairCost.Value;
-            double initialCost = (purchaseCost + repairCost) * (1 + tax);
-            double initialCostNoTax = (purchaseCost + repairCost);
-            double initialMileage = vehicleInitialMileage.Value;
-            double finalMileage = (vehicleFinalMileage.Value < initialMileage) ? (initialMileage) : (vehicleFinalMileage.Value);
-            double totalMileage = finalMileage - initialMileage;
-            double totalYears = (totalMileage > 0) ? (totalMileage / milesPerYear) : (0);
-            double cityMilesPerGallon = cityMPG.Value;
-            double highwayMilesPerGallon = highwayMPG.Value;
-
-            double price = initialCost * Math.Exp(interest * totalYears);
-            double priceRate = price / totalMileage;
-
-            double fuelRate = fuelCost / ((cityMilesPerGallon * percentCityMiles)
-                + (highwayMilesPerGallon * (1 - percentCityMiles)));
-
-            double maintenanceRate = (initialMileage + finalMileage) / 4444000;
-
-            double depreciatedMileageValue = 0.25 *
-                ((Math.PI / 2) - Math.Atan(((2.5 * finalMileage) / 100000) - 2.1)) - .36;
-            double depreciatedTimeValue = 0.9332 * Math.Exp(-0.177 * totalYears);
-            double depreciatedRate = depreciatedMileageValue + depreciatedTimeValue;
-            if (depreciatedRate > 1) depreciatedRate = 1;
-            if (depreciatedRate < 0) depreciatedRate = 0;
-            double resellValueRate = (initialCostNoTax * (depreciatedRate)) / totalMileage;
-
-            double centsPerMile = (priceRate + fuelRate + maintenanceRate - resellValueRate) * 100;
-            if (Double.IsNaN(centsPerMile) || Double.IsInfinity(centsPerMile))
-                centsPerMile = 0;
-
-            return centsPerMile;
-        }
-
         private void AddVehicle_Click(object sender, TappedRoutedEventArgs e)
         {
-            vehicles.Add(new Vehicle(ContentStackPanel, vehicles.Count(), user));
+            vehicles.Add(new Vehicle(VehicleStack, vehicles.Count(), user));
             if (vehicles.Count() == 10) NewVehicle.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
 
         private void AddUser_Click(object sender, TappedRoutedEventArgs e)
         {
-            user = new User(ContentStackPanel);
+            pageTitle.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             NewUser.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            user = new User(UserStack);
             NewVehicle.Visibility = Windows.UI.Xaml.Visibility.Visible;
         }
     }
