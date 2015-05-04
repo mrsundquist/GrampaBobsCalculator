@@ -24,20 +24,22 @@ namespace Grampa_Bob_s_Calculator
 
             //set colors
             SolidColorBrush color1, color2;
-            if (numVehicles % 3 == 0) // red
+
+            switch(numVehicles % 4)
             {
-                color1 = new SolidColorBrush(Color.FromArgb(179, 212, 107, 61));
-                color2 = new SolidColorBrush(Color.FromArgb(255, 118, 42, 9));
-            }
-            else if (numVehicles % 3 == 1) // green
-            {
-                color1 = new SolidColorBrush(Color.FromArgb(179, 31, 166, 71));
-                color2 = new SolidColorBrush(Color.FromArgb(255, 21, 83, 39));
-            }
-            else // blue
-            {
-                color1 = new SolidColorBrush(Color.FromArgb(179, 100, 130, 200));
-                color2 = new SolidColorBrush(Color.FromArgb(255, 45, 63, 104));
+                case 0: //red
+                    color1 = new SolidColorBrush(Color.FromArgb(179, 212, 107, 61));
+                    color2 = new SolidColorBrush(Color.FromArgb(255, 118, 42, 9)); break;
+                case 1: //green
+                    color1 = new SolidColorBrush(Color.FromArgb(179, 31, 166, 71));
+                    color2 = new SolidColorBrush(Color.FromArgb(255, 21, 83, 39)); break;
+                case 2: //purple
+                    color1 = new SolidColorBrush(Color.FromArgb(179, 128, 74, 133));
+                    color2 = new SolidColorBrush(Color.FromArgb(255, 83, 19, 89)); break;
+                    //color1 = new SolidColorBrush(Color.FromArgb(255, 155, 22, 168)); break;
+                default: //orange
+                    color1 = new SolidColorBrush(Color.FromArgb(179, 228, 184, 67));
+                    color2 = new SolidColorBrush(Color.FromArgb(255, 220, 171, 40)); break;
             }
 
 
@@ -52,7 +54,7 @@ namespace Grampa_Bob_s_Calculator
 
             //parent -> display -> borderName
             DisplayNameBox borderName = new DisplayNameBox(display, color2);
-            updateName("New Vehicle");
+            updateName("New Vehicle " + (numVehicles + 1).ToString());
 
             //parent -> display -> scroller
             ScrollViewer scroller = new ScrollViewer();
@@ -129,6 +131,11 @@ namespace Grampa_Bob_s_Calculator
             UIElementCollection notesStackChildren = notesStack.stackP.Children;
             ((TextBox)notesStackChildren[1]).TextChanged += updateNotes;
 
+            //parent -> display -> scroller -> dataStack -> deleteStack
+            DisplayDeleteButton displayDeleteButton = new DisplayDeleteButton(dataStack, "Delete Vehicle", color2);
+            Button deleteButton = displayDeleteButton.deleteB;
+            deleteButton.Tapped += deleteVehicle;
+
             //parent -> memoBar
             this.memoBar = new StackPanel();
             p.Children.Add(this.memoBar);
@@ -139,7 +146,6 @@ namespace Grampa_Bob_s_Calculator
             //parent -> memoBar -> memoScroll -> memoStack -> elements
             DisplayMemoScroll memoScroll = new DisplayMemoScroll(this.memoBar);
             StackPanel memoStack = (StackPanel)memoScroll.memoScroll.Content;
-            //DisplayMemoTextBlock cpmLabel = new DisplayMemoTextBlock(memoStack, "CPM:");
             DisplayMemoTextBox cpm = new DisplayMemoTextBox(memoStack, (0.ToString("F") + "¢ per mile"), color1);
             cpm.memoText.FontSize += 13; // make cents per mile display bigger
             cpm.memoText.FontWeight = Windows.UI.Text.FontWeights.Thin;
@@ -157,7 +163,7 @@ namespace Grampa_Bob_s_Calculator
             DisplayMemoTextBlock resellLabel = new DisplayMemoTextBlock(memoStack, "Resell:");
             DisplayMemoTextBox resell = new DisplayMemoTextBox(memoStack, "$" + (0.ToString()), color1);
         }
-        
+
         private void updateYear(object sender, TextChangedEventArgs e)
         {
             theVehicle.updateYear(((TextBox)sender).Text);
@@ -290,6 +296,18 @@ namespace Grampa_Bob_s_Calculator
         static private string dollarFormat(double i)
         {
             return "$" + String.Format("{0:#,0}", i);
+        }
+
+        private void deleteVehicle(object sender, TappedRoutedEventArgs e)
+        {
+            this.theVehicle.Delete();
+            this.theVehicle = null;
+        }
+
+        public void clearDisplay()
+        {
+            this.display.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.memoBar.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
 
     }

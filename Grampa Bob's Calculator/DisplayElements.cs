@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
 using Windows.UI.Xaml.Controls;
@@ -225,6 +226,29 @@ namespace Grampa_Bob_s_Calculator
             this.textB.MaxHeight = 130;
             this.textB.Padding = new Windows.UI.Xaml.Thickness(10, 3, 10, 5);
             this.textB.TextWrapping = Windows.UI.Xaml.TextWrapping.Wrap;
+        }
+    }
+
+    class DisplayDeleteButton
+    {
+        public Button deleteB;
+
+        public DisplayDeleteButton(StackPanel p, string s, SolidColorBrush color)
+        {
+            this.deleteB = new Button();
+            p.Children.Add(this.deleteB);
+            this.deleteB.Margin = new Thickness(40, 0, 40, 0);
+            this.deleteB.Height = 120;
+            this.deleteB.Width = 120;
+            this.deleteB.Background = color;
+            
+            TextBlock buttonText = new TextBlock();
+            deleteB.Content = buttonText;
+            buttonText.Text = s;
+            buttonText.FontSize = 20;
+            buttonText.TextWrapping = TextWrapping.Wrap;
+            buttonText.FontWeight = Windows.UI.Text.FontWeights.SemiLight;
+            buttonText.TextAlignment = TextAlignment.Center;
         }
     }
 

@@ -12,14 +12,22 @@ namespace Grampa_Bob_s_Calculator
         private StackPanel container = null;
         private VehicleDisplay display = null;
         public User theUser = null;
+        private static List<Vehicle> vehicles = new List<Vehicle>();
         public static  List<VehicleDisplay> vehicleDisplays = new List<VehicleDisplay>();
-       
-        public Vehicle(StackPanel p, int numVehicles, User user)
+        private static Button theButton;
+        private static int totalVehiclesCreated;
+        
+        public Vehicle(StackPanel p, User user, Button theButton)
         {
             container = p;
-            display = new VehicleDisplay(p, this, numVehicles);
+            vehicles.Add(this);
+            display = new VehicleDisplay(p, this, totalVehiclesCreated);
             vehicleDisplays.Add(display);
             this.theUser = user;
+            Vehicle.theButton = theButton;
+            if (vehicles.Count() >= 10)
+                theButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            totalVehiclesCreated++;
         }
 
         private string year = "";
@@ -33,6 +41,34 @@ namespace Grampa_Bob_s_Calculator
         private int cityMPG = 1;
         private int highwayMPG = 1;
         private string notes = "";
+
+        public static int NumVehicles()
+        {
+            return vehicles.Count();
+        }
+
+        public static int TotalNumVehicles()
+        {
+            return totalVehiclesCreated;
+        }
+
+        public static void DeleteAllVehicles()
+        {
+            while (vehicles.Count != 0)
+            {
+                vehicles[0].Delete();
+                totalVehiclesCreated = 0;
+            }
+        }
+        
+        public void Delete()
+        {
+            this.display.clearDisplay();
+            vehicleDisplays.Remove(this.display);
+            vehicles.Remove(this);
+            if (vehicles.Count() < 10)
+                theButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
+        }
 
         public string getVehicleDescription()
         {

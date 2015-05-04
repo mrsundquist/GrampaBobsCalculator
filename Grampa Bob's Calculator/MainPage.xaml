@@ -22,6 +22,7 @@
                     <BitmapIcon UriSource="Assets/appbar.information.png"/>
                 </AppBarButton.Icon>
             </AppBarButton>
+            <AppBarButton x:Name="clearData" Icon="Delete" Label="Delete All Data" Tapped="clearAllData"/>
         </CommandBar>
     </Page.TopAppBar>
 

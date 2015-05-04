@@ -16,11 +16,11 @@ namespace Grampa_Bob_s_Calculator
         public StackPanel display = null;
         public StackPanel memoBar = null;
         public User theUser = null;
-        
+
         public UserDisplay(Windows.UI.Xaml.Controls.StackPanel p, User theUser)
         {
             this.theUser = theUser;
-        
+
             //set colors
             SolidColorBrush color1 = new SolidColorBrush(Color.FromArgb(179, 100, 130, 200));
             SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(255, 45, 63, 104));
@@ -39,7 +39,6 @@ namespace Grampa_Bob_s_Calculator
             //Border nameBox = (Border)borderAndScroller[0]; // the border
             TextBlock rowName = (TextBlock)borderName.rowName;
             rowName.Text = "Personal Data";
-
 
             //parent -> display -> scroller
             ScrollViewer scroller = new ScrollViewer();
@@ -79,7 +78,7 @@ namespace Grampa_Bob_s_Calculator
                 color1, color2);
             UIElementCollection gasStackChildren = ((StackPanel)(gasStack.stackP).Children[1]).Children;
             ((Slider)gasStackChildren[1]).ValueChanged += updateGasPrice;
-            
+
             //parent -> display -> scroller -> dataStack -> interestTaxStack
             DisplaySliderStack interestTaxStack = new DisplaySliderStack(dataStack,
                 "What is your interest rate?", "What is your sales tax rate?",
@@ -95,12 +94,10 @@ namespace Grampa_Bob_s_Calculator
             interestTaxStackChildren = ((StackPanel)(interestTaxStack.stackP).Children[3]).Children;
             ((Slider)interestTaxStackChildren[1]).ValueChanged += updateTax;
 
-            /*
-            //parent -> display -> scroller -> dataStack -> notesStack
-            DisplayNotesStack notesStack = new DisplayNotesStack(dataStack, "Notes:", "Insert any notes about your vehicle here.");
-            UIElementCollection notesStackChildren = notesStack.stackP.Children;
-            ((TextBox)notesStackChildren[1]).TextChanged += updateNotes;
-             */ 
+            //parent -> display -> scroller -> dataStack -> deleteStack
+            DisplayDeleteButton displayDeleteButton = new DisplayDeleteButton(dataStack, "Reset User Data", color2);
+            Button deleteButton = displayDeleteButton.deleteB;
+            deleteButton.Tapped += clearData;
 
             //parent -> memoBar
             this.memoBar = new StackPanel();
@@ -108,31 +105,20 @@ namespace Grampa_Bob_s_Calculator
             this.memoBar.Width = p.Width; // set width to parent's width
             this.memoBar.Height = 64;
             this.memoBar.Orientation = Orientation.Horizontal;
-            /*
+
             //parent -> memoBar -> memoScroll -> memoStack -> elements
             DisplayMemoScroll memoScroll = new DisplayMemoScroll(this.memoBar);
             StackPanel memoStack = (StackPanel)memoScroll.memoScroll.Content;
-            //DisplayMemoTextBlock cpmLabel = new DisplayMemoTextBlock(memoStack, "CPM:");
-            DisplayMemoTextBox cpm = new DisplayMemoTextBox(memoStack, (0.ToString("F") + "¢ per mile"), color1);
-            cpm.memoText.FontSize += 13; // make cents per mile display bigger
-            cpm.memoText.FontWeight = Windows.UI.Text.FontWeights.Thin;
-            cpm.memoText.CharacterSpacing = 75;
-            cpm.memoText.Margin = new Windows.UI.Xaml.Thickness(0, 0, 0, 0);
-            cpm.memoText.Width = 225;
-            DisplayMemoTextBlock totalCostLabel = new DisplayMemoTextBlock(memoStack, "Total Cost:");
-            DisplayMemoTextBox totalCost = new DisplayMemoTextBox(memoStack, "$" + (0.ToString()), color1);
-            DisplayMemoTextBlock lifeSpanLabel = new DisplayMemoTextBlock(memoStack, "Life Span:");
-            DisplayMemoTextBox lifeSpan = new DisplayMemoTextBox(memoStack, (0.ToString("F") + " years"), color1);
-            DisplayMemoTextBlock avgMPGLabel = new DisplayMemoTextBlock(memoStack, "Average MPG:");
-            DisplayMemoTextBox aveMPG = new DisplayMemoTextBox(memoStack, (1.ToString("F")), color1);
-            DisplayMemoTextBlock maintenanceLabel = new DisplayMemoTextBlock(memoStack, "Maintenance:");
-            DisplayMemoTextBox maintenance = new DisplayMemoTextBox(memoStack, "$" + (0.ToString()), color1);
-            DisplayMemoTextBlock resellLabel = new DisplayMemoTextBlock(memoStack, "Resell:");
-            DisplayMemoTextBox resell = new DisplayMemoTextBox(memoStack, "$" + (0.ToString()), color1);
-        */
-        
-
-
+            DisplayMemoTextBlock milesLabel = new DisplayMemoTextBlock(memoStack, "Annual Miles:");
+            DisplayMemoTextBox miles = new DisplayMemoTextBox(memoStack, (0.ToString()), color1);
+            DisplayMemoTextBlock percentCityLabel = new DisplayMemoTextBlock(memoStack, "Percent City Miles:");
+            DisplayMemoTextBox percentCity = new DisplayMemoTextBox(memoStack, (0.ToString()) + "%", color1);
+            DisplayMemoTextBlock fuelCostLabel = new DisplayMemoTextBlock(memoStack, "Fuel Cost:");
+            DisplayMemoTextBox fuelCost = new DisplayMemoTextBox(memoStack, "$" + (0.ToString("F")), color1);
+            DisplayMemoTextBlock interestLabel = new DisplayMemoTextBlock(memoStack, "Interest Rate:");
+            DisplayMemoTextBox interest = new DisplayMemoTextBox(memoStack, (0.ToString("F")) + "%", color1);
+            DisplayMemoTextBlock taxLabel = new DisplayMemoTextBlock(memoStack, "Tax Rate:");
+            DisplayMemoTextBox tax = new DisplayMemoTextBox(memoStack, (0.ToString("F")) + "%", color1);
         }
 
         void updateMilesPerYear(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
@@ -167,42 +153,54 @@ namespace Grampa_Bob_s_Calculator
 
         private void updateMemoBar()
         {
-            
-            /*
             ScrollViewer memoScroll = (ScrollViewer)this.memoBar.Children[0];
             StackPanel memoStack = (StackPanel)memoScroll.Content;
-            
-            TextBox cpmText = (TextBox)memoStack.Children[0];
-            
-            User tempUser = new User();
-            cpmText.Text = (Calculator.centsPerMile(tempUser, this.theVehicle)).ToString("F") + "¢ per mile";
 
-            TextBox totalCostText = (TextBox)memoStack.Children[2];
-            totalCostText.Text = dollarFormat(Calculator.totalCost(tempUser, this.theVehicle));
+            TextBox milesText = (TextBox)memoStack.Children[1];
+            milesText.Text = String.Format("{0:#,0}", this.theUser.getMilesPerYear());
 
-            TextBox lifeSpanText = (TextBox)memoStack.Children[4];
-            lifeSpanText.Text = (Calculator.totalYears(tempUser, this.theVehicle)).ToString("F") + " years";
+            TextBox percentCityText = (TextBox)memoStack.Children[3];
+            percentCityText.Text = (this.theUser.getPercentCityMiles() * 100).ToString() + "%";
 
-            TextBox avgMPGText = (TextBox)memoStack.Children[6];
-            avgMPGText.Text = (Calculator.averageMPG(tempUser, this.theVehicle)).ToString("F");
+            TextBox fuelCostText = (TextBox)memoStack.Children[5];
+            fuelCostText.Text = "$" + this.theUser.getPriceOfFuel().ToString("F");
 
-            TextBox maintenanceText = (TextBox)memoStack.Children[8];
-            maintenanceText.Text = dollarFormat(Calculator.lifetimeMaintenance(this.theVehicle));
+            TextBox interestText = (TextBox)memoStack.Children[7];
+            interestText.Text = (this.theUser.getInterestRate() * 100).ToString("F") + "%";
 
-            TextBox resellText = (TextBox)memoStack.Children[10];
-            resellText.Text = dollarFormat(Calculator.resellValue(tempUser, this.theVehicle));
-            */
-
-
+            TextBox taxText = (TextBox)memoStack.Children[9];
+            taxText.Text = (this.theUser.getSalesTaxRate() * 100).ToString("F") + "%";
 
             foreach (VehicleDisplay thisDisplay in Vehicle.vehicleDisplays)
             {
                 thisDisplay.updateMemoBar();
             }
         }
-        
 
+        private void clearData(object sender, TappedRoutedEventArgs e)
+        {
+            clearData();
+        }
 
+        public void clearData()
+        {
+            this.theUser.updateMilesPerYear(User.getMinMiles());
+            this.theUser.updatePercentCityMiles(User.getMinPercentCity());
+            this.theUser.updatePriceOfFuel(User.getMinPriceFuel());
+            this.theUser.updateInterestRate(User.getMinInterest());
+            this.theUser.updateSalesTaxRate(User.getMinTax());
+
+            StackPanel dataStack = (StackPanel)((ScrollViewer)display.Children[1]).Content;
+            StackPanel milesStack = (StackPanel)dataStack.Children[0];
+            StackPanel gasStack = (StackPanel)dataStack.Children[1];
+            StackPanel interestTaxStack = (StackPanel)dataStack.Children[2];
+            ((Slider)((StackPanel)milesStack.Children[1]).Children[1]).Value = this.theUser.getMilesPerYear();
+            ((Slider)((StackPanel)milesStack.Children[3]).Children[1]).Value = this.theUser.getPercentCityMiles();
+            ((Slider)((StackPanel)gasStack.Children[1]).Children[1]).Value = this.theUser.getPriceOfFuel();
+            ((Slider)((StackPanel)interestTaxStack.Children[1]).Children[1]).Value = this.theUser.getInterestRate();
+            ((Slider)((StackPanel)interestTaxStack.Children[3]).Children[1]).Value = this.theUser.getSalesTaxRate();
+
+            this.updateMemoBar();
+        }
     }
 }
-

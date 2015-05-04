@@ -32,8 +32,7 @@ namespace Grampa_Bob_s_Calculator
         }
 
         User user;
-        List<Vehicle> vehicles = new List<Vehicle>();
-
+        
 #region Navigation Helper and Dictionary
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
@@ -186,8 +185,7 @@ namespace Grampa_Bob_s_Calculator
 
         private void AddVehicle_Click(object sender, TappedRoutedEventArgs e)
         {
-            vehicles.Add(new Vehicle(VehicleStack, vehicles.Count(), user));
-            if (vehicles.Count() == 10) NewVehicle.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            new Vehicle(VehicleStack, user, (Button)sender);
         }
 
         private void AddUser_Click(object sender, TappedRoutedEventArgs e)
@@ -196,6 +194,12 @@ namespace Grampa_Bob_s_Calculator
             NewUser.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             user = new User(UserStack);
             NewVehicle.Visibility = Windows.UI.Xaml.Visibility.Visible;
+        }
+
+        private void clearAllData(object sender, TappedRoutedEventArgs e)
+        {
+            Vehicle.DeleteAllVehicles();
+            user.clearDisplay();
         }
     }
 }

@@ -24,6 +24,11 @@ namespace Grampa_Bob_s_Calculator
         private double interestRate = 0;
         private double salesTaxRate = 0;
 
+        public void clearDisplay()
+        {
+            display.clearData();
+        }
+
         public double getMilesPerYear() { return milesPerYear; }
         public double getPercentCityMiles() { return percentCityMiles; }
         public double getPercentHighwayMiles() { return 1 - percentCityMiles; }
