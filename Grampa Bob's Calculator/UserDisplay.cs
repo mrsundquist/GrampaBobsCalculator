@@ -35,8 +35,6 @@ namespace Grampa_Bob_s_Calculator
 
             //parent -> display -> borderName
             DisplayNameBox borderName = new DisplayNameBox(display, color2);
-            //UIElementCollection borderAndScroller = this.display.Children;
-            //Border nameBox = (Border)borderAndScroller[0]; // the border
             TextBlock rowName = (TextBlock)borderName.rowName;
             rowName.Text = "Personal Data";
 
@@ -46,7 +44,7 @@ namespace Grampa_Bob_s_Calculator
             scroller.VerticalScrollMode = ScrollMode.Disabled;
             scroller.ZoomMode = ZoomMode.Disabled;
             scroller.Width = this.display.Width - 260;
-            scroller.Height = 200;
+            scroller.Height = this.display.Height;
             scroller.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
             scroller.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
 
@@ -60,10 +58,10 @@ namespace Grampa_Bob_s_Calculator
             //parent -> display -> scroller -> dataStack -> milesStack
             DisplaySliderStack milesStack = new DisplaySliderStack(dataStack,
                 "How many miles do you drive a year?", "What percent are city miles (vs highway)?",
-                User.getMinMiles(), User.getMaxMiles(),
-                ((int)(User.getMinMiles() / 1000)).ToString() + "k", ((int)(User.getMaxMiles() / 1000)).ToString() + "k",
-                (int)(User.getMinPercentCity() * 100), (int)(User.getMaxPercentCity() * 100),
-                ((int)(User.getMinPercentCity() * 100)).ToString() + "%", ((int)(User.getMaxPercentCity() * 100)).ToString() + "%",
+                User.MinMiles, User.MaxMiles,
+                ((int)(User.MinMiles / 1000)).ToString() + "k", ((int)(User.MaxMiles / 1000)).ToString() + "k",
+                (int)(User.MinPercentCity * 100), (int)(User.MaxPercentCity * 100),
+                ((int)(User.MinPercentCity * 100)).ToString() + "%", ((int)(User.MaxPercentCity * 100)).ToString() + "%",
                 color1, color2);
             UIElementCollection milesStackChildren = ((StackPanel)(milesStack.stackP).Children[1]).Children;
             ((Slider)milesStackChildren[1]).ValueChanged += updateMilesPerYear;
@@ -73,8 +71,8 @@ namespace Grampa_Bob_s_Calculator
             //parent -> display -> scroller -> dataStack -> gasStack
             DisplaySoloSliderStack gasStack = new DisplaySoloSliderStack(dataStack,
                 "How much does a gallon of gas cost?",
-                (int)User.getMinPriceFuel(), (int)User.getMaxPriceFuel(),
-                "$" + User.getMinPriceFuel().ToString("F"), "$" + User.getMaxPriceFuel().ToString("F"),
+                (int)User.MinPriceFuel, (int)User.MaxPriceFuel,
+                "$" + User.MinPriceFuel.ToString("F"), "$" + User.MaxPriceFuel.ToString("F"),
                 color1, color2);
             UIElementCollection gasStackChildren = ((StackPanel)(gasStack.stackP).Children[1]).Children;
             ((Slider)gasStackChildren[1]).ValueChanged += updateGasPrice;
@@ -82,12 +80,12 @@ namespace Grampa_Bob_s_Calculator
             //parent -> display -> scroller -> dataStack -> interestTaxStack
             DisplaySliderStack interestTaxStack = new DisplaySliderStack(dataStack,
                 "What is your interest rate?", "What is your sales tax rate?",
-                (int)User.getMinInterest(), (int)User.getMaxInterest(),
-                ((int)(User.getMinInterest())).ToString() + "%",
-                ((int)(User.getMaxInterest())).ToString() + "%",
-                (int)User.getMinTax(), (int)User.getMaxTax(),
-                ((int)(User.getMinTax())).ToString() + "%",
-                ((int)(User.getMaxTax())).ToString() + "%",
+                (int)User.MinInterest, (int)User.MaxInterest,
+                ((int)(User.MinInterest)).ToString() + "%",
+                ((int)(User.MaxInterest)).ToString() + "%",
+                (int)User.MinTax, (int)User.MaxTax,
+                ((int)(User.MinTax)).ToString() + "%",
+                ((int)(User.MaxTax)).ToString() + "%",
                 color1, color2);
             UIElementCollection interestTaxStackChildren = ((StackPanel)(interestTaxStack.stackP).Children[1]).Children;
             ((Slider)interestTaxStackChildren[1]).ValueChanged += updateInterest;
@@ -123,31 +121,31 @@ namespace Grampa_Bob_s_Calculator
 
         void updateMilesPerYear(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
-            theUser.updateMilesPerYear((int)((Slider)sender).Value);
+            theUser.MilesPerYear = (int)((Slider)sender).Value;
             updateMemoBar();
         }
 
         void updatePercentCityMiles(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
-            theUser.updatePercentCityMiles(((Slider)sender).Value / 100);
+            theUser.PercentCityMiles = ((Slider)sender).Value / 100;
             updateMemoBar();
         }
 
         void updateGasPrice(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
-            theUser.updatePriceOfFuel(((Slider)sender).Value);
+            theUser.PriceOfFuel = ((Slider)sender).Value;
             updateMemoBar();
         }
 
         void updateInterest(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
-            theUser.updateInterestRate(((Slider)sender).Value);
+            theUser.InterestRate = ((Slider)sender).Value;
             updateMemoBar();
         }
 
         void updateTax(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
-            theUser.updateSalesTaxRate(((Slider)sender).Value);
+            theUser.SalesTaxRate = ((Slider)sender).Value;
             updateMemoBar();
         }
 
@@ -157,21 +155,21 @@ namespace Grampa_Bob_s_Calculator
             StackPanel memoStack = (StackPanel)memoScroll.Content;
 
             TextBox milesText = (TextBox)memoStack.Children[1];
-            milesText.Text = String.Format("{0:#,0}", this.theUser.getMilesPerYear());
+            milesText.Text = String.Format("{0:#,0}", this.theUser.MilesPerYear);
 
             TextBox percentCityText = (TextBox)memoStack.Children[3];
-            percentCityText.Text = (this.theUser.getPercentCityMiles() * 100).ToString() + "%";
+            percentCityText.Text = (this.theUser.PercentCityMiles * 100).ToString() + "%";
 
             TextBox fuelCostText = (TextBox)memoStack.Children[5];
-            fuelCostText.Text = "$" + this.theUser.getPriceOfFuel().ToString("F");
+            fuelCostText.Text = "$" + this.theUser.PriceOfFuel.ToString("F");
 
             TextBox interestText = (TextBox)memoStack.Children[7];
-            interestText.Text = (this.theUser.getInterestRate() * 100).ToString("F") + "%";
+            interestText.Text = (this.theUser.InterestRate * 100).ToString("F") + "%";
 
             TextBox taxText = (TextBox)memoStack.Children[9];
-            taxText.Text = (this.theUser.getSalesTaxRate() * 100).ToString("F") + "%";
+            taxText.Text = (this.theUser.SalesTaxRate * 100).ToString("F") + "%";
 
-            foreach (VehicleDisplay thisDisplay in Vehicle.vehicleDisplays)
+            foreach (VehicleDisplay thisDisplay in VehicleWrapper.VehicleDisplays)
             {
                 thisDisplay.updateMemoBar();
             }
@@ -184,21 +182,21 @@ namespace Grampa_Bob_s_Calculator
 
         public void clearData()
         {
-            this.theUser.updateMilesPerYear(User.getMinMiles());
-            this.theUser.updatePercentCityMiles(User.getMinPercentCity());
-            this.theUser.updatePriceOfFuel(User.getMinPriceFuel());
-            this.theUser.updateInterestRate(User.getMinInterest());
-            this.theUser.updateSalesTaxRate(User.getMinTax());
+            this.theUser.MilesPerYear = User.MinMiles;
+            this.theUser.PercentCityMiles = User.MinPercentCity;
+            this.theUser.PriceOfFuel = User.MinPriceFuel;
+            this.theUser.InterestRate = User.MinInterest;
+            this.theUser.SalesTaxRate = User.MinTax;
 
             StackPanel dataStack = (StackPanel)((ScrollViewer)display.Children[1]).Content;
             StackPanel milesStack = (StackPanel)dataStack.Children[0];
             StackPanel gasStack = (StackPanel)dataStack.Children[1];
             StackPanel interestTaxStack = (StackPanel)dataStack.Children[2];
-            ((Slider)((StackPanel)milesStack.Children[1]).Children[1]).Value = this.theUser.getMilesPerYear();
-            ((Slider)((StackPanel)milesStack.Children[3]).Children[1]).Value = this.theUser.getPercentCityMiles();
-            ((Slider)((StackPanel)gasStack.Children[1]).Children[1]).Value = this.theUser.getPriceOfFuel();
-            ((Slider)((StackPanel)interestTaxStack.Children[1]).Children[1]).Value = this.theUser.getInterestRate();
-            ((Slider)((StackPanel)interestTaxStack.Children[3]).Children[1]).Value = this.theUser.getSalesTaxRate();
+            ((Slider)((StackPanel)milesStack.Children[1]).Children[1]).Value = this.theUser.MilesPerYear;
+            ((Slider)((StackPanel)milesStack.Children[3]).Children[1]).Value = this.theUser.PercentCityMiles;
+            ((Slider)((StackPanel)gasStack.Children[1]).Children[1]).Value = this.theUser.PriceOfFuel;
+            ((Slider)((StackPanel)interestTaxStack.Children[1]).Children[1]).Value = this.theUser.InterestRate;
+            ((Slider)((StackPanel)interestTaxStack.Children[3]).Children[1]).Value = this.theUser.SalesTaxRate;
 
             this.updateMemoBar();
         }

@@ -1,72 +1,65 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
-
-// Controller Class
 
 namespace Grampa_Bob_s_Calculator
 {
-    class Calculator
+    static class Calculator
     {
-        public static double totalCost(User user, Vehicle vehicle)
+        public static double TotalCost(User theUser, VehicleWrapper theVehicle)
         {
-            double tax = user.getSalesTaxRate();
-            double initialCostNoTax = vehicle.getInitialCostNoTax();
+            double tax = theUser.SalesTaxRate;
+            double initialCostNoTax = theVehicle.getInitialCostNoTax();
             double initialCostWithTax = initialCostNoTax * (1 + tax);
             return initialCostWithTax;
         }
 
-        private static double totalFinalCost(User user, Vehicle vehicle)
+        private static double totalFinalCost(User theUser, VehicleWrapper theVehicle)
         {
-            double interest = user.getInterestRate();
-            double years = totalYears(user, vehicle);
-            double initialCostWithTax = totalCost(user, vehicle);
+            double interest = theUser.InterestRate;
+            double years = TotalYears(theUser, theVehicle);
+            double initialCostWithTax = TotalCost(theUser, theVehicle);
             double finalCost = initialCostWithTax * Math.Exp(interest * years);
             return finalCost;
         }
 
-        public static double totalYears(User user, Vehicle vehicle)
+        public static double TotalYears(User theUser, VehicleWrapper theVehicle)
         {
-            double totalMileage = vehicle.getTotalMiles();
-            double milesPerYear = user.getMilesPerYear();
+            double totalMileage = theVehicle.getTotalMiles();
+            double milesPerYear = theUser.MilesPerYear;
             double totalYears = (totalMileage > 0 && milesPerYear > 0) ? (totalMileage / milesPerYear) : (0);
             return totalYears;
         }
 
-        public static double averageMPG(User user, Vehicle vehicle)
+        public static double AverageMPG(User theUser, VehicleWrapper theVehicle)
         {
-            double percentCityMiles = user.getPercentCityMiles();
-            double percentHighwayMiles = user.getPercentHighwayMiles();
-            double cityMilesPerGallon = vehicle.getCityMPG();
-            double highwayMilesPerGallon = vehicle.getHighwayMPG();
+            double percentCityMiles = theUser.PercentCityMiles;
+            double percentHighwayMiles = theUser.PercentHighwayMiles;
+            double cityMilesPerGallon = theVehicle.getCityMPG();
+            double highwayMilesPerGallon = theVehicle.getHighwayMPG();
             double mpg = ((cityMilesPerGallon * percentCityMiles)
                 + (highwayMilesPerGallon * percentHighwayMiles));
             return mpg;
         }
 
-        public static double lifetimeMaintenance(Vehicle vehicle)
+        public static double LifetimeMaintenance(VehicleWrapper theVehicle)
         {
-            double totalMileage = vehicle.getTotalMiles();
-            double lifetimeMaintenance = totalMileage * maintenancePerMile(vehicle);
+            double totalMileage = theVehicle.getTotalMiles();
+            double lifetimeMaintenance = totalMileage * maintenancePerMile(theVehicle);
             return lifetimeMaintenance;
         }
 
-        private static double maintenancePerMile(Vehicle vehicle)
+        private static double maintenancePerMile(VehicleWrapper theVehicle)
         {
-            double initialMileage = vehicle.getInitialMileage();
-            double finalMileage = vehicle.getFinalMileage();
+            double initialMileage = theVehicle.getInitialMileage();
+            double finalMileage = theVehicle.getFinalMileage();
             double lifetimeMaintenance = ((initialMileage + finalMileage) / 4444000);
             return lifetimeMaintenance;
         }
 
-        public static double resellValue(User user, Vehicle vehicle)
+        public static double ResellValue(User theUser, VehicleWrapper theVehicle)
         {
-            double finalMileage = vehicle.getFinalMileage();
-            double years = totalYears(user, vehicle);
-            double initialCostNoTax = vehicle.getInitialCostNoTax();
+            double finalMileage = theVehicle.getFinalMileage();
+            double years = TotalYears(theUser, theVehicle);
+            double initialCostNoTax = theVehicle.getInitialCostNoTax();
             double depreciatedMileageValue = 
                 0.25 * ((Math.PI / 2) - Math.Atan(((2.5 * finalMileage) / 100000) - 2.1)) - .36;
             double depreciatedTimeValue = 0.9332 * Math.Exp(-0.177 * years);
@@ -77,19 +70,19 @@ namespace Grampa_Bob_s_Calculator
             return resellValue;
         }
         
-        public static double centsPerMile(User user, Vehicle vehicle)
+        public static double CentsPerMile(User theUser, VehicleWrapper theVehicle)
         {
-            double totalMileage = vehicle.getTotalMiles();
-            double price = totalFinalCost(user, vehicle);
+            double totalMileage = theVehicle.getTotalMiles();
+            double price = totalFinalCost(theUser, theVehicle);
             double priceRate = price / totalMileage;
 
-            double fuelCost = user.getPriceOfFuel();
-            double mpg = averageMPG(user, vehicle);
+            double fuelCost = theUser.PriceOfFuel;
+            double mpg = AverageMPG(theUser, theVehicle);
             double fuelRate = fuelCost / mpg;
 
-            double maintenanceRate = maintenancePerMile(vehicle);
+            double maintenanceRate = maintenancePerMile(theVehicle);
             
-            double resellValueRate = (resellValue(user, vehicle)) / totalMileage;
+            double resellValueRate = (ResellValue(theUser, theVehicle)) / totalMileage;
 
             double centsPerMile = (priceRate + fuelRate + maintenanceRate - resellValueRate) * 100;
             if (Double.IsNaN(centsPerMile) || Double.IsInfinity(centsPerMile))

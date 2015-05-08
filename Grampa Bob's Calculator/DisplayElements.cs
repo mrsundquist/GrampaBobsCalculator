@@ -22,12 +22,11 @@ namespace Grampa_Bob_s_Calculator
             p.Children.Add(nameBox);
             nameBox.Background = color2;
             nameBox.Width = 260;
-            nameBox.Height = 200;
+            nameBox.Height = p.Height;
 
             rowName = new TextBlock();
             nameBox.Child = rowName;
             rowName.TextWrapping = Windows.UI.Xaml.TextWrapping.WrapWholeWords;
-            //rowName.Padding = new Windows.UI.Xaml.Thickness(30, 0, 0,0);
             rowName.VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Center;
             rowName.TextAlignment = Windows.UI.Xaml.TextAlignment.Center;
             rowName.FontSize = 56;

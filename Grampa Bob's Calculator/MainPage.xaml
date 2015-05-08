@@ -27,13 +27,13 @@
     </Page.TopAppBar>
 
 
-    <StackPanel x:Name="EverythingStack" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="{Binding ActualWidth, ElementName=pageRoot, Mode=OneWay}">
+    <StackPanel x:Name="EverythingUIStack" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="{Binding ActualWidth, ElementName=pageRoot, Mode=OneWay}">
         <StackPanel.ChildrenTransitions>
             <TransitionCollection>
                 <EntranceThemeTransition/>
             </TransitionCollection>
         </StackPanel.ChildrenTransitions>
-        <StackPanel x:Name="UserStack" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="{Binding ActualWidth, ElementName=pageRoot, Mode=OneWay}">
+        <StackPanel x:Name="UserUIStack" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="{Binding ActualWidth, ElementName=pageRoot, Mode=OneWay}">
             <StackPanel.ChildrenTransitions>
                 <TransitionCollection>
                     <EntranceThemeTransition/>
@@ -52,7 +52,7 @@
                     </TransitionCollection>
                 </StackPanel.ChildrenTransitions>
 
-                <StackPanel x:Name="VehicleStack" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="{Binding ActualWidth, ElementName=pageRoot, Mode=OneWay}">
+                <StackPanel x:Name="VehicleUIStack" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="{Binding ActualWidth, ElementName=pageRoot, Mode=OneWay}">
                     <StackPanel.ChildrenTransitions>
                         <TransitionCollection>
                             <EntranceThemeTransition/>

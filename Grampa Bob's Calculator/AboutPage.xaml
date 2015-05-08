@@ -51,7 +51,7 @@
                         <TextBlock x:Name="AboutTextBlock3" TextWrapping="Wrap" Text="If you are interested, here is the magic equation. But really, it's best just to let Grampa Bob do the work." Margin="0,40,0,0" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" MaxWidth="500"/>
                     </StackPanel>
                 </StackPanel>
-                <Image Height="312" Width="832" HorizontalAlignment="Center" NineGrid="0" Margin="0,40,0,100" Source="Assets/EquationBlack.png" d:IsHidden="True"/>
+                <Image HorizontalAlignment="Center" NineGrid="0" Margin="0,40,0,100" Source="Assets/EquationBlack.png" d:IsHidden="True"/>
             </StackPanel>
 
         </ScrollViewer>

@@ -15,10 +15,10 @@ namespace Grampa_Bob_s_Calculator
     {
         public StackPanel display = null;
         public StackPanel memoBar = null;
-        public Vehicle theVehicle = null;
+        public VehicleWrapper theVehicle = null;
         public static Random rnd = new Random();
 
-        public VehicleDisplay(Windows.UI.Xaml.Controls.StackPanel p, Vehicle theVehicle, int numVehicles)
+        public VehicleDisplay(Windows.UI.Xaml.Controls.StackPanel p, VehicleWrapper theVehicle, int numVehicles)
         {
             this.theVehicle = theVehicle;
 
@@ -62,7 +62,7 @@ namespace Grampa_Bob_s_Calculator
             scroller.VerticalScrollMode = ScrollMode.Disabled;
             scroller.ZoomMode = ZoomMode.Disabled;
             scroller.Width = this.display.Width - 260;
-            scroller.Height = 200;
+            scroller.Height = this.display.Height;
             scroller.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
             scroller.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
 
@@ -86,10 +86,10 @@ namespace Grampa_Bob_s_Calculator
 
             //parent -> display -> scroller -> dataStack -> priceStack
             DisplaySliderStack priceStack = new DisplaySliderStack(dataStack,
-                "Price", "Cost to Repair", Vehicle.getMinPrice(), Vehicle.getMaxPrice(),
-                "$" + Vehicle.getMinPrice().ToString(), "$" + Vehicle.getMaxPrice().ToString(),
-                Vehicle.getMinRepairCost(), Vehicle.getMaxRepairCost(),
-                "$" + Vehicle.getMinRepairCost().ToString(), "$" + Vehicle.getMaxRepairCost().ToString(),
+                "Price", "Cost to Repair", VehicleWrapper.getMinPrice(), VehicleWrapper.getMaxPrice(),
+                "$" + VehicleWrapper.getMinPrice().ToString(), "$" + VehicleWrapper.getMaxPrice().ToString(),
+                VehicleWrapper.getMinRepairCost(), VehicleWrapper.getMaxRepairCost(),
+                "$" + VehicleWrapper.getMinRepairCost().ToString(), "$" + VehicleWrapper.getMaxRepairCost().ToString(),
                 color1, color2);
             UIElementCollection priceStackChildren = ((StackPanel)(priceStack.stackP).Children[1]).Children;
             ((Slider)priceStackChildren[1]).ValueChanged += updatePrice; // price
@@ -99,12 +99,12 @@ namespace Grampa_Bob_s_Calculator
             //parent -> display -> scroller -> dataStack -> mileageStack
             DisplaySliderStack mileageStack = new DisplaySliderStack(dataStack,
                 "Initial Mileage", "Estimated Final Mileage",
-                Vehicle.getMinInitialMileage(), Vehicle.getMaxInitialMileage(),
-                ((int)(Vehicle.getMinInitialMileage() / 1000)).ToString() + "k",
-                ((int)(Vehicle.getMaxInitialMileage() / 1000)).ToString() + "k",
-                theVehicle.getMinFinalMileage(), Vehicle.getMaxFinalMileage(),
+                VehicleWrapper.getMinInitialMileage(), VehicleWrapper.getMaxInitialMileage(),
+                ((int)(VehicleWrapper.getMinInitialMileage() / 1000)).ToString() + "k",
+                ((int)(VehicleWrapper.getMaxInitialMileage() / 1000)).ToString() + "k",
+                theVehicle.getMinFinalMileage(), VehicleWrapper.getMaxFinalMileage(),
                 ((int)(theVehicle.getMinFinalMileage() / 1000)).ToString() + "k",
-                ((int)(Vehicle.getMaxFinalMileage() / 1000)).ToString() + "k",
+                ((int)(VehicleWrapper.getMaxFinalMileage() / 1000)).ToString() + "k",
                 color1, color2);
             UIElementCollection mileageStackChildren = ((StackPanel)(mileageStack.stackP).Children[1]).Children;
             ((Slider)mileageStackChildren[1]).ValueChanged += updateInitialMileage; // initial mileage
@@ -114,12 +114,12 @@ namespace Grampa_Bob_s_Calculator
             //parent -> display -> scroller -> dataStack -> mpgStack
             DisplaySliderStack mpgStack = new DisplaySliderStack(dataStack,
                 "City MPG", "Highway MPG",
-                Vehicle.getMinCityMPG(), Vehicle.getMaxCityMPG(),
-                ((int)(Vehicle.getMinCityMPG())).ToString(),
-                ((int)(Vehicle.getMaxCityMPG())).ToString(),
-                Vehicle.getMinHighwayMPG(), Vehicle.getMaxHighwayMPG(),
-                ((int)(Vehicle.getMinHighwayMPG())).ToString(),
-                ((int)(Vehicle.getMaxHighwayMPG())).ToString(),
+                VehicleWrapper.getMinCityMPG(), VehicleWrapper.getMaxCityMPG(),
+                ((int)(VehicleWrapper.getMinCityMPG())).ToString(),
+                ((int)(VehicleWrapper.getMaxCityMPG())).ToString(),
+                VehicleWrapper.getMinHighwayMPG(), VehicleWrapper.getMaxHighwayMPG(),
+                ((int)(VehicleWrapper.getMinHighwayMPG())).ToString(),
+                ((int)(VehicleWrapper.getMaxHighwayMPG())).ToString(),
                 color1, color2);
             UIElementCollection mpgStackChildren = ((StackPanel)(mpgStack.stackP).Children[1]).Children;
             ((Slider)mpgStackChildren[1]).ValueChanged += updateCityMPG;
@@ -275,22 +275,22 @@ namespace Grampa_Bob_s_Calculator
             
             TextBox cpmText = (TextBox)memoStack.Children[0];
 
-            cpmText.Text = (Calculator.centsPerMile(this.theVehicle.theUser, this.theVehicle)).ToString("F") + "¢ per mile";
+            cpmText.Text = (Calculator.CentsPerMile(this.theVehicle.TheUser, this.theVehicle)).ToString("F") + "¢ per mile";
 
             TextBox totalCostText = (TextBox)memoStack.Children[2];
-            totalCostText.Text = dollarFormat(Calculator.totalCost(this.theVehicle.theUser, this.theVehicle));
+            totalCostText.Text = dollarFormat(Calculator.TotalCost(this.theVehicle.TheUser, this.theVehicle));
 
             TextBox lifeSpanText = (TextBox)memoStack.Children[4];
-            lifeSpanText.Text = (Calculator.totalYears(this.theVehicle.theUser, this.theVehicle)).ToString("F") + " years";
+            lifeSpanText.Text = (Calculator.TotalYears(this.theVehicle.TheUser, this.theVehicle)).ToString("F") + " years";
 
             TextBox avgMPGText = (TextBox)memoStack.Children[6];
-            avgMPGText.Text = (Calculator.averageMPG(this.theVehicle.theUser, this.theVehicle)).ToString("F");
+            avgMPGText.Text = (Calculator.AverageMPG(this.theVehicle.TheUser, this.theVehicle)).ToString("F");
 
             TextBox maintenanceText = (TextBox)memoStack.Children[8];
-            maintenanceText.Text = dollarFormat(Calculator.lifetimeMaintenance(this.theVehicle));
+            maintenanceText.Text = dollarFormat(Calculator.LifetimeMaintenance(this.theVehicle));
 
             TextBox resellText = (TextBox)memoStack.Children[10];
-            resellText.Text = dollarFormat(Calculator.resellValue(this.theVehicle.theUser, this.theVehicle));
+            resellText.Text = dollarFormat(Calculator.ResellValue(this.theVehicle.TheUser, this.theVehicle));
         }
 
         static private string dollarFormat(double i)
