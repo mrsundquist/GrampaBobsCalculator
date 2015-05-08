@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -10,162 +9,79 @@ namespace Grampa_Bob_s_Calculator
     {        
         public VehicleWrapper(StackPanel p, User theUser, Button theButton)
         {
-            this.display = new VehicleDisplay(p, this, totalVehiclesCreated);
             this._theUser = theUser;
-            VehicleWrapper._vehicleDisplays.Add(display);
-            VehicleWrapper.vehicles.Add(this);
+            this.theVehicle = new Vehicle();
+            this.theDisplay = new VehicleDisplay(p, this, totalVehiclesCreated);
+            VehicleWrapper.vehicleWrappers.Add(this);
+            VehicleWrapper.vehicles.Add(theVehicle);
+            VehicleWrapper._vehicleDisplays.Add(theDisplay);
             VehicleWrapper.theButton = theButton;
             VehicleWrapper.totalVehiclesCreated++;
-            if (VehicleWrapper.vehicles.Count() >= 10)
+            if (VehicleWrapper.vehicleWrappers.Count() >= 10)
                 VehicleWrapper.theButton.Visibility = Visibility.Collapsed;
         }
 
-        private static List<VehicleWrapper> vehicles = new List<VehicleWrapper>();
+        private static List<VehicleWrapper> vehicleWrappers = new List<VehicleWrapper>();
+        private static List<Vehicle> vehicles = new List<Vehicle>();
         private static  List<VehicleDisplay> _vehicleDisplays = new List<VehicleDisplay>();
         private static Button theButton;
         private static int totalVehiclesCreated;
 
+        public static int NumVehicles { get { return vehicleWrappers.Count(); } }
+        public static int TotalNumVehicles { get { return totalVehiclesCreated; } }
         public static List<VehicleDisplay> VehicleDisplays { get { return _vehicleDisplays; } }
 
         private User _theUser = null;
-        private VehicleDisplay display = null;
+        private Vehicle theVehicle = null;
+        private VehicleDisplay theDisplay = null;
 
         public User TheUser { get { return _theUser; } }
 
-        private string year = "";
-        private string make = "";
-        private string model = "";
-        private string source = "";
-        private int price = 0;
-        private int repairCost = 0;
-        private int initialMileage = 0;
-        private int finalMileage = 0;
-        private int cityMPG = 1;
-        private int highwayMPG = 1;
-        private string notes = "";
-
-        public static int NumVehicles()
-        {
-            return vehicles.Count();
-        }
-
-        public static int TotalNumVehicles()
-        {
-            return totalVehiclesCreated;
-        }
-
         public static void DeleteAllVehicles()
         {
-            while (vehicles.Count != 0)
+            while (vehicleWrappers.Count != 0)
             {
-                vehicles[0].Delete();
+                vehicleWrappers[0].Delete();
                 totalVehiclesCreated = 0;
             }
         }
         
         public void Delete()
         {
-            this.display.clearDisplay();
-            _vehicleDisplays.Remove(this.display);
-            vehicles.Remove(this);
-            if (vehicles.Count() < 10)
-                theButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.theDisplay.clearDisplay();
+            VehicleWrapper.vehicles.Remove(this.theVehicle);
+            VehicleWrapper._vehicleDisplays.Remove(this.theDisplay);
+            VehicleWrapper.vehicleWrappers.Remove(this);
+            if (VehicleWrapper.vehicleWrappers.Count() < 10)
+                theButton.Visibility = Visibility.Visible;
         }
 
-        public string getVehicleDescription()
-        {
-            if (source != null && source != "")
-                return year + " " + make + " " + model + " (" + source + ")";
-            else
-                return year + " " + make + " " + model;
-        }
-        public string getYear() { return year; }
-        public string getMake() { return make; }
-        public string getModel() { return model; }
-        public string getSource() { return source; }
-        public int getPrice() { return price; }
-        public int getRepairCost() { return repairCost; }
-        public int getInitialCostNoTax() { return price + repairCost; }
-        public int getInitialMileage() { return initialMileage; }
-        public int getFinalMileage() { return finalMileage; }
-        public int getTotalMiles() { return finalMileage - initialMileage; }
-        public int getCityMPG() { return cityMPG; }
-        public int getHighwayMPG() { return highwayMPG; }
-        public string getNotes() { return notes; }
+        public string VehicleDescription { get { return theVehicle.VehicleDescription; } }
+        public string Year { get { return theVehicle.Year; } set { theVehicle.Year = value; } }
+        public string Make { get { return theVehicle.Make; } set { theVehicle.Make = value; } }
+        public string Model { get { return theVehicle.Model; } set { theVehicle.Model = value; } }
+        public string Source { get { return theVehicle.Source; } set { theVehicle.Source = value; } }
+        public int Price { get { return theVehicle.Price; } set { theVehicle.Price = value; } }
+        public int RepairCost { get { return theVehicle.RepairCost; } set { theVehicle.RepairCost = value; } }
+        public int InitialCostNoTax { get { return theVehicle.InitialCostNoTax; } }
+        public int InitialMileage { get { return theVehicle.InitialMileage; } set { theVehicle.InitialMileage = value; } }
+        public int FinalMileage { get { return theVehicle.FinalMileage; } set { theVehicle.FinalMileage = value; } }
+        public int TotalMiles { get { return theVehicle.TotalMiles; } }
+        public int CityMPG { get { return theVehicle.CityMPG; } set { theVehicle.CityMPG = value; } }
+        public int HighwayMPG { get { return theVehicle.HighwayMPG; } set { theVehicle.HighwayMPG = value; } }
+        public string Notes { get { return theVehicle.Notes; } set { theVehicle.Notes = value; } }
 
-        public void updateYear(string s) { year = s; }
-        public void updateMake(string s) { make = s; }
-        public void updateModel(string s) { model = s; }
-        public void updateSource(string s) { source = s; }
-        public void updatePrice(int i)
-        {
-            if (i < VehicleWrapper.getMinPrice() || i > VehicleWrapper.getMaxPrice())
-                throw new ArgumentOutOfRangeException();
-            else
-                price = i;
-        }
-        public void updateRepairCost(int i)
-        {
-            if(i < VehicleWrapper.getMinRepairCost() || i > VehicleWrapper.getMaxRepairCost())
-                throw new ArgumentOutOfRangeException();
-            else
-                repairCost = i;
-        }
-        public void updateInitialMileage(int i)
-        {
-            if (i < VehicleWrapper.getMinInitialMileage() || i > VehicleWrapper.getMaxInitialMileage())
-                throw new ArgumentOutOfRangeException();
-            else
-            {
-                initialMileage = i;
-                if (finalMileage < initialMileage)
-                    finalMileage = initialMileage;
-            }
-        }
-        public void updateFinalMileage(int i)
-        {
-            if (i < this.getMinFinalMileage() || i > VehicleWrapper.getMaxFinalMileage())
-                throw new ArgumentOutOfRangeException();
-            else
-                finalMileage = i;
-        }
-        public void updateCityMPG(int i)
-        {
-            if (i < VehicleWrapper.getMinCityMPG() || i > VehicleWrapper.getMaxCityMPG())
-                throw new ArgumentOutOfRangeException();
-            else
-                cityMPG = i;
-        }
-        public void updateHighwayMPG(int i)
-        {
-            if (i < VehicleWrapper.getMinHighwayMPG() || i > VehicleWrapper.getMaxHighwayMPG())
-                throw new ArgumentOutOfRangeException();
-            else
-                highwayMPG = i;
-        }
-        public void updateNotes(string s) { notes = s; }
-
-        #region max and min values
-        private static int MAX_PRICE = 35000;
-        private static int MAX_REPAIR_COST = 10000;
-        private static int MAX_INITIAL_MILEAGE = 300000;
-        private static int MAX_FINAL_MILEAGE = 300000;
-        private static int MAX_CITY_MPG = 75;
-        private static int MAX_HIGHWAY_MPG = 75;
-
-        public static int getMaxPrice() { return MAX_PRICE; }
-        public static int getMaxRepairCost() { return MAX_REPAIR_COST; }
-        public static int getMaxInitialMileage() { return MAX_INITIAL_MILEAGE; }
-        public static int getMaxFinalMileage() { return MAX_FINAL_MILEAGE; }
-        public static int getMaxCityMPG() { return MAX_CITY_MPG; }
-        public static int getMaxHighwayMPG() { return MAX_HIGHWAY_MPG; }
-
-        public static int getMinPrice() { return 0; }
-        public static int getMinRepairCost() { return 0; }
-        public static int getMinInitialMileage() { return 0; }
-        public int getMinFinalMileage() { return initialMileage; }
-        public static int getMinCityMPG() { return 1; }
-        public static int getMinHighwayMPG() { return 1; }
-        #endregion
+        public static int MaxPrice { get { return Vehicle.MaxPrice; } }
+        public static int MaxRepairCost { get { return Vehicle.MaxRepairCost; } }
+        public static int MaxInitialMileage { get { return Vehicle.MaxInitialMileage; } }
+        public static int MaxFinalMileage { get { return Vehicle.MaxFinalMileage; } }
+        public static int MaxCityMPG { get { return Vehicle.MaxCityMPG; } }
+        public static int MaxHighwayMPG { get { return Vehicle.MaxHighwayMPG; } }
+        public static int MinPrice { get { return Vehicle.MinPrice; } }
+        public static int MinRepairCost { get { return Vehicle.MinRepairCost; } }
+        public static int MinInitialMileage { get { return Vehicle.MinInitialMileage; } }
+        public int MinFinalMileage { get { return theVehicle.MinFinalMileage; } }
+        public static int MinCityMPG { get { return Vehicle.MinCityMPG; } }
+        public static int MinHighwayMPG { get { return Vehicle.MinHighwayMPG; } }
     }
 }

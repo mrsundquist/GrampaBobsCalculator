@@ -86,10 +86,10 @@ namespace Grampa_Bob_s_Calculator
 
             //parent -> display -> scroller -> dataStack -> priceStack
             DisplaySliderStack priceStack = new DisplaySliderStack(dataStack,
-                "Price", "Cost to Repair", VehicleWrapper.getMinPrice(), VehicleWrapper.getMaxPrice(),
-                "$" + VehicleWrapper.getMinPrice().ToString(), "$" + VehicleWrapper.getMaxPrice().ToString(),
-                VehicleWrapper.getMinRepairCost(), VehicleWrapper.getMaxRepairCost(),
-                "$" + VehicleWrapper.getMinRepairCost().ToString(), "$" + VehicleWrapper.getMaxRepairCost().ToString(),
+                "Price", "Cost to Repair", VehicleWrapper.MinPrice, VehicleWrapper.MaxPrice,
+                "$" + VehicleWrapper.MinPrice.ToString(), "$" + VehicleWrapper.MaxPrice.ToString(),
+                VehicleWrapper.MinRepairCost, VehicleWrapper.MaxRepairCost,
+                "$" + VehicleWrapper.MinRepairCost.ToString(), "$" + VehicleWrapper.MaxRepairCost.ToString(),
                 color1, color2);
             UIElementCollection priceStackChildren = ((StackPanel)(priceStack.stackP).Children[1]).Children;
             ((Slider)priceStackChildren[1]).ValueChanged += updatePrice; // price
@@ -99,12 +99,12 @@ namespace Grampa_Bob_s_Calculator
             //parent -> display -> scroller -> dataStack -> mileageStack
             DisplaySliderStack mileageStack = new DisplaySliderStack(dataStack,
                 "Initial Mileage", "Estimated Final Mileage",
-                VehicleWrapper.getMinInitialMileage(), VehicleWrapper.getMaxInitialMileage(),
-                ((int)(VehicleWrapper.getMinInitialMileage() / 1000)).ToString() + "k",
-                ((int)(VehicleWrapper.getMaxInitialMileage() / 1000)).ToString() + "k",
-                theVehicle.getMinFinalMileage(), VehicleWrapper.getMaxFinalMileage(),
-                ((int)(theVehicle.getMinFinalMileage() / 1000)).ToString() + "k",
-                ((int)(VehicleWrapper.getMaxFinalMileage() / 1000)).ToString() + "k",
+                VehicleWrapper.MinInitialMileage, VehicleWrapper.MaxInitialMileage,
+                ((int)(VehicleWrapper.MinInitialMileage / 1000)).ToString() + "k",
+                ((int)(VehicleWrapper.MaxInitialMileage / 1000)).ToString() + "k",
+                theVehicle.MinFinalMileage, VehicleWrapper.MaxFinalMileage,
+                ((int)(theVehicle.MinFinalMileage / 1000)).ToString() + "k",
+                ((int)(VehicleWrapper.MaxFinalMileage / 1000)).ToString() + "k",
                 color1, color2);
             UIElementCollection mileageStackChildren = ((StackPanel)(mileageStack.stackP).Children[1]).Children;
             ((Slider)mileageStackChildren[1]).ValueChanged += updateInitialMileage; // initial mileage
@@ -114,12 +114,12 @@ namespace Grampa_Bob_s_Calculator
             //parent -> display -> scroller -> dataStack -> mpgStack
             DisplaySliderStack mpgStack = new DisplaySliderStack(dataStack,
                 "City MPG", "Highway MPG",
-                VehicleWrapper.getMinCityMPG(), VehicleWrapper.getMaxCityMPG(),
-                ((int)(VehicleWrapper.getMinCityMPG())).ToString(),
-                ((int)(VehicleWrapper.getMaxCityMPG())).ToString(),
-                VehicleWrapper.getMinHighwayMPG(), VehicleWrapper.getMaxHighwayMPG(),
-                ((int)(VehicleWrapper.getMinHighwayMPG())).ToString(),
-                ((int)(VehicleWrapper.getMaxHighwayMPG())).ToString(),
+                VehicleWrapper.MinCityMPG, VehicleWrapper.MaxCityMPG,
+                ((int)(VehicleWrapper.MinCityMPG)).ToString(),
+                ((int)(VehicleWrapper.MaxCityMPG)).ToString(),
+                VehicleWrapper.MinHighwayMPG, VehicleWrapper.MaxHighwayMPG,
+                ((int)(VehicleWrapper.MinHighwayMPG)).ToString(),
+                ((int)(VehicleWrapper.MaxHighwayMPG)).ToString(),
                 color1, color2);
             UIElementCollection mpgStackChildren = ((StackPanel)(mpgStack.stackP).Children[1]).Children;
             ((Slider)mpgStackChildren[1]).ValueChanged += updateCityMPG;
@@ -166,26 +166,26 @@ namespace Grampa_Bob_s_Calculator
 
         private void updateYear(object sender, TextChangedEventArgs e)
         {
-            theVehicle.updateYear(((TextBox)sender).Text);
-            updateName(theVehicle.getVehicleDescription());
+            theVehicle.Year = ((TextBox)sender).Text;
+            updateName(theVehicle.VehicleDescription);
         }
 
         private void updateMake(object sender, TextChangedEventArgs e)
         {
-            theVehicle.updateMake(((TextBox)sender).Text);
-            updateName(theVehicle.getVehicleDescription());
+            theVehicle.Make = ((TextBox)sender).Text;
+            updateName(theVehicle.VehicleDescription);
         }
         
         private void updateModel(object sender, TextChangedEventArgs e)
         {
-            theVehicle.updateModel(((TextBox)sender).Text);
-            updateName(theVehicle.getVehicleDescription());
+            theVehicle.Model = ((TextBox)sender).Text;
+            updateName(theVehicle.VehicleDescription);
         }
 
         private void updateSource(object sender, TextChangedEventArgs e)
         {
-            theVehicle.updateSource(((TextBox)sender).Text);
-            updateName(theVehicle.getVehicleDescription());
+            theVehicle.Source = ((TextBox)sender).Text;
+            updateName(theVehicle.VehicleDescription);
         }
         
         public void updateName(string t)
@@ -195,8 +195,8 @@ namespace Grampa_Bob_s_Calculator
             TextBlock rowName = (TextBlock)nameBox.Child;
 
             List<int> partLengths = new List<int>
-                { theVehicle.getYear().Length, theVehicle.getMake().Length,
-                    theVehicle.getModel().Length, theVehicle.getSource().Length, 1 };
+                { theVehicle.Year.Length, theVehicle.Make.Length,
+                    theVehicle.Model.Length, theVehicle.Source.Length, 1 };
             int maxLength = partLengths.Max();
 
             double fontSize = 230 * (Math.Pow(maxLength,-0.6)); // adjust font size based on length of name
@@ -211,26 +211,26 @@ namespace Grampa_Bob_s_Calculator
 
         void updatePrice(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
-            theVehicle.updatePrice((int)((Slider)sender).Value);
+            theVehicle.Price = (int)((Slider)sender).Value;
             updateMemoBar();
         }
 
         void updateRepairCost(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
-            theVehicle.updateRepairCost((int)((Slider)sender).Value);
+            theVehicle.RepairCost = (int)((Slider)sender).Value;
             updateMemoBar();
         }
 
         void updateInitialMileage(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
-            theVehicle.updateInitialMileage((int)e.NewValue);
+            theVehicle.InitialMileage = (int)e.NewValue;
             updateFinalMileageMin((int)e.NewValue);
             updateMemoBar();
         }
 
         void updateFinalMileage(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
-            theVehicle.updateFinalMileage((int)e.NewValue);
+            theVehicle.FinalMileage = (int)e.NewValue;
             updateMemoBar();
         }
 
@@ -247,25 +247,25 @@ namespace Grampa_Bob_s_Calculator
             
             //change the slider properties
             Slider mileageSlider = (Slider)finalMileageSliderStack.Children[1]; // slider
-            mileageSlider.Minimum = theVehicle.getInitialMileage();
+            mileageSlider.Minimum = theVehicle.InitialMileage;
             mileageSlider.TickFrequency = ((mileageSlider.Maximum - mileageSlider.Minimum) / 10);
         }
 
         void updateCityMPG(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
-            theVehicle.updateCityMPG((int)((Slider)sender).Value);
+            theVehicle.CityMPG = (int)((Slider)sender).Value;
             updateMemoBar();
         }
 
         void updateHighwayMPG(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
-            theVehicle.updateHighwayMPG((int)((Slider)sender).Value);
+            theVehicle.HighwayMPG = (int)((Slider)sender).Value;
             updateMemoBar();
         }
 
         private void updateNotes(object sender, TextChangedEventArgs e)
         {
-            theVehicle.updateNotes(((TextBox)sender).Text);
+            theVehicle.Notes = ((TextBox)sender).Text;
         }
 
         public void updateMemoBar()

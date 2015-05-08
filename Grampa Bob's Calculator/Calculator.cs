@@ -7,7 +7,7 @@ namespace Grampa_Bob_s_Calculator
         public static double TotalCost(User theUser, VehicleWrapper theVehicle)
         {
             double tax = theUser.SalesTaxRate;
-            double initialCostNoTax = theVehicle.getInitialCostNoTax();
+            double initialCostNoTax = theVehicle.InitialCostNoTax;
             double initialCostWithTax = initialCostNoTax * (1 + tax);
             return initialCostWithTax;
         }
@@ -23,7 +23,7 @@ namespace Grampa_Bob_s_Calculator
 
         public static double TotalYears(User theUser, VehicleWrapper theVehicle)
         {
-            double totalMileage = theVehicle.getTotalMiles();
+            double totalMileage = theVehicle.TotalMiles;
             double milesPerYear = theUser.MilesPerYear;
             double totalYears = (totalMileage > 0 && milesPerYear > 0) ? (totalMileage / milesPerYear) : (0);
             return totalYears;
@@ -33,8 +33,8 @@ namespace Grampa_Bob_s_Calculator
         {
             double percentCityMiles = theUser.PercentCityMiles;
             double percentHighwayMiles = theUser.PercentHighwayMiles;
-            double cityMilesPerGallon = theVehicle.getCityMPG();
-            double highwayMilesPerGallon = theVehicle.getHighwayMPG();
+            double cityMilesPerGallon = theVehicle.CityMPG;
+            double highwayMilesPerGallon = theVehicle.HighwayMPG;
             double mpg = ((cityMilesPerGallon * percentCityMiles)
                 + (highwayMilesPerGallon * percentHighwayMiles));
             return mpg;
@@ -42,24 +42,24 @@ namespace Grampa_Bob_s_Calculator
 
         public static double LifetimeMaintenance(VehicleWrapper theVehicle)
         {
-            double totalMileage = theVehicle.getTotalMiles();
+            double totalMileage = theVehicle.TotalMiles;
             double lifetimeMaintenance = totalMileage * maintenancePerMile(theVehicle);
             return lifetimeMaintenance;
         }
 
         private static double maintenancePerMile(VehicleWrapper theVehicle)
         {
-            double initialMileage = theVehicle.getInitialMileage();
-            double finalMileage = theVehicle.getFinalMileage();
+            double initialMileage = theVehicle.InitialMileage;
+            double finalMileage = theVehicle.FinalMileage;
             double lifetimeMaintenance = ((initialMileage + finalMileage) / 4444000);
             return lifetimeMaintenance;
         }
 
         public static double ResellValue(User theUser, VehicleWrapper theVehicle)
         {
-            double finalMileage = theVehicle.getFinalMileage();
+            double finalMileage = theVehicle.FinalMileage;
             double years = TotalYears(theUser, theVehicle);
-            double initialCostNoTax = theVehicle.getInitialCostNoTax();
+            double initialCostNoTax = theVehicle.InitialCostNoTax;
             double depreciatedMileageValue = 
                 0.25 * ((Math.PI / 2) - Math.Atan(((2.5 * finalMileage) / 100000) - 2.1)) - .36;
             double depreciatedTimeValue = 0.9332 * Math.Exp(-0.177 * years);
@@ -72,7 +72,7 @@ namespace Grampa_Bob_s_Calculator
         
         public static double CentsPerMile(User theUser, VehicleWrapper theVehicle)
         {
-            double totalMileage = theVehicle.getTotalMiles();
+            double totalMileage = theVehicle.TotalMiles;
             double price = totalFinalCost(theUser, theVehicle);
             double priceRate = price / totalMileage;
 
